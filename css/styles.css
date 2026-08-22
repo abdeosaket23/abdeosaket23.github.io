@@ -2247,3 +2247,27 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   width: 100%;
   height: 100%;
 }
+
+
+/* ==========================================================================
+   3D AVATAR — fitting your own Memoji
+   Memoji stickers exported from Messages are transparent PNGs, usually with
+   some empty margin around the head. Two knobs so you can frame yours
+   without editing any other rule:
+
+     --av-fit    cover (fill the square, may crop)  |  contain (fit it all in)
+     --av-zoom   1 = as-is, 1.15 = 15% bigger, 0.9 = pull back
+     --av-nudge  vertical nudge in px, negative moves the face up
+
+   Set them on .avatar-3d, e.g.
+     .avatar-3d { --av-fit: contain; --av-zoom: 1.18; --av-nudge: -4px; }
+   ========================================================================== */
+.avatar-3d .av-face {
+  width: 100%;
+  height: 100%;
+  object-fit: var(--av-fit, cover);
+  transform:
+    translateZ(6px)
+    translateY(var(--av-nudge, 0px))
+    scale(var(--av-zoom, 1));
+}
