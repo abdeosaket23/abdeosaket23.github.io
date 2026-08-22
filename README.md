@@ -27,17 +27,22 @@ Every spot you need to change in `index.html` is marked with an `EDIT` comment.
 | What | Where |
 |---|---|
 | Page title, description, social preview | `<head>` |
+| Ticker tape entries | `.ticker-list` — see below |
 | Name and job title | `.sidebar-info` |
 | Email, education, location rows | `.contacts-list` |
 | Social links | `.social-list` and the sidebar |
 | Bio paragraphs | `.about-text` |
+| Key metric tiles | `.metrics-list` — see below |
 | "My Expertise" cards | `.service-list` — duplicate a `<li class="service-item">` |
 | Testimonials | `.testimonials-list` — duplicate a `<li class="testimonials-item">` |
 | Tool logos | `.clients-list` |
 | Education / experience entries | `.timeline-list` — duplicate a `<li class="timeline-item">` |
-| Skill bars | `.skills-list` |
+| Competency radar | `.radar-legend` — see below |
+| Certifications | `.certs-list` — duplicate a `<li class="cert-card">` |
+| Skill bars | `.skills-list` — set `data-level="0–100"` |
 | Projects | `.project-list` — see below |
 | Contact form | `.contact-form` |
+| Command palette entries | the `COMMANDS` array in `js/main.js` |
 
 Start with a find-and-replace across the whole file:
 
@@ -45,6 +50,50 @@ Start with a find-and-replace across the whole file:
 - `YOUR-HANDLE` → your LinkedIn handle
 - `Saket Abdeo` → your name
 - the bracketed blanks like `[Your Program]`, `[N]`, `[outcome]`
+
+### The ticker tape
+
+Each `<li class="ticker-item">` is one entry. `data-dir` picks the arrow and
+colour — `up` (green ▲), `down` (red ▼), `flat` (grey dash):
+
+```html
+<li class="ticker-item" data-dir="up">
+  <span class="tkr-sym">IRR</span>
+  <span class="tkr-val">21.6% base case</span>
+  <span class="tkr-chg">+430bps</span>
+</li>
+```
+
+The strip is cloned in JS so the loop is seamless — edit the one list only.
+Hovering pauses it. Aim for 6–10 entries; fewer than that and the gap shows.
+
+### Key metric tiles
+
+```html
+<li class="metric-card content-card">
+  <p class="metric-label">AUM Analysed</p>
+  <p class="metric-value" data-count-to="240" data-prefix="$" data-suffix="M">$0M</p>
+  <svg class="sparkline" data-spark="4,7,5,9,8,12,11,16,15,19" viewBox="0 0 100 30" preserveAspectRatio="none"></svg>
+  <p class="metric-note"><span class="delta" data-dir="up">+12%</span> YoY</p>
+</li>
+```
+
+`data-count-to` is the number it counts up to when the tile scrolls into view;
+add `data-decimals="1"` for one decimal place. `data-spark` is any list of
+numbers — the sparkline is drawn and scaled from them, so the values only need
+to be right relative to each other.
+
+### Competency radar
+
+The chart is drawn from the hidden list beneath it. Three to eight axes read
+best, and short labels avoid crowding the edges:
+
+```html
+<ul class="radar-legend" data-radar-data>
+  <li data-label="Valuation" data-value="92"></li>
+  <li data-label="Modelling" data-value="88"></li>
+</ul>
+```
 
 ### Adding a project
 
@@ -86,8 +135,34 @@ Put your resume PDF at `assets/files/resume.pdf` and the download button works.
 The top of `css/styles.css` is a block of custom properties — colours, gradients,
 shadows, font sizes. The accent is `--orange-yellow-crayola` plus the two
 `--bg-gradient-yellow-*` and `--text-gradient-yellow` values; change those four
-and the whole site moves to a different colour. Type is Poppins, loaded from
-Google Fonts in `index.html`.
+and the whole site moves to a different colour. `--gain` and `--loss` are the
+green/red used by the ticker and the metric deltas. Type is Poppins for text and
+JetBrains Mono for numbers, both from Google Fonts in `index.html`.
+
+The three background layers each live in their own CSS block under
+`BACKGROUND LAYERS` — the graph-paper `.bg-grid`, the drifting `.bg-aurora`
+blobs, and the `.bg-noise` grain. Delete a block and its `<div>` in `index.html`
+to drop that layer.
+
+---
+
+## Motion and interaction
+
+| Feature | How it works |
+|---|---|
+| Panel transitions | Moving to a later tab slides in from the right, an earlier tab from the left |
+| Swipe | Swipe left/right anywhere on the content to change panel (touch devices) |
+| Keyboard | `1`–`4` jump to a panel, `←`/`→` step through, `Esc` closes overlays |
+| Command palette | `⌘K` / `Ctrl+K`, or the button bottom-right on desktop |
+| Scroll reveal | Sections fade up in sequence as they enter view |
+| Counters and charts | Metric numbers count up, sparklines draw, the radar scales in, skill bars fill — all on first scroll into view |
+| Card tilt | Cards tilt toward the cursor with a spotlight glow (desktop pointers only) |
+| Scroll progress | Thin gradient bar across the top of the window |
+| Copy email | The button beside the email address, or the palette entry; confirms with a toast |
+| Print | `⌘P` (or the palette's "Print resume") prints just the Resume panel, black on white |
+
+Everything decorative is disabled automatically for visitors who have
+"reduce motion" turned on in their OS.
 
 ---
 

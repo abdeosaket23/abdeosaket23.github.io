@@ -5,22 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- EDIT: title + description (shows in Google and link previews) -->
-  <title>Saket Abdeo — Product Management &amp; Marketing</title>
-  <meta name="description" content="Personal portfolio of Saket Abdeo — product management and marketing." />
-  <meta property="og:title" content="Saket Abdeo — Portfolio" />
-  <meta property="og:description" content="Product management and marketing." />
+  <title>Saket Abdeo — Finance &amp; Strategy</title>
+  <meta name="description" content="Personal portfolio of Saket Abdeo — MBA candidate in finance and corporate strategy." />
+  <meta property="og:title" content="Saket Abdeo — Finance &amp; Strategy" />
+  <meta property="og:description" content="MBA candidate. Valuation, M&amp;A, and corporate strategy." />
   <meta property="og:type" content="website" />
 
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
+
+<!-- ==============================================================
+     BACKGROUND LAYERS — decorative, fixed behind everything.
+     Tune or delete any of the three in css/styles.css.
+     ============================================================== -->
+<div class="bg-layer" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-aurora">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+  </div>
+  <div class="bg-noise"></div>
+</div>
+
+
+<!-- ==============================================================
+     TICKER TAPE
+     EDIT: each <li> is one ticker entry.
+       data-dir="up" | "down" | "flat"  → arrow + colour
+     The strip is duplicated in JS for a seamless loop, so edit
+     this one list only.
+     ============================================================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" data-ticker>
+    <ul class="ticker-list">
+      <li class="ticker-item" data-dir="up"><span class="tkr-sym">DCF</span><span class="tkr-val">14 models built</span><span class="tkr-chg">+22%</span></li>
+      <li class="ticker-item" data-dir="up"><span class="tkr-sym">M&amp;A</span><span class="tkr-val">6 live deals</span><span class="tkr-chg">+3</span></li>
+      <li class="ticker-item" data-dir="flat"><span class="tkr-sym">CFA</span><span class="tkr-val">Level II candidate</span><span class="tkr-chg">2026</span></li>
+      <li class="ticker-item" data-dir="up"><span class="tkr-sym">AUM</span><span class="tkr-val">$240M analysed</span><span class="tkr-chg">+12%</span></li>
+      <li class="ticker-item" data-dir="down"><span class="tkr-sym">WACC</span><span class="tkr-val">8.4% blended</span><span class="tkr-chg">-60bps</span></li>
+      <li class="ticker-item" data-dir="up"><span class="tkr-sym">IRR</span><span class="tkr-val">21.6% base case</span><span class="tkr-chg">+430bps</span></li>
+      <li class="ticker-item" data-dir="up"><span class="tkr-sym">CASE</span><span class="tkr-val">3 competitions won</span><span class="tkr-chg">+1</span></li>
+    </ul>
+  </div>
+</div>
+
 
 <main>
 
@@ -32,13 +69,14 @@
     <div class="sidebar-info">
 
       <figure class="avatar-box">
-        <!-- EDIT: swap in your photo / memoji. Square, ~400x400. -->
+        <!-- EDIT: swap in your photo. Square, ~400x400. -->
         <img src="assets/img/my-avatar.svg" alt="Saket Abdeo" width="80" />
+        <span class="avatar-status" title="Open to opportunities"></span>
       </figure>
 
       <div class="info-content">
         <h1 class="name" title="Saket Abdeo">Saket Abdeo</h1> <!-- EDIT -->
-        <p class="title">Product Management &amp; Marketing</p> <!-- EDIT -->
+        <p class="title">Finance &amp; Corporate Strategy</p> <!-- EDIT -->
       </div>
 
       <button class="info_more-btn" data-sidebar-btn>
@@ -61,8 +99,11 @@
           </div>
           <div class="contact-info">
             <p class="contact-title">Email</p>
-            <a href="mailto:you@example.com" class="contact-link">you@example.com</a>
+            <a href="mailto:you@example.com" class="contact-link" data-email>you@example.com</a>
           </div>
+          <button class="copy-btn" data-copy-email title="Copy email" aria-label="Copy email address">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          </button>
         </li>
 
         <li class="contact-item">
@@ -132,24 +173,71 @@
         <h2 class="h2 article-title">About Me</h2>
       </header>
 
-      <section class="about-text">
+      <section class="about-text" data-reveal>
         <!-- EDIT: two or three short paragraphs -->
         <p>
-          I'm currently a graduate student at New York University, specializing in
-          product management and marketing.
+          I'm an MBA candidate at New York University concentrating in finance and
+          corporate strategy, with a focus on valuation, M&amp;A, and capital allocation.
         </p>
         <p>
-          Write the longer paragraph here: the products you've shipped, the segments
-          you've worked across (B2B, B2C), the systems or campaigns you built, and the
-          measurable result they produced. Keep it specific — numbers beat adjectives.
+          Write the longer paragraph here: the deals or coverage you've worked on, the
+          sectors you know, the models you've built, and what came of them. Recruiters
+          skim — lead with the number, then the context.
         </p>
       </section>
 
 
-      <!-- ---------- What I'm doing ---------- -->
-      <section class="service">
+      <!-- ---------- Key metrics dashboard ---------- -->
+      <section class="metrics" data-reveal>
 
-        <h3 class="h3 service-title">My Expertise</h3>
+        <h3 class="h3 section-heading">Key Metrics</h3>
+
+        <ul class="metrics-list">
+
+          <!-- ====================================================
+               EDIT: duplicate a <li> to add a tile.
+                 data-count-to  = the number to count up to
+                 data-prefix    = e.g. "$"   data-suffix = e.g. "M", "%", "+"
+                 data-decimals  = decimal places (default 0)
+                 data-spark     = comma-separated values for the mini chart
+               ==================================================== -->
+          <li class="metric-card content-card">
+            <p class="metric-label">AUM Analysed</p>
+            <p class="metric-value" data-count-to="240" data-prefix="$" data-suffix="M">$0M</p>
+            <svg class="sparkline" data-spark="4,7,5,9,8,12,11,16,15,19" viewBox="0 0 100 30" preserveAspectRatio="none"></svg>
+            <p class="metric-note"><span class="delta" data-dir="up">+12%</span> YoY</p>
+          </li>
+
+          <li class="metric-card content-card">
+            <p class="metric-label">Models Built</p>
+            <p class="metric-value" data-count-to="32" data-suffix="+">0</p>
+            <svg class="sparkline" data-spark="2,4,3,6,7,6,9,11,10,14" viewBox="0 0 100 30" preserveAspectRatio="none"></svg>
+            <p class="metric-note"><span class="delta" data-dir="up">+8</span> this year</p>
+          </li>
+
+          <li class="metric-card content-card">
+            <p class="metric-label">Deals Supported</p>
+            <p class="metric-value" data-count-to="6">0</p>
+            <svg class="sparkline" data-spark="1,2,2,3,4,4,5,5,6,6" viewBox="0 0 100 30" preserveAspectRatio="none"></svg>
+            <p class="metric-note"><span class="delta" data-dir="flat">buy &amp; sell side</span></p>
+          </li>
+
+          <li class="metric-card content-card">
+            <p class="metric-label">Base-Case IRR</p>
+            <p class="metric-value" data-count-to="21.6" data-decimals="1" data-suffix="%">0%</p>
+            <svg class="sparkline" data-spark="6,8,7,11,10,14,13,17,19,22" viewBox="0 0 100 30" preserveAspectRatio="none"></svg>
+            <p class="metric-note"><span class="delta" data-dir="up">+430bps</span> vs. plan</p>
+          </li>
+
+        </ul>
+
+      </section>
+
+
+      <!-- ---------- Expertise cards ---------- -->
+      <section class="service" data-reveal>
+
+        <h3 class="h3 section-heading">My Expertise</h3>
 
         <ul class="service-list">
 
@@ -159,10 +247,23 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M6 20V10m5 10V4m5 16v-7"/></svg>
             </div>
             <div class="service-content-box">
-              <h4 class="h4 service-item-title">Ad Performance</h4>
+              <h4 class="h4 service-item-title">Valuation &amp; Modelling</h4>
               <p class="service-item-text">
-                Optimization of campaigns using KPIs such as CTR, ITR, and VCR to drive
-                audience engagement.
+                DCF, comps, precedent transactions, and LBO models built to survive a
+                diligence review.
+              </p>
+            </div>
+          </li>
+
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7h8a4 4 0 0 1 0 8H8a4 4 0 0 0 0 8h8"/><path d="M12 3v18"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">M&amp;A and Deal Support</h4>
+              <p class="service-item-text">
+                Target screening, synergy analysis, and accretion/dilution work across
+                buy- and sell-side mandates.
               </p>
             </div>
           </li>
@@ -172,33 +273,21 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18M3 12h18"/></svg>
             </div>
             <div class="service-content-box">
-              <h4 class="h4 service-item-title">Brand Management</h4>
+              <h4 class="h4 service-item-title">Market &amp; Equity Research</h4>
               <p class="service-item-text">
-                Comprehensive strategies to strengthen brand positioning and messaging.
+                Industry sizing, competitive teardowns, and thesis-driven coverage notes.
               </p>
             </div>
           </li>
 
           <li class="service-item">
             <div class="service-icon-box">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/><circle cx="12" cy="12" r="5"/></svg>
             </div>
             <div class="service-content-box">
-              <h4 class="h4 service-item-title">Digital Product Marketing</h4>
+              <h4 class="h4 service-item-title">Corporate Strategy</h4>
               <p class="service-item-text">
-                Tailoring campaigns and messaging to maximize product visibility.
-              </p>
-            </div>
-          </li>
-
-          <li class="service-item">
-            <div class="service-icon-box">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m9 10-2 2 2 2m6-4 2 2-2 2"/></svg>
-            </div>
-            <div class="service-content-box">
-              <h4 class="h4 service-item-title">Web Design</h4>
-              <p class="service-item-text">
-                Creating user-centric and visually appealing web designs.
+                Capital allocation, market entry, and the business cases that get funded.
               </p>
             </div>
           </li>
@@ -209,9 +298,9 @@
 
 
       <!-- ---------- Testimonials ---------- -->
-      <section class="testimonials">
+      <section class="testimonials" data-reveal>
 
-        <h3 class="h3 testimonials-title">Testimonials</h3>
+        <h3 class="h3 section-heading">Testimonials</h3>
 
         <ul class="testimonials-list has-scrollbar">
 
@@ -221,9 +310,9 @@
               <figure class="testimonials-avatar-box">
                 <img src="assets/img/avatar-1.svg" alt="" width="60" data-testimonials-avatar />
               </figure>
-              <h4 class="h4 testimonials-item-title" data-testimonials-title>Reference Name</h4>
-              <p class="testimonials-item-subtitle" data-testimonials-subtitle>Title, Company</p>
-              <div class="testimonials-text" data-testimonials-text>
+              <h4 class="h4 testimonials-item-title">Reference Name</h4>
+              <p class="testimonials-item-subtitle">VP, Investment Banking</p>
+              <div class="testimonials-text">
                 <p>
                   Paste a real recommendation here. Two or three sentences is plenty —
                   specific beats flattering. Anything longer gets truncated on the card
@@ -238,9 +327,9 @@
               <figure class="testimonials-avatar-box">
                 <img src="assets/img/avatar-2.svg" alt="" width="60" data-testimonials-avatar />
               </figure>
-              <h4 class="h4 testimonials-item-title" data-testimonials-title>Reference Name</h4>
-              <p class="testimonials-item-subtitle" data-testimonials-subtitle>Title, Company</p>
-              <div class="testimonials-text" data-testimonials-text>
+              <h4 class="h4 testimonials-item-title">Reference Name</h4>
+              <p class="testimonials-item-subtitle">Professor of Finance</p>
+              <div class="testimonials-text">
                 <p>
                   A second quote goes here. Pull one from a LinkedIn recommendation, a
                   manager's review, or a professor if you're early in your career.
@@ -276,19 +365,19 @@
       </div>
 
 
-      <!-- ---------- Tools & technologies ---------- -->
-      <section class="clients">
+      <!-- ---------- Tools strip ---------- -->
+      <section class="clients" data-reveal>
 
-        <h3 class="h3 clients-title">Technology &amp; Tools</h3>
+        <h3 class="h3 section-heading">Platforms &amp; Tools</h3>
 
         <ul class="clients-list has-scrollbar">
           <!-- EDIT: swap the SVGs in assets/img/ for real logos, or change the text. -->
-          <li class="clients-item"><a href="#"><img src="assets/img/logo-1.svg" alt="Figma" /></a></li>
-          <li class="clients-item"><a href="#"><img src="assets/img/logo-2.svg" alt="Jira" /></a></li>
-          <li class="clients-item"><a href="#"><img src="assets/img/logo-3.svg" alt="SQL" /></a></li>
-          <li class="clients-item"><a href="#"><img src="assets/img/logo-4.svg" alt="Looker" /></a></li>
-          <li class="clients-item"><a href="#"><img src="assets/img/logo-5.svg" alt="Asana" /></a></li>
-          <li class="clients-item"><a href="#"><img src="assets/img/logo-6.svg" alt="Notion" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-1.svg" alt="Bloomberg" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-2.svg" alt="Capital IQ" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-3.svg" alt="FactSet" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-4.svg" alt="Excel" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-5.svg" alt="Tableau" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-6.svg" alt="Python" /></a></li>
         </ul>
 
       </section>
@@ -306,7 +395,7 @@
       </header>
 
       <!-- ---------- Education ---------- -->
-      <section class="timeline">
+      <section class="timeline" data-reveal>
 
         <div class="title-wrapper">
           <div class="icon-box">
@@ -318,19 +407,19 @@
         <ol class="timeline-list">
           <!-- EDIT: duplicate a <li> per entry. Newest first. -->
           <li class="timeline-item">
-            <h4 class="h4 timeline-item-title">New York University</h4>
+            <h4 class="h4 timeline-item-title">New York University — MBA</h4>
             <span>Sep 2024 — May 2026</span>
             <p class="timeline-text">
-              M.S. in [Your Program]. Concentration in product management and marketing.
-              Relevant coursework or honors go here.
+              Concentration in Finance and Corporate Strategy. Relevant coursework:
+              Valuation, Corporate Finance, M&amp;A, Financial Statement Analysis.
             </p>
           </li>
 
           <li class="timeline-item">
-            <h4 class="h4 timeline-item-title">Undergraduate University</h4>
+            <h4 class="h4 timeline-item-title">Undergraduate University — B.S.</h4>
             <span>Aug 2018 — May 2022</span>
             <p class="timeline-text">
-              B.S. in [Your Major]. GPA, honors, or an activity worth naming.
+              B.S. in [Your Major]. GPA, honours, or an activity worth naming.
             </p>
           </li>
         </ol>
@@ -338,7 +427,7 @@
       </section>
 
       <!-- ---------- Experiential learning ---------- -->
-      <section class="timeline">
+      <section class="timeline" data-reveal>
 
         <div class="title-wrapper">
           <div class="icon-box">
@@ -349,11 +438,11 @@
 
         <ol class="timeline-list">
           <li class="timeline-item">
-            <h4 class="h4 timeline-item-title">Project Manager — Student Consulting Group</h4>
-            <span>Jan 2025 — May 2025</span>
+            <h4 class="h4 timeline-item-title">Analyst — Student Investment Fund</h4>
+            <span>Jan 2025 — Present</span>
             <p class="timeline-text">
-              Led a team of [N] on [client problem]. Managed [N]+ tasks in Jira and
-              designed digital mockups in Figma. Delivered [outcome].
+              Cover [sector] for a $[N]M student-managed fund. Pitched [company];
+              position returned [%] against a [benchmark] benchmark.
             </p>
           </li>
         </ol>
@@ -361,7 +450,7 @@
       </section>
 
       <!-- ---------- Professional experience ---------- -->
-      <section class="timeline">
+      <section class="timeline" data-reveal>
 
         <div class="title-wrapper">
           <div class="icon-box">
@@ -372,25 +461,25 @@
 
         <ol class="timeline-list">
           <li class="timeline-item">
-            <h4 class="h4 timeline-item-title">Product Manager Intern — Company Name</h4>
+            <h4 class="h4 timeline-item-title">Summer Associate — Company Name</h4>
             <span>Jun 2025 — Aug 2025</span>
             <p class="timeline-text">
-              Led [what] resulting in [measurable outcome]. Built [thing] used by [who],
-              cutting [metric] by [%]. Partnered with [team] to launch [feature].
+              Built a three-statement model and DCF for a $[N]M target; analysis supported
+              a [outcome]. Ran comps across [N] peers and drafted the CIM section on [topic].
             </p>
           </li>
 
           <li class="timeline-item">
-            <h4 class="h4 timeline-item-title">Previous Role — Company Name</h4>
-            <span>Jan 2023 — May 2025</span>
+            <h4 class="h4 timeline-item-title">Financial Analyst — Company Name</h4>
+            <span>Jan 2023 — May 2024</span>
             <p class="timeline-text">
-              What you owned and what changed because of it. Use a number in every line
-              you can.
+              Owned the monthly forecast for a $[N]M P&amp;L, cutting variance from [%] to [%].
+              Automated the reporting pack and saved [N] hours a month.
             </p>
           </li>
 
           <li class="timeline-item">
-            <h4 class="h4 timeline-item-title">Earlier Role — Company Name</h4>
+            <h4 class="h4 timeline-item-title">Analyst Intern — Company Name</h4>
             <span>2021 — 2022</span>
             <p class="timeline-text">
               Achievement with a number in it. Another achievement with a number in it.
@@ -400,49 +489,116 @@
 
       </section>
 
-      <!-- ---------- Skills ---------- -->
-      <section class="skill">
 
-        <h3 class="h3 skills-title">My Skills</h3>
+      <!-- ---------- Competency radar ---------- -->
+      <section class="radar-section" data-reveal>
 
-        <ul class="skills-list content-card">
-          <!-- EDIT: change the label, the % text, and the inline width to match -->
-          <li class="skills-item">
-            <div class="title-wrapper">
-              <h5 class="h5">Product Strategy</h5>
-              <data value="90">90%</data>
+        <h3 class="h3 section-heading">Competency Map</h3>
+
+        <div class="radar-wrap content-card">
+          <svg class="radar" data-radar viewBox="0 0 400 320" role="img" aria-label="Competency radar chart"></svg>
+
+          <!-- EDIT: one <li> per axis. 3–8 axes read best. value = 0–100. -->
+          <ul class="radar-legend" data-radar-data>
+            <li data-label="Valuation"      data-value="92"></li>
+            <li data-label="Modelling"      data-value="88"></li>
+            <li data-label="Accounting"     data-value="80"></li>
+            <li data-label="Strategy"       data-value="85"></li>
+            <li data-label="Data / SQL"     data-value="72"></li>
+            <li data-label="Communication"  data-value="90"></li>
+          </ul>
+        </div>
+
+      </section>
+
+
+      <!-- ---------- Certifications ---------- -->
+      <section class="certs" data-reveal>
+
+        <h3 class="h3 section-heading">Certifications &amp; Coursework</h3>
+
+        <ul class="certs-list">
+          <!-- EDIT: duplicate a <li> to add one. data-status drives the badge colour. -->
+          <li class="cert-card content-card">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg>
             </div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width: 90%"></div></div>
+            <div class="cert-body">
+              <h4 class="h4">CFA Level II</h4>
+              <p class="cert-meta">CFA Institute</p>
+            </div>
+            <span class="cert-badge" data-status="progress">Candidate</span>
           </li>
 
-          <li class="skills-item">
-            <div class="title-wrapper">
-              <h5 class="h5">Marketing &amp; Growth</h5>
-              <data value="85">85%</data>
+          <li class="cert-card content-card">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/></svg>
             </div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width: 85%"></div></div>
+            <div class="cert-body">
+              <h4 class="h4">Bloomberg Market Concepts</h4>
+              <p class="cert-meta">Bloomberg · 2024</p>
+            </div>
+            <span class="cert-badge" data-status="done">Certified</span>
           </li>
 
-          <li class="skills-item">
-            <div class="title-wrapper">
-              <h5 class="h5">Data &amp; Analytics</h5>
-              <data value="80">80%</data>
+          <li class="cert-card content-card">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M6 20V10m5 10V4m5 16v-7"/></svg>
             </div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width: 80%"></div></div>
+            <div class="cert-body">
+              <h4 class="h4">Financial Modeling &amp; Valuation</h4>
+              <p class="cert-meta">CFI · 2024</p>
+            </div>
+            <span class="cert-badge" data-status="done">Certified</span>
           </li>
 
-          <li class="skills-item">
-            <div class="title-wrapper">
-              <h5 class="h5">Design &amp; UX</h5>
-              <data value="75">75%</data>
+          <li class="cert-card content-card">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/></svg>
             </div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width: 75%"></div></div>
+            <div class="cert-body">
+              <h4 class="h4">Advanced Excel &amp; VBA</h4>
+              <p class="cert-meta">Microsoft · 2023</p>
+            </div>
+            <span class="cert-badge" data-status="done">Certified</span>
           </li>
         </ul>
 
       </section>
 
-      <div class="resume-download">
+
+      <!-- ---------- Skills ---------- -->
+      <section class="skill" data-reveal>
+
+        <h3 class="h3 section-heading">Technical Skills</h3>
+
+        <ul class="skills-list content-card">
+          <!-- EDIT: change the label and the data-level (0–100). The bar and the
+               percentage text are both driven by data-level. -->
+          <li class="skills-item" data-level="92">
+            <div class="title-wrapper"><h5 class="h5">Excel / Financial Modelling</h5><data></data></div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
+          </li>
+
+          <li class="skills-item" data-level="85">
+            <div class="title-wrapper"><h5 class="h5">Valuation &amp; Comps</h5><data></data></div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
+          </li>
+
+          <li class="skills-item" data-level="78">
+            <div class="title-wrapper"><h5 class="h5">SQL &amp; Python</h5><data></data></div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
+          </li>
+
+          <li class="skills-item" data-level="80">
+            <div class="title-wrapper"><h5 class="h5">Tableau / Power BI</h5><data></data></div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
+          </li>
+        </ul>
+
+      </section>
+
+      <div class="resume-download" data-reveal>
         <!-- EDIT: drop your PDF at assets/files/resume.pdf -->
         <a href="assets/files/resume.pdf" class="form-btn" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
@@ -482,86 +638,92 @@
           <!-- ======================================================
                EDIT: one <li> per project.
                  data-category = filter label (any text)
-                 href          = your deck / Drive / Notion / repo
-                 img           = 1200x800-ish in assets/img/
-               Duplicate a block to add, delete to remove.
+                 href          = your deck / model / write-up
+                 img           = 4:3-ish image in assets/img/
+                 .project-stat = the headline number for the card
                ====================================================== -->
 
-          <li class="project-item active" data-filter-item data-category="ad performance">
+          <li class="project-item active" data-filter-item data-category="valuation">
             <a href="#" target="_blank" rel="noopener">
               <figure class="project-img">
                 <div class="project-item-icon-box">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
-                <img src="assets/img/project-1.svg" alt="Project One" loading="lazy" />
+                <img src="assets/img/project-1.svg" alt="DCF Valuation" loading="lazy" />
+                <figcaption class="project-stat">$1.2B EV</figcaption>
               </figure>
-              <h3 class="project-title">Project One</h3>
-              <p class="project-category">Ad Performance</p>
+              <h3 class="project-title">DCF Valuation — [Company]</h3>
+              <p class="project-category">Valuation</p>
             </a>
           </li>
 
-          <li class="project-item active" data-filter-item data-category="digital product marketing">
+          <li class="project-item active" data-filter-item data-category="m&amp;a">
             <a href="#" target="_blank" rel="noopener">
               <figure class="project-img">
                 <div class="project-item-icon-box">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
-                <img src="assets/img/project-2.svg" alt="Project Two" loading="lazy" />
+                <img src="assets/img/project-2.svg" alt="M&A Case" loading="lazy" />
+                <figcaption class="project-stat">+8% accretive</figcaption>
               </figure>
-              <h3 class="project-title">Project Two</h3>
-              <p class="project-category">Digital Product Marketing</p>
+              <h3 class="project-title">Buy-Side M&amp;A Case</h3>
+              <p class="project-category">M&amp;A</p>
             </a>
           </li>
 
-          <li class="project-item active" data-filter-item data-category="web design">
+          <li class="project-item active" data-filter-item data-category="equity research">
             <a href="#" target="_blank" rel="noopener">
               <figure class="project-img">
                 <div class="project-item-icon-box">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
-                <img src="assets/img/project-3.svg" alt="Project Three" loading="lazy" />
+                <img src="assets/img/project-3.svg" alt="Equity Research" loading="lazy" />
+                <figcaption class="project-stat">BUY · $84 PT</figcaption>
               </figure>
-              <h3 class="project-title">Project Three</h3>
-              <p class="project-category">Web Design</p>
+              <h3 class="project-title">Equity Research Initiation</h3>
+              <p class="project-category">Equity Research</p>
             </a>
           </li>
 
-          <li class="project-item active" data-filter-item data-category="brand management">
+          <li class="project-item active" data-filter-item data-category="strategy">
             <a href="#" target="_blank" rel="noopener">
               <figure class="project-img">
                 <div class="project-item-icon-box">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
-                <img src="assets/img/project-4.svg" alt="Project Four" loading="lazy" />
+                <img src="assets/img/project-4.svg" alt="Market Entry" loading="lazy" />
+                <figcaption class="project-stat">$40M TAM</figcaption>
               </figure>
-              <h3 class="project-title">Project Four</h3>
-              <p class="project-category">Brand Management</p>
+              <h3 class="project-title">Market Entry Strategy</h3>
+              <p class="project-category">Strategy</p>
             </a>
           </li>
 
-          <li class="project-item active" data-filter-item data-category="digital product marketing">
+          <li class="project-item active" data-filter-item data-category="valuation">
             <a href="#" target="_blank" rel="noopener">
               <figure class="project-img">
                 <div class="project-item-icon-box">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
-                <img src="assets/img/project-5.svg" alt="Project Five" loading="lazy" />
+                <img src="assets/img/project-5.svg" alt="LBO Model" loading="lazy" />
+                <figcaption class="project-stat">21.6% IRR</figcaption>
               </figure>
-              <h3 class="project-title">Project Five</h3>
-              <p class="project-category">Digital Product Marketing</p>
+              <h3 class="project-title">LBO Model &amp; Returns Analysis</h3>
+              <p class="project-category">Valuation</p>
             </a>
           </li>
 
-          <li class="project-item active" data-filter-item data-category="brand management">
+          <li class="project-item active" data-filter-item data-category="strategy">
             <a href="#" target="_blank" rel="noopener">
               <figure class="project-img">
                 <div class="project-item-icon-box">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
-                <img src="assets/img/project-6.svg" alt="Project Six" loading="lazy" />
+                <img src="assets/img/project-6.svg" alt="Case Competition" loading="lazy" />
+                <figcaption class="project-stat">1st of 42</figcaption>
               </figure>
-              <h3 class="project-title">Project Six</h3>
-              <p class="project-category">Brand Management</p>
+              <h3 class="project-title">National Case Competition</h3>
+              <p class="project-category">Strategy</p>
             </a>
           </li>
 
@@ -581,7 +743,7 @@
         <h2 class="h2 article-title">Contact</h2>
       </header>
 
-      <section class="contact-form">
+      <section class="contact-form" data-reveal>
 
         <h3 class="h3 form-title">Contact Form</h3>
 
@@ -616,6 +778,31 @@
   </div>
 
 </main>
+
+
+<!-- ==============================================================
+     COMMAND PALETTE — opens with ⌘K / Ctrl+K.
+     Entries are generated in js/main.js (see the COMMANDS array).
+     ============================================================== -->
+<button class="cmdk-trigger" data-cmdk-open aria-label="Open command palette">
+  <kbd>⌘</kbd><kbd>K</kbd>
+</button>
+
+<div class="cmdk" data-cmdk role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="cmdk-overlay" data-cmdk-close></div>
+  <div class="cmdk-panel">
+    <div class="cmdk-input-row">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="text" class="cmdk-input" placeholder="Jump to a section, copy an email…" data-cmdk-input aria-label="Search commands" />
+      <button class="cmdk-esc" data-cmdk-close>esc</button>
+    </div>
+    <ul class="cmdk-list" data-cmdk-list></ul>
+    <div class="cmdk-footer"><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> select</div>
+  </div>
+</div>
+
+<!-- Toast for the copy-email confirmation -->
+<div class="toast" data-toast role="status" aria-live="polite"></div>
 
 <script src="js/main.js"></script>
 </body>
