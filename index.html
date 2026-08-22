@@ -4,486 +4,618 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ============================================================
-       EDIT: Page title + description (shows in Google & link previews)
-       ============================================================ -->
+  <!-- EDIT: title + description (shows in Google and link previews) -->
   <title>Saket Abdeo — Product Management &amp; Marketing</title>
-  <meta name="description" content="Personal portfolio of Saket Abdeo — product management, marketing, and design." />
-  <meta name="author" content="Saket Abdeo" />
-
-  <!-- Social preview (optional) -->
+  <meta name="description" content="Personal portfolio of Saket Abdeo — product management and marketing." />
   <meta property="og:title" content="Saket Abdeo — Portfolio" />
-  <meta property="og:description" content="Product management, marketing, and design." />
+  <meta property="og:description" content="Product management and marketing." />
   <meta property="og:type" content="website" />
 
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/styles.css" />
 </head>
+
 <body>
 
-<a class="skip-link" href="#about">Skip to content</a>
+<main>
 
-<!-- ==============================================================
-     HEADER / NAV
-     ============================================================== -->
-<header class="site-header" id="siteHeader">
-  <div class="wrap header-inner">
-    <a class="brand" href="#top">
-      <span class="brand-mark">SA</span>          <!-- EDIT: your initials -->
-      <span class="brand-name">Saket Abdeo</span> <!-- EDIT: your name -->
-    </a>
+  <!-- ============================================================
+       SIDEBAR
+       ============================================================ -->
+  <aside class="sidebar" data-sidebar>
 
-    <nav class="nav" id="nav" aria-label="Main">
-      <a href="#about">About</a>
-      <a href="#resume">Resume</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#contact">Contact</a>
-      <a class="btn btn-sm" href="#contact">Get in touch</a>
+    <div class="sidebar-info">
+
+      <figure class="avatar-box">
+        <!-- EDIT: swap in your photo / memoji. Square, ~400x400. -->
+        <img src="assets/img/my-avatar.svg" alt="Saket Abdeo" width="80" />
+      </figure>
+
+      <div class="info-content">
+        <h1 class="name" title="Saket Abdeo">Saket Abdeo</h1> <!-- EDIT -->
+        <p class="title">Product Management &amp; Marketing</p> <!-- EDIT -->
+      </div>
+
+      <button class="info_more-btn" data-sidebar-btn>
+        <span>Show Contacts</span>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+
+    </div>
+
+    <div class="sidebar-info_more">
+
+      <div class="separator"></div>
+
+      <ul class="contacts-list">
+
+        <!-- EDIT: duplicate a <li> to add a row, delete to remove one -->
+        <li class="contact-item">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          </div>
+          <div class="contact-info">
+            <p class="contact-title">Email</p>
+            <a href="mailto:you@example.com" class="contact-link">you@example.com</a>
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4 10 5-10 5L2 9l10-5Z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
+          </div>
+          <div class="contact-info">
+            <p class="contact-title">Education</p>
+            <address>New York University</address> <!-- EDIT -->
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </div>
+          <div class="contact-info">
+            <p class="contact-title">Location</p>
+            <address>New York, NY, USA</address> <!-- EDIT -->
+          </div>
+        </li>
+
+      </ul>
+
+      <div class="separator"></div>
+
+      <ul class="social-list">
+        <!-- EDIT: your links. Delete any you don't use. -->
+        <li class="social-item">
+          <a href="https://linkedin.com/in/YOUR-HANDLE" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10.5v6M8 7.5v.01M12 16.5v-6M16 16.5v-3.2a2.3 2.3 0 0 0-4 0"/></svg>
+          </a>
+        </li>
+        <li class="social-item">
+          <a href="https://github.com/abdeosaket23" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.4-4-2.2-6-2.7m12 5.2v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.5-1.3 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.5 2.9 5.4 3.2 5.4 3.2a4.3 4.3 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.6c0 4.7 2.8 5.7 5.5 6a3 3 0 0 0-.8 2.3V21"/></svg>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <div class="main-content">
+
+    <nav class="navbar">
+      <ul class="navbar-list">
+        <li class="navbar-item"><button class="navbar-link active" data-nav-link>About</button></li>
+        <li class="navbar-item"><button class="navbar-link" data-nav-link>Resume</button></li>
+        <li class="navbar-item"><button class="navbar-link" data-nav-link>Portfolio</button></li>
+        <li class="navbar-item"><button class="navbar-link" data-nav-link>Contact</button></li>
+      </ul>
     </nav>
 
-    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="nav">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
 
-<main id="top">
+    <!-- ==========================================================
+         ABOUT
+         ========================================================== -->
+    <article class="about active" data-page="about">
 
-  <!-- ============================================================
-       HERO
-       ============================================================ -->
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">Hello, I'm</p>
-        <h1 class="hero-name">Saket Abdeo</h1> <!-- EDIT -->
-        <p class="hero-role">Product Management &amp; Marketing</p> <!-- EDIT -->
+      <header>
+        <h2 class="h2 article-title">About Me</h2>
+      </header>
 
-        <p class="hero-blurb">
-          <!-- EDIT: one or two sentences. Who you are, what you do, what you're looking for. -->
-          I build products people actually use — blending data, design, and go-to-market
-          strategy. Currently looking for full-time product roles.
+      <section class="about-text">
+        <!-- EDIT: two or three short paragraphs -->
+        <p>
+          I'm currently a graduate student at New York University, specializing in
+          product management and marketing.
         </p>
+        <p>
+          Write the longer paragraph here: the products you've shipped, the segments
+          you've worked across (B2B, B2C), the systems or campaigns you built, and the
+          measurable result they produced. Keep it specific — numbers beat adjectives.
+        </p>
+      </section>
 
-        <ul class="hero-meta">
-          <li>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            New York, NY <!-- EDIT -->
+
+      <!-- ---------- What I'm doing ---------- -->
+      <section class="service">
+
+        <h3 class="h3 service-title">My Expertise</h3>
+
+        <ul class="service-list">
+
+          <!-- EDIT: duplicate a <li class="service-item"> to add a card -->
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M6 20V10m5 10V4m5 16v-7"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">Ad Performance</h4>
+              <p class="service-item-text">
+                Optimization of campaigns using KPIs such as CTR, ITR, and VCR to drive
+                audience engagement.
+              </p>
+            </div>
           </li>
-          <li>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-            <a href="mailto:you@example.com">you@example.com</a> <!-- EDIT -->
+
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18M3 12h18"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">Brand Management</h4>
+              <p class="service-item-text">
+                Comprehensive strategies to strengthen brand positioning and messaging.
+              </p>
+            </div>
           </li>
+
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">Digital Product Marketing</h4>
+              <p class="service-item-text">
+                Tailoring campaigns and messaging to maximize product visibility.
+              </p>
+            </div>
+          </li>
+
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m9 10-2 2 2 2m6-4 2 2-2 2"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">Web Design</h4>
+              <p class="service-item-text">
+                Creating user-centric and visually appealing web designs.
+              </p>
+            </div>
+          </li>
+
         </ul>
 
-        <div class="hero-actions">
-          <a class="btn" href="#portfolio">View my work</a>
-          <!-- EDIT: drop your PDF in assets/files/ and point this at it -->
-          <a class="btn btn-ghost" href="assets/files/resume.pdf" target="_blank" rel="noopener">Download resume</a>
-        </div>
+      </section>
 
-        <ul class="socials">
-          <!-- EDIT: your links. Delete any you don't use. -->
-          <li><a href="https://linkedin.com/in/YOUR-HANDLE" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://github.com/abdeosaket23" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="mailto:you@example.com">Email</a></li>
-        </ul>
-      </div>
-
-      <div class="hero-photo reveal">
-        <!-- EDIT: replace assets/img/portrait.svg with your photo (square, ~800x800) -->
-        <img src="assets/img/portrait.svg" alt="Portrait of Saket Abdeo" width="520" height="520" />
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       ABOUT
-       ============================================================ -->
-  <section id="about" class="section">
-    <div class="wrap">
-      <p class="eyebrow reveal">01 — About</p>
-      <h2 class="section-title reveal">About me</h2>
-
-      <div class="about-grid">
-        <div class="about-text reveal">
-          <!-- EDIT: 2–3 short paragraphs. Keep it human. -->
-          <p>
-            I'm a second-year graduate student at <strong>[Your School]</strong>, concentrating in
-            product management and marketing. Before that I spent [X] years at
-            <strong>[Company]</strong>, where I [the one thing you're proudest of].
-          </p>
-          <p>
-            I care about the unglamorous parts of product work — talking to users, writing
-            the spec nobody wants to write, and measuring whether the thing actually worked.
-          </p>
-          <p>
-            Outside of work you'll find me [hobby], [hobby], and [hobby].
-          </p>
-        </div>
-
-        <aside class="about-facts reveal">
-          <!-- EDIT: quick stats. Delete the block if you don't want it. -->
-          <div class="fact"><span class="fact-num">4+</span><span class="fact-label">Years experience</span></div>
-          <div class="fact"><span class="fact-num">12</span><span class="fact-label">Projects shipped</span></div>
-          <div class="fact"><span class="fact-num">3</span><span class="fact-label">Industries</span></div>
-        </aside>
-      </div>
-
-      <!-- ---------- Expertise cards ---------- -->
-      <h3 class="sub-title reveal">What I do</h3>
-      <div class="cards">
-        <!-- EDIT: duplicate a .card block to add more. Icons are inline SVG — swap freely. -->
-        <article class="card reveal">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M6 20V10m5 10V4m5 16v-7"/></svg>
-          </div>
-          <h4>Product Strategy</h4>
-          <p>Roadmaps, prioritization, and the tradeoffs behind them. Turning fuzzy problems into shippable scope.</p>
-        </article>
-
-        <article class="card reveal">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18M3 12h18"/></svg>
-          </div>
-          <h4>Growth &amp; Marketing</h4>
-          <p>Positioning, messaging, and campaigns measured against real KPIs — not vanity metrics.</p>
-        </article>
-
-        <article class="card reveal">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
-          </div>
-          <h4>Data &amp; Analytics</h4>
-          <p>SQL, dashboards, and experiment design. Making the numbers answer the actual question.</p>
-        </article>
-
-        <article class="card reveal">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 18v3M16 18v3"/></svg>
-          </div>
-          <h4>Design &amp; UX</h4>
-          <p>Wireframes to high-fidelity prototypes in Figma, grounded in user research.</p>
-        </article>
-      </div>
 
       <!-- ---------- Testimonials ---------- -->
-      <h3 class="sub-title reveal">Kind words</h3>
-      <div class="quotes">
-        <!-- EDIT: duplicate a <figure> to add more. Delete the whole block if you have none yet. -->
-        <figure class="quote reveal">
-          <blockquote>
-            "Replace this with a real recommendation. Two or three sentences is plenty —
-            specific beats flattering."
-          </blockquote>
-          <figcaption>
-            <img src="assets/img/avatar-1.svg" alt="" width="48" height="48" />
-            <span><strong>Reference Name</strong><em>Title, Company</em></span>
-          </figcaption>
-        </figure>
+      <section class="testimonials">
 
-        <figure class="quote reveal">
-          <blockquote>
-            "A second quote goes here. Pull one from a LinkedIn recommendation or a
-            performance review if you have one."
-          </blockquote>
-          <figcaption>
-            <img src="assets/img/avatar-2.svg" alt="" width="48" height="48" />
-            <span><strong>Reference Name</strong><em>Title, Company</em></span>
-          </figcaption>
-        </figure>
-      </div>
+        <h3 class="h3 testimonials-title">Testimonials</h3>
 
-      <!-- ---------- Tools ---------- -->
-      <h3 class="sub-title reveal">Tools I use</h3>
-      <ul class="tools reveal">
-        <!-- EDIT: just text pills — no logo files to chase down. Add/remove freely. -->
-        <li>Figma</li><li>Jira</li><li>SQL</li><li>Looker</li><li>Tableau</li>
-        <li>Amplitude</li><li>Notion</li><li>Python</li><li>Excel</li><li>Asana</li>
-      </ul>
-    </div>
-  </section>
+        <ul class="testimonials-list has-scrollbar">
 
-  <!-- ============================================================
-       RESUME
-       ============================================================ -->
-  <section id="resume" class="section section-alt">
-    <div class="wrap">
-      <p class="eyebrow reveal">02 — Resume</p>
-      <h2 class="section-title reveal">Experience &amp; education</h2>
-
-      <div class="resume-grid">
-
-        <!-- ---------- Column: Experience ---------- -->
-        <div class="reveal">
-          <h3 class="sub-title">Experience</h3>
-          <ol class="timeline">
-            <!-- EDIT: copy one <li> per role. Newest first. -->
-            <li>
-              <div class="tl-head">
-                <h4>Product Manager Intern</h4>
-                <span class="tl-date">Jun 2025 — Aug 2025</span>
+          <!-- EDIT: duplicate a <li> to add one. Click opens the full text in a modal. -->
+          <li class="testimonials-item">
+            <div class="content-card" data-testimonials-item>
+              <figure class="testimonials-avatar-box">
+                <img src="assets/img/avatar-1.svg" alt="" width="60" data-testimonials-avatar />
+              </figure>
+              <h4 class="h4 testimonials-item-title" data-testimonials-title>Reference Name</h4>
+              <p class="testimonials-item-subtitle" data-testimonials-subtitle>Title, Company</p>
+              <div class="testimonials-text" data-testimonials-text>
+                <p>
+                  Paste a real recommendation here. Two or three sentences is plenty —
+                  specific beats flattering. Anything longer gets truncated on the card
+                  and shown in full when someone clicks it.
+                </p>
               </div>
-              <p class="tl-org">Company Name · City, ST</p>
-              <ul class="tl-points">
-                <li>Led [what] resulting in [measurable outcome].</li>
-                <li>Built [thing] used by [who], cutting [metric] by [%].</li>
-                <li>Partnered with [team] to launch [feature] to [N] users.</li>
-              </ul>
-            </li>
+            </div>
+          </li>
 
-            <li>
-              <div class="tl-head">
-                <h4>Previous Role</h4>
-                <span class="tl-date">Jan 2023 — May 2025</span>
+          <li class="testimonials-item">
+            <div class="content-card" data-testimonials-item>
+              <figure class="testimonials-avatar-box">
+                <img src="assets/img/avatar-2.svg" alt="" width="60" data-testimonials-avatar />
+              </figure>
+              <h4 class="h4 testimonials-item-title" data-testimonials-title>Reference Name</h4>
+              <p class="testimonials-item-subtitle" data-testimonials-subtitle>Title, Company</p>
+              <div class="testimonials-text" data-testimonials-text>
+                <p>
+                  A second quote goes here. Pull one from a LinkedIn recommendation, a
+                  manager's review, or a professor if you're early in your career.
+                </p>
               </div>
-              <p class="tl-org">Company Name · City, ST</p>
-              <ul class="tl-points">
-                <li>Achievement with a number in it.</li>
-                <li>Another achievement with a number in it.</li>
-              </ul>
-            </li>
-
-            <li>
-              <div class="tl-head">
-                <h4>Earlier Role</h4>
-                <span class="tl-date">2021 — 2022</span>
-              </div>
-              <p class="tl-org">Company Name · City, ST</p>
-              <ul class="tl-points">
-                <li>What you owned and what changed because of it.</li>
-              </ul>
-            </li>
-          </ol>
-        </div>
-
-        <!-- ---------- Column: Education + Leadership ---------- -->
-        <div class="reveal">
-          <h3 class="sub-title">Education</h3>
-          <ol class="timeline">
-            <li>
-              <div class="tl-head">
-                <h4>M.S. / MBA in [Field]</h4>
-                <span class="tl-date">2024 — 2026</span>
-              </div>
-              <p class="tl-org">University Name</p>
-              <ul class="tl-points">
-                <li>Concentration: [Product Management, Marketing]</li>
-                <li>Relevant coursework or honors.</li>
-              </ul>
-            </li>
-
-            <li>
-              <div class="tl-head">
-                <h4>B.S. in [Field]</h4>
-                <span class="tl-date">2018 — 2022</span>
-              </div>
-              <p class="tl-org">University Name</p>
-              <ul class="tl-points">
-                <li>GPA, honors, or a activity worth naming.</li>
-              </ul>
-            </li>
-          </ol>
-
-          <h3 class="sub-title">Leadership &amp; projects</h3>
-          <ol class="timeline">
-            <li>
-              <div class="tl-head">
-                <h4>Project Manager</h4>
-                <span class="tl-date">Jan 2025 — May 2025</span>
-              </div>
-              <p class="tl-org">Student Consulting Group</p>
-              <ul class="tl-points">
-                <li>Led a team of [N] on [client problem]; delivered [outcome].</li>
-              </ul>
-            </li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="center reveal">
-        <a class="btn" href="assets/files/resume.pdf" target="_blank" rel="noopener">Download full resume (PDF)</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       PORTFOLIO
-       ============================================================ -->
-  <section id="portfolio" class="section">
-    <div class="wrap">
-      <p class="eyebrow reveal">03 — Portfolio</p>
-      <h2 class="section-title reveal">Selected work</h2>
-      <p class="section-lede reveal">
-        <!-- EDIT -->
-        A few projects I'm happy to talk through. Click any card for the full case study.
-      </p>
-
-      <!-- Filters are generated from the data-category values below — no editing needed here. -->
-      <div class="filters reveal" id="filters" role="group" aria-label="Filter projects"></div>
-
-      <div class="projects" id="projects">
-        <!-- ==========================================================
-             EDIT: one <article> per project.
-             - data-category  = the filter label (any text you want)
-             - href           = link to your deck / Drive / Notion / repo
-             - image          = 1200x800-ish in assets/img/
-             Duplicate a block to add a project; delete to remove one.
-             ========================================================== -->
-
-        <article class="project reveal" data-category="Product Strategy">
-          <a href="#" target="_blank" rel="noopener">
-            <div class="project-media">
-              <img src="assets/img/project-1.svg" alt="" loading="lazy" />
             </div>
-            <div class="project-body">
-              <span class="tag">Product Strategy</span>
-              <h3>Project One</h3>
-              <p>One line on the problem, what you did, and the result.</p>
-              <span class="project-link">View case study →</span>
-            </div>
-          </a>
-        </article>
+          </li>
 
-        <article class="project reveal" data-category="Growth &amp; Marketing">
-          <a href="#" target="_blank" rel="noopener">
-            <div class="project-media">
-              <img src="assets/img/project-2.svg" alt="" loading="lazy" />
-            </div>
-            <div class="project-body">
-              <span class="tag">Growth &amp; Marketing</span>
-              <h3>Project Two</h3>
-              <p>One line on the problem, what you did, and the result.</p>
-              <span class="project-link">View case study →</span>
-            </div>
-          </a>
-        </article>
-
-        <article class="project reveal" data-category="Data &amp; Analytics">
-          <a href="#" target="_blank" rel="noopener">
-            <div class="project-media">
-              <img src="assets/img/project-3.svg" alt="" loading="lazy" />
-            </div>
-            <div class="project-body">
-              <span class="tag">Data &amp; Analytics</span>
-              <h3>Project Three</h3>
-              <p>One line on the problem, what you did, and the result.</p>
-              <span class="project-link">View case study →</span>
-            </div>
-          </a>
-        </article>
-
-        <article class="project reveal" data-category="Design &amp; UX">
-          <a href="#" target="_blank" rel="noopener">
-            <div class="project-media">
-              <img src="assets/img/project-4.svg" alt="" loading="lazy" />
-            </div>
-            <div class="project-body">
-              <span class="tag">Design &amp; UX</span>
-              <h3>Project Four</h3>
-              <p>One line on the problem, what you did, and the result.</p>
-              <span class="project-link">View case study →</span>
-            </div>
-          </a>
-        </article>
-
-        <article class="project reveal" data-category="Product Strategy">
-          <a href="#" target="_blank" rel="noopener">
-            <div class="project-media">
-              <img src="assets/img/project-5.svg" alt="" loading="lazy" />
-            </div>
-            <div class="project-body">
-              <span class="tag">Product Strategy</span>
-              <h3>Project Five</h3>
-              <p>One line on the problem, what you did, and the result.</p>
-              <span class="project-link">View case study →</span>
-            </div>
-          </a>
-        </article>
-
-        <article class="project reveal" data-category="Growth &amp; Marketing">
-          <a href="#" target="_blank" rel="noopener">
-            <div class="project-media">
-              <img src="assets/img/project-6.svg" alt="" loading="lazy" />
-            </div>
-            <div class="project-body">
-              <span class="tag">Growth &amp; Marketing</span>
-              <h3>Project Six</h3>
-              <p>One line on the problem, what you did, and the result.</p>
-              <span class="project-link">View case study →</span>
-            </div>
-          </a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       CONTACT
-       ============================================================ -->
-  <section id="contact" class="section section-alt">
-    <div class="wrap contact-grid">
-      <div class="reveal">
-        <p class="eyebrow">04 — Contact</p>
-        <h2 class="section-title">Let's talk</h2>
-        <p class="section-lede">
-          <!-- EDIT -->
-          Recruiting, collaborating, or just want to compare notes on product? Send a note —
-          I read everything.
-        </p>
-
-        <ul class="contact-list">
-          <li><strong>Email</strong><a href="mailto:you@example.com">you@example.com</a></li>
-          <li><strong>LinkedIn</strong><a href="https://linkedin.com/in/YOUR-HANDLE" target="_blank" rel="noopener">/in/YOUR-HANDLE</a></li>
-          <li><strong>Location</strong><span>New York, NY</span></li>
         </ul>
+
+      </section>
+
+
+      <!-- ---------- Testimonials modal ---------- -->
+      <div class="modal-container" data-modal-container>
+        <div class="overlay" data-overlay></div>
+        <section class="testimonials-modal">
+          <button class="modal-close-btn" data-modal-close-btn aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+          <div class="modal-img-wrapper">
+            <figure class="modal-avatar-box">
+              <img src="assets/img/avatar-1.svg" alt="" width="80" data-modal-img />
+            </figure>
+            <svg class="quote-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 11H6a3 3 0 0 1 3-3V6a5 5 0 0 0-5 5v7h6v-7Zm10 0h-4a3 3 0 0 1 3-3V6a5 5 0 0 0-5 5v7h6v-7Z" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <div class="modal-content">
+            <h4 class="h3 modal-title" data-modal-title>Reference Name</h4>
+            <p class="modal-subtitle" data-modal-subtitle>Title, Company</p>
+            <div data-modal-text><p>Quote goes here.</p></div>
+          </div>
+        </section>
       </div>
 
-      <!-- ==========================================================
-           CONTACT FORM
-           GitHub Pages can't process forms itself. Easiest fix:
-           1. Sign up free at https://formspree.io
-           2. Paste your form endpoint into the action="" below.
-           Until you do, the form falls back to opening the visitor's
-           email client (handled in js/main.js).
-           ========================================================== -->
-      <form class="contact-form reveal" id="contactForm"
-            action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required autocomplete="name" />
+
+      <!-- ---------- Tools & technologies ---------- -->
+      <section class="clients">
+
+        <h3 class="h3 clients-title">Technology &amp; Tools</h3>
+
+        <ul class="clients-list has-scrollbar">
+          <!-- EDIT: swap the SVGs in assets/img/ for real logos, or change the text. -->
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-1.svg" alt="Figma" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-2.svg" alt="Jira" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-3.svg" alt="SQL" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-4.svg" alt="Looker" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-5.svg" alt="Asana" /></a></li>
+          <li class="clients-item"><a href="#"><img src="assets/img/logo-6.svg" alt="Notion" /></a></li>
+        </ul>
+
+      </section>
+
+    </article>
+
+
+    <!-- ==========================================================
+         RESUME
+         ========================================================== -->
+    <article class="resume" data-page="resume">
+
+      <header>
+        <h2 class="h2 article-title">Resume</h2>
+      </header>
+
+      <!-- ---------- Education ---------- -->
+      <section class="timeline">
+
+        <div class="title-wrapper">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4 10 5-10 5L2 9l10-5Z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
+          </div>
+          <h3 class="h3">Education</h3>
         </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required autocomplete="email" />
+
+        <ol class="timeline-list">
+          <!-- EDIT: duplicate a <li> per entry. Newest first. -->
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">New York University</h4>
+            <span>Sep 2024 — May 2026</span>
+            <p class="timeline-text">
+              M.S. in [Your Program]. Concentration in product management and marketing.
+              Relevant coursework or honors go here.
+            </p>
+          </li>
+
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Undergraduate University</h4>
+            <span>Aug 2018 — May 2022</span>
+            <p class="timeline-text">
+              B.S. in [Your Major]. GPA, honors, or an activity worth naming.
+            </p>
+          </li>
+        </ol>
+
+      </section>
+
+      <!-- ---------- Experiential learning ---------- -->
+      <section class="timeline">
+
+        <div class="title-wrapper">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3 class="h3">Experiential Learning</h3>
         </div>
-        <div class="field">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
+
+        <ol class="timeline-list">
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Project Manager — Student Consulting Group</h4>
+            <span>Jan 2025 — May 2025</span>
+            <p class="timeline-text">
+              Led a team of [N] on [client problem]. Managed [N]+ tasks in Jira and
+              designed digital mockups in Figma. Delivered [outcome].
+            </p>
+          </li>
+        </ol>
+
+      </section>
+
+      <!-- ---------- Professional experience ---------- -->
+      <section class="timeline">
+
+        <div class="title-wrapper">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </div>
+          <h3 class="h3">Professional Experience</h3>
         </div>
-        <button class="btn" type="submit">Send message</button>
-        <p class="form-status" id="formStatus" role="status"></p>
-      </form>
-    </div>
-  </section>
+
+        <ol class="timeline-list">
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Product Manager Intern — Company Name</h4>
+            <span>Jun 2025 — Aug 2025</span>
+            <p class="timeline-text">
+              Led [what] resulting in [measurable outcome]. Built [thing] used by [who],
+              cutting [metric] by [%]. Partnered with [team] to launch [feature].
+            </p>
+          </li>
+
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Previous Role — Company Name</h4>
+            <span>Jan 2023 — May 2025</span>
+            <p class="timeline-text">
+              What you owned and what changed because of it. Use a number in every line
+              you can.
+            </p>
+          </li>
+
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Earlier Role — Company Name</h4>
+            <span>2021 — 2022</span>
+            <p class="timeline-text">
+              Achievement with a number in it. Another achievement with a number in it.
+            </p>
+          </li>
+        </ol>
+
+      </section>
+
+      <!-- ---------- Skills ---------- -->
+      <section class="skill">
+
+        <h3 class="h3 skills-title">My Skills</h3>
+
+        <ul class="skills-list content-card">
+          <!-- EDIT: change the label, the % text, and the inline width to match -->
+          <li class="skills-item">
+            <div class="title-wrapper">
+              <h5 class="h5">Product Strategy</h5>
+              <data value="90">90%</data>
+            </div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width: 90%"></div></div>
+          </li>
+
+          <li class="skills-item">
+            <div class="title-wrapper">
+              <h5 class="h5">Marketing &amp; Growth</h5>
+              <data value="85">85%</data>
+            </div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width: 85%"></div></div>
+          </li>
+
+          <li class="skills-item">
+            <div class="title-wrapper">
+              <h5 class="h5">Data &amp; Analytics</h5>
+              <data value="80">80%</data>
+            </div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width: 80%"></div></div>
+          </li>
+
+          <li class="skills-item">
+            <div class="title-wrapper">
+              <h5 class="h5">Design &amp; UX</h5>
+              <data value="75">75%</data>
+            </div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width: 75%"></div></div>
+          </li>
+        </ul>
+
+      </section>
+
+      <div class="resume-download">
+        <!-- EDIT: drop your PDF at assets/files/resume.pdf -->
+        <a href="assets/files/resume.pdf" class="form-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <span>Download Resume</span>
+        </a>
+      </div>
+
+    </article>
+
+
+    <!-- ==========================================================
+         PORTFOLIO
+         ========================================================== -->
+    <article class="portfolio" data-page="portfolio">
+
+      <header>
+        <h2 class="h2 article-title">Portfolio</h2>
+      </header>
+
+      <section class="projects">
+
+        <!-- Filters build themselves from each card's data-category — nothing to edit here -->
+        <ul class="filter-list" data-filter-list></ul>
+
+        <div class="filter-select-box">
+          <button class="filter-select" data-select aria-expanded="false">
+            <div class="select-value" data-select-value>Select category</div>
+            <div class="select-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </button>
+          <ul class="select-list" data-select-list></ul>
+        </div>
+
+        <ul class="project-list" data-project-list>
+
+          <!-- ======================================================
+               EDIT: one <li> per project.
+                 data-category = filter label (any text)
+                 href          = your deck / Drive / Notion / repo
+                 img           = 1200x800-ish in assets/img/
+               Duplicate a block to add, delete to remove.
+               ====================================================== -->
+
+          <li class="project-item active" data-filter-item data-category="ad performance">
+            <a href="#" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <img src="assets/img/project-1.svg" alt="Project One" loading="lazy" />
+              </figure>
+              <h3 class="project-title">Project One</h3>
+              <p class="project-category">Ad Performance</p>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="digital product marketing">
+            <a href="#" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <img src="assets/img/project-2.svg" alt="Project Two" loading="lazy" />
+              </figure>
+              <h3 class="project-title">Project Two</h3>
+              <p class="project-category">Digital Product Marketing</p>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="web design">
+            <a href="#" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <img src="assets/img/project-3.svg" alt="Project Three" loading="lazy" />
+              </figure>
+              <h3 class="project-title">Project Three</h3>
+              <p class="project-category">Web Design</p>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="brand management">
+            <a href="#" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <img src="assets/img/project-4.svg" alt="Project Four" loading="lazy" />
+              </figure>
+              <h3 class="project-title">Project Four</h3>
+              <p class="project-category">Brand Management</p>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="digital product marketing">
+            <a href="#" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <img src="assets/img/project-5.svg" alt="Project Five" loading="lazy" />
+              </figure>
+              <h3 class="project-title">Project Five</h3>
+              <p class="project-category">Digital Product Marketing</p>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="brand management">
+            <a href="#" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <img src="assets/img/project-6.svg" alt="Project Six" loading="lazy" />
+              </figure>
+              <h3 class="project-title">Project Six</h3>
+              <p class="project-category">Brand Management</p>
+            </a>
+          </li>
+
+        </ul>
+
+      </section>
+
+    </article>
+
+
+    <!-- ==========================================================
+         CONTACT
+         ========================================================== -->
+    <article class="contact" data-page="contact">
+
+      <header>
+        <h2 class="h2 article-title">Contact</h2>
+      </header>
+
+      <section class="contact-form">
+
+        <h3 class="h3 form-title">Contact Form</h3>
+
+        <!-- ==========================================================
+             GitHub Pages can't process forms. To make this actually send:
+               1. Sign up free at https://formspree.io
+               2. Paste your endpoint into action="" below.
+             Until then, submitting opens the visitor's email client.
+             ========================================================== -->
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="form" data-form>
+
+          <div class="input-wrapper">
+            <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input autocomplete="name" />
+            <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input autocomplete="email" />
+          </div>
+
+          <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input rows="6"></textarea>
+
+          <button class="form-btn" type="submit" disabled data-form-btn>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg>
+            <span>Send Message</span>
+          </button>
+
+          <p class="form-status" data-form-status role="status"></p>
+
+        </form>
+
+      </section>
+
+    </article>
+
+  </div>
 
 </main>
-
-<footer class="site-footer">
-  <div class="wrap footer-inner">
-    <p>© <span id="year"></span> Saket Abdeo</p> <!-- EDIT: name -->
-    <ul class="socials">
-      <li><a href="https://linkedin.com/in/YOUR-HANDLE" target="_blank" rel="noopener">LinkedIn</a></li>
-      <li><a href="https://github.com/abdeosaket23" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="mailto:you@example.com">Email</a></li>
-    </ul>
-  </div>
-</footer>
 
 <script src="js/main.js"></script>
 </body>

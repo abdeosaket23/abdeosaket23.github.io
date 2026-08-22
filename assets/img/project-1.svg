@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Project image placeholder">
-  <rect width="1200" height="800" fill="#f0e5de"/>
-  <g stroke="#b4552d" stroke-opacity=".35" stroke-width="3" fill="none">
-    <rect x="360" y="270" width="480" height="260" rx="16"/>
-    <path d="M360 460l120-95 95 78 130-118 135 135"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Project image placeholder">
+  <rect width="800" height="600" fill="#1c1c1d"/>
+  <g stroke="#FFDB70" stroke-opacity=".55" stroke-width="4" fill="none" stroke-linecap="round">
+    <rect x="200" y="180" width="400" height="240" rx="18"/>
+    <path d="M200 356l104-84 82 68 112-102 102 118"/>
   </g>
-  <circle cx="470" cy="345" r="26" fill="#b4552d" fill-opacity=".3"/>
-  <text x="600" y="610" font-family="Inter, Helvetica, sans-serif" font-size="30" fill="#8d887e" text-anchor="middle">project image 1</text>
+  <circle cx="296" cy="248" r="24" fill="#FFDB70" fill-opacity=".45"/>
+  <text x="400" y="512" font-family="Poppins, Helvetica, sans-serif" font-size="26" fill="#6f6f74" text-anchor="middle">project image 1</text>
 </svg>

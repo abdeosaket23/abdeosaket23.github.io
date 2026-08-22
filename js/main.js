@@ -1,181 +1,256 @@
 /* ==========================================================================
-   main.js — nav, scroll reveal, portfolio filters, contact form.
-   Nothing here needs editing for normal use; all content lives in index.html.
+   main.js — sidebar toggle, page tabs, testimonials modal, portfolio filter,
+   contact form. Nothing here needs editing; content lives in index.html.
    ========================================================================== */
-(function () {
-  'use strict';
+'use strict';
 
-  /* ---------- Current year in the footer ---------------------------------- */
-  var year = document.getElementById('year');
-  if (year) year.textContent = new Date().getFullYear();
+/* Attach one listener across a NodeList. */
+var addEventOnElements = function (elements, type, callback) {
+  Array.prototype.forEach.call(elements, function (el) {
+    el.addEventListener(type, callback);
+  });
+};
 
-  /* ---------- Mobile menu ------------------------------------------------- */
-  var nav = document.getElementById('nav');
-  var navToggle = document.getElementById('navToggle');
 
-  if (nav && navToggle) {
-    navToggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('open');
-      navToggle.setAttribute('aria-expanded', String(open));
+/* --------------------------------------------------------------------------
+   SIDEBAR — "Show Contacts" toggle (mobile / tablet only)
+   -------------------------------------------------------------------------- */
+var sidebar    = document.querySelector('[data-sidebar]');
+var sidebarBtn = document.querySelector('[data-sidebar-btn]');
+
+if (sidebar && sidebarBtn) {
+  sidebarBtn.addEventListener('click', function () {
+    var open = sidebar.classList.toggle('active');
+    var label = sidebarBtn.querySelector('span');
+    if (label) label.textContent = open ? 'Hide Contacts' : 'Show Contacts';
+  });
+}
+
+
+/* --------------------------------------------------------------------------
+   TESTIMONIALS MODAL
+   -------------------------------------------------------------------------- */
+var testimonialsItems = document.querySelectorAll('[data-testimonials-item]');
+var modalContainer    = document.querySelector('[data-modal-container]');
+var modalCloseBtn     = document.querySelector('[data-modal-close-btn]');
+var overlay           = document.querySelector('[data-overlay]');
+
+var modalImg      = document.querySelector('[data-modal-img]');
+var modalTitle    = document.querySelector('[data-modal-title]');
+var modalSubtitle = document.querySelector('[data-modal-subtitle]');
+var modalText     = document.querySelector('[data-modal-text]');
+
+var toggleModal = function () {
+  if (!modalContainer) return;
+  modalContainer.classList.toggle('active');
+};
+
+if (modalContainer) {
+  addEventOnElements(testimonialsItems, 'click', function () {
+    var avatar   = this.querySelector('[data-testimonials-avatar]');
+    var title    = this.querySelector('[data-testimonials-title]');
+    var subtitle = this.querySelector('[data-testimonials-subtitle]');
+    var text     = this.querySelector('[data-testimonials-text]');
+
+    if (avatar && modalImg) {
+      modalImg.src = avatar.src;
+      modalImg.alt = avatar.alt;
+    }
+    if (title && modalTitle)       modalTitle.textContent = title.textContent;
+    if (subtitle && modalSubtitle) modalSubtitle.textContent = subtitle.textContent;
+    if (text && modalText)         modalText.innerHTML = text.innerHTML;
+
+    toggleModal();
+  });
+
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', toggleModal);
+  if (overlay)       overlay.addEventListener('click', toggleModal);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modalContainer.classList.contains('active')) toggleModal();
+  });
+}
+
+
+/* --------------------------------------------------------------------------
+   PORTFOLIO FILTER
+   Filter buttons and the mobile dropdown are both generated from the
+   data-category on each project, so adding a project with a new category
+   adds its filter automatically.
+   -------------------------------------------------------------------------- */
+var filterList   = document.querySelector('[data-filter-list]');
+var selectList   = document.querySelector('[data-select-list]');
+var selectBtn    = document.querySelector('[data-select]');
+var selectValue  = document.querySelector('[data-select-value]');
+var filterItems  = document.querySelectorAll('[data-filter-item]');
+
+if (filterList && selectList && filterItems.length) {
+
+  /* Collect the categories in the order they first appear. */
+  var categories = [];
+  Array.prototype.forEach.call(filterItems, function (item) {
+    var cat = (item.dataset.category || '').trim().toLowerCase();
+    if (cat && categories.indexOf(cat) === -1) categories.push(cat);
+  });
+
+  var applyFilter = function (value) {
+    Array.prototype.forEach.call(filterItems, function (item) {
+      var match = value === 'all' || value === item.dataset.category.toLowerCase();
+      item.classList.toggle('active', match);
     });
-
-    // Close the menu after tapping a link.
-    nav.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') {
-        nav.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-
-  /* ---------- Header shadow on scroll ------------------------------------- */
-  var header = document.getElementById('siteHeader');
-  var onScroll = function () {
-    if (header) header.classList.toggle('scrolled', window.scrollY > 8);
   };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 
-  /* ---------- Highlight the nav link for the section you're viewing -------- */
-  var sections = Array.prototype.slice.call(
-    document.querySelectorAll('main section[id]')
-  );
-  var navLinks = Array.prototype.slice.call(
-    document.querySelectorAll('.nav a[href^="#"]:not(.btn)')
-  );
+  /* --- Desktop filter buttons --- */
+  ['all'].concat(categories).forEach(function (cat, i) {
+    var li = document.createElement('li');
+    li.className = 'filter-item';
 
-  if (sections.length && navLinks.length && 'IntersectionObserver' in window) {
-    var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        navLinks.forEach(function (link) {
-          link.classList.toggle(
-            'active',
-            link.getAttribute('href') === '#' + entry.target.id
-          );
-        });
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = cat;
+    btn.dataset.filterBtn = '';
+    if (i === 0) btn.classList.add('active');
 
-    sections.forEach(function (s) { spy.observe(s); });
-  }
+    li.appendChild(btn);
+    filterList.appendChild(li);
+  });
 
-  /* ---------- Scroll reveal ----------------------------------------------- */
-  var revealables = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  /* --- Mobile dropdown --- */
+  ['all'].concat(categories).forEach(function (cat) {
+    var li = document.createElement('li');
+    li.className = 'select-item';
 
-  if ('IntersectionObserver' in window) {
-    var revealer = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = cat;
+    btn.dataset.selectItem = '';
 
-    revealables.forEach(function (el) { revealer.observe(el); });
-  } else {
-    revealables.forEach(function (el) { el.classList.add('visible'); });
-  }
+    li.appendChild(btn);
+    selectList.appendChild(li);
+  });
 
-  /* ---------- Portfolio filters ------------------------------------------- */
-  /* Filter buttons are built from the data-category on each .project card,
-     so adding a project with a new category adds its filter automatically. */
-  var filtersEl  = document.getElementById('filters');
-  var projectsEl = document.getElementById('projects');
+  if (selectValue) selectValue.textContent = 'all';
 
-  if (filtersEl && projectsEl) {
-    var projects = Array.prototype.slice.call(projectsEl.querySelectorAll('.project'));
-    var categories = [];
+  var filterBtns = filterList.querySelectorAll('[data-filter-btn]');
+  var lastClickedBtn = filterBtns[0];
 
-    projects.forEach(function (p) {
-      var cat = (p.dataset.category || '').trim();
-      if (cat && categories.indexOf(cat) === -1) categories.push(cat);
+  addEventOnElements(filterBtns, 'click', function () {
+    var value = this.textContent.toLowerCase();
+    if (selectValue) selectValue.textContent = this.textContent;
+    applyFilter(value);
+
+    if (lastClickedBtn) lastClickedBtn.classList.remove('active');
+    this.classList.add('active');
+    lastClickedBtn = this;
+  });
+
+  addEventOnElements(selectList.querySelectorAll('[data-select-item]'), 'click', function () {
+    var value = this.textContent.toLowerCase();
+    if (selectValue) selectValue.textContent = this.textContent;
+
+    if (selectBtn) {
+      selectBtn.classList.remove('active');
+      selectBtn.setAttribute('aria-expanded', 'false');
+      selectBtn.parentElement.classList.remove('active');
+    }
+
+    applyFilter(value);
+
+    /* Keep the desktop buttons in sync. */
+    Array.prototype.forEach.call(filterBtns, function (b) {
+      var match = b.textContent.toLowerCase() === value;
+      b.classList.toggle('active', match);
+      if (match) lastClickedBtn = b;
     });
+  });
 
-    var makeButton = function (label, value, isActive) {
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'filter' + (isActive ? ' active' : '');
-      btn.textContent = label;
-      btn.dataset.filter = value;
-      btn.setAttribute('aria-pressed', String(isActive));
-      return btn;
-    };
-
-    filtersEl.appendChild(makeButton('All', '*', true));
-    categories.forEach(function (cat) {
-      filtersEl.appendChild(makeButton(cat, cat, false));
-    });
-
-    filtersEl.addEventListener('click', function (e) {
-      var btn = e.target.closest('.filter');
-      if (!btn) return;
-
-      var value = btn.dataset.filter;
-
-      Array.prototype.forEach.call(filtersEl.children, function (b) {
-        var active = b === btn;
-        b.classList.toggle('active', active);
-        b.setAttribute('aria-pressed', String(active));
-      });
-
-      projects.forEach(function (p) {
-        p.hidden = !(value === '*' || p.dataset.category === value);
-      });
+  if (selectBtn) {
+    selectBtn.addEventListener('click', function () {
+      var open = this.classList.toggle('active');
+      this.parentElement.classList.toggle('active', open);
+      this.setAttribute('aria-expanded', String(open));
     });
   }
+}
 
-  /* ---------- Contact form ------------------------------------------------ */
-  /* If the Formspree endpoint hasn't been filled in yet, fall back to opening
-     the visitor's email client so the form is never a dead end. */
-  var form   = document.getElementById('contactForm');
-  var status = document.getElementById('formStatus');
 
-  if (form) {
-    // EDIT: your address — used only for the mailto fallback.
-    var FALLBACK_EMAIL = 'you@example.com';
+/* --------------------------------------------------------------------------
+   CONTACT FORM
+   -------------------------------------------------------------------------- */
+var form       = document.querySelector('[data-form]');
+var formInputs = document.querySelectorAll('[data-form-input]');
+var formBtn    = document.querySelector('[data-form-btn]');
+var formStatus = document.querySelector('[data-form-status]');
 
-    var setStatus = function (msg, isError) {
-      if (!status) return;
-      status.textContent = msg;
-      status.classList.toggle('error', !!isError);
-    };
+if (form && formBtn) {
 
-    form.addEventListener('submit', function (e) {
-      var action = form.getAttribute('action') || '';
-      var configured = action.indexOf('YOUR_FORM_ID') === -1 && /^https?:/.test(action);
+  /* EDIT: your address — used only for the mailto fallback below. */
+  var FALLBACK_EMAIL = 'you@example.com';
 
-      var data = new FormData(form);
-      var name = (data.get('name') || '').toString();
-      var email = (data.get('email') || '').toString();
-      var message = (data.get('message') || '').toString();
+  /* Enable the button only once every field is valid. */
+  addEventOnElements(formInputs, 'input', function () {
+    formBtn.disabled = !form.checkValidity();
+  });
 
-      if (!configured) {
-        e.preventDefault();
-        var subject = encodeURIComponent('Website enquiry from ' + name);
-        var body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
-        window.location.href =
-          'mailto:' + FALLBACK_EMAIL + '?subject=' + subject + '&body=' + body;
-        setStatus('Opening your email app…');
-        return;
-      }
+  var setStatus = function (msg, isError) {
+    if (!formStatus) return;
+    formStatus.textContent = msg;
+    formStatus.classList.toggle('error', !!isError);
+  };
 
-      e.preventDefault();
-      setStatus('Sending…');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-      fetch(action, {
-        method: 'POST',
-        body: data,
-        headers: { Accept: 'application/json' }
+    var action = form.getAttribute('action') || '';
+    var configured = action.indexOf('YOUR_FORM_ID') === -1 && /^https?:/.test(action);
+    var data = new FormData(form);
+
+    if (!configured) {
+      /* No backend wired up yet — hand off to the visitor's email client. */
+      var subject = encodeURIComponent('Website enquiry from ' + (data.get('fullname') || ''));
+      var body = encodeURIComponent(
+        (data.get('message') || '') + '\n\n— ' + (data.get('fullname') || '') +
+        ' (' + (data.get('email') || '') + ')'
+      );
+      window.location.href = 'mailto:' + FALLBACK_EMAIL + '?subject=' + subject + '&body=' + body;
+      setStatus('Opening your email app…');
+      return;
+    }
+
+    setStatus('Sending…');
+    formBtn.disabled = true;
+
+    fetch(action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Request failed');
+        form.reset();
+        setStatus('Thanks — your message is on its way.');
       })
-        .then(function (res) {
-          if (!res.ok) throw new Error('Request failed');
-          form.reset();
-          setStatus('Thanks — your message is on its way.');
-        })
-        .catch(function () {
-          setStatus('Something went wrong. Email me directly at ' + FALLBACK_EMAIL + '.', true);
-        });
-    });
-  }
-})();
+      .catch(function () {
+        setStatus('Something went wrong. Email me at ' + FALLBACK_EMAIL + '.', true);
+        formBtn.disabled = false;
+      });
+  });
+}
+
+
+/* --------------------------------------------------------------------------
+   PAGE TABS — About / Resume / Portfolio / Contact
+   -------------------------------------------------------------------------- */
+var navLinks = document.querySelectorAll('[data-nav-link]');
+var pages    = document.querySelectorAll('[data-page]');
+
+addEventOnElements(navLinks, 'click', function () {
+  var clicked = this;
+  var target = clicked.textContent.trim().toLowerCase();
+
+  Array.prototype.forEach.call(pages, function (page) {
+    page.classList.toggle('active', page.dataset.page === target);
+  });
+
+  Array.prototype.forEach.call(navLinks, function (link) {
+    link.classList.toggle('active', link === clicked);
+  });
+
+  window.scrollTo(0, 0);
+});

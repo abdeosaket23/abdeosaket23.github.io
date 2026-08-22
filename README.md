@@ -1,143 +1,133 @@
-# Personal website template
+# Personal portfolio site
 
-A single-page portfolio site — hero, about, expertise cards, testimonials, resume
-timeline, filterable project grid, and a contact form. Plain HTML, CSS, and
-JavaScript: no build step, no dependencies, no framework. Edit the files, push,
-done.
+A dark, single-page portfolio: sticky profile sidebar on the left, and a panel on
+the right that switches between **About**, **Resume**, **Portfolio**, and
+**Contact** without reloading. Plain HTML, CSS, and JavaScript — no build step,
+no framework, no dependencies beyond Google Fonts.
 
-Structure modelled on a classic MBA/product-portfolio layout; all styling and
-copy are original and yours to change.
+Layout and design language follow the open-source
+[vCard](https://github.com/codewithsadee/vcard-personal-portfolio) template
+(MIT), rewritten here from scratch with inline SVG icons instead of an icon CDN.
 
 ```
-index.html          all the content — this is the file you edit most
-css/styles.css      theme variables at the top, then layout
-js/main.js          nav, scroll reveal, portfolio filters, contact form
-assets/img/         portrait, avatars, project thumbnails (SVG placeholders)
+index.html          all the content — this is the file you edit
+css/styles.css      theme tokens at the top, then layout
+js/main.js          tabs, sidebar toggle, filters, modal, contact form
+assets/img/         avatar, testimonial avatars, project thumbs, tool logos
 assets/files/       drop resume.pdf here
+404.html            styled not-found page
 ```
 
 ---
 
 ## Editing it
 
-Everything you need to change in `index.html` is marked with an `EDIT` comment.
-Work top to bottom:
+Every spot you need to change in `index.html` is marked with an `EDIT` comment.
 
 | What | Where |
 |---|---|
 | Page title, description, social preview | `<head>` |
-| Initials + name in the header | `.brand` |
-| Name, role, blurb, location, email | Hero section |
-| Social links (3 places: hero, contact, footer) | search for `YOUR-HANDLE` |
-| Bio paragraphs and the three stat boxes | About section |
-| "What I do" cards | `.cards` — duplicate a `<article class="card">` to add one |
-| Testimonials | `.quotes` — duplicate a `<figure>`, or delete the whole block |
-| Tool pills | `.tools` — plain text, add/remove `<li>` items |
-| Jobs, education, leadership | Resume section — duplicate a `<li>` in `.timeline` |
-| Projects | Portfolio section — see below |
-| Contact copy and details | Contact section |
+| Name and job title | `.sidebar-info` |
+| Email, education, location rows | `.contacts-list` |
+| Social links | `.social-list` and the sidebar |
+| Bio paragraphs | `.about-text` |
+| "My Expertise" cards | `.service-list` — duplicate a `<li class="service-item">` |
+| Testimonials | `.testimonials-list` — duplicate a `<li class="testimonials-item">` |
+| Tool logos | `.clients-list` |
+| Education / experience entries | `.timeline-list` — duplicate a `<li class="timeline-item">` |
+| Skill bars | `.skills-list` |
+| Projects | `.project-list` — see below |
+| Contact form | `.contact-form` |
 
-Search-and-replace these placeholders across the whole file when you start:
+Start with a find-and-replace across the whole file:
 
 - `you@example.com` → your email
 - `YOUR-HANDLE` → your LinkedIn handle
-- `Saket Abdeo` → your name (if different)
+- `Saket Abdeo` → your name
+- the bracketed blanks like `[Your Program]`, `[N]`, `[outcome]`
 
 ### Adding a project
 
-Copy one `<article class="project">` block and change four things:
+Copy one `<li class="project-item">` and change four things:
 
 ```html
-<article class="project reveal" data-category="Product Strategy">
-  <a href="https://link-to-your-deck" target="_blank" rel="noopener">
-    <div class="project-media">
-      <img src="assets/img/project-1.svg" alt="" loading="lazy" />
-    </div>
-    <div class="project-body">
-      <span class="tag">Product Strategy</span>
-      <h3>Project name</h3>
-      <p>One line on the problem, what you did, and the result.</p>
-      <span class="project-link">View case study →</span>
-    </div>
+<li class="project-item active" data-filter-item data-category="web design">
+  <a href="https://link-to-your-case-study" target="_blank" rel="noopener">
+    <figure class="project-img">
+      <div class="project-item-icon-box"> …eye icon, leave as-is… </div>
+      <img src="assets/img/project-3.svg" alt="Project name" loading="lazy" />
+    </figure>
+    <h3 class="project-title">Project name</h3>
+    <p class="project-category">Web Design</p>
   </a>
-</article>
+</li>
 ```
 
-`data-category` drives the filter buttons — they're generated from whatever
-categories exist on the cards, so a new category adds its own button
-automatically. Keep the `<span class="tag">` text matching `data-category`.
+`data-category` drives the filters. The filter row (desktop) and the dropdown
+(mobile) are both generated from whatever categories exist on the cards, so a new
+category creates its own filter button automatically — nothing else to update.
+Keep `class="active"` on new items so they show under "all", and keep the
+`.project-category` text matching `data-category`.
 
 ### Swapping images
 
-The files in `assets/img/` are SVG placeholders. Drop your real images in the
-same folder and update the `src` (change the `.svg` extension to `.jpg`/`.png`):
+Files in `assets/img/` are SVG placeholders. Drop your real images in the same
+folder and update the `src` (change the `.svg` extension to `.jpg`/`.png`):
 
-- `portrait` — square, ~800×800
-- `avatar-1`, `avatar-2` — square, ~200×200
-- `project-1` … `project-6` — 3:2 ratio, ~1200×800
+- `my-avatar` — sidebar photo, square, ~400×400
+- `avatar-1`, `avatar-2` — testimonial headshots, square, ~200×200
+- `project-1` … `project-6` — 4:3 ratio, ~800×600
+- `logo-1` … `logo-6` — tool logos, wide; they're greyscaled until hovered
 
-Put your resume PDF at `assets/files/resume.pdf` and both download buttons work.
+Put your resume PDF at `assets/files/resume.pdf` and the download button works.
 
 ### Restyling
 
-The top of `css/styles.css` is a block of CSS variables — colors, fonts,
-spacing, corner radius. Change `--accent` alone and the whole site shifts.
-Dark mode follows the visitor's system setting; delete the
-`@media (prefers-color-scheme: dark)` block if you'd rather stay light-only.
-
-Fonts are Fraunces (headings) and Inter (body), loaded from Google Fonts in
-`index.html` — swap the `<link>` and the two `--font-*` variables to change them.
+The top of `css/styles.css` is a block of custom properties — colours, gradients,
+shadows, font sizes. The accent is `--orange-yellow-crayola` plus the two
+`--bg-gradient-yellow-*` and `--text-gradient-yellow` values; change those four
+and the whole site moves to a different colour. Type is Poppins, loaded from
+Google Fonts in `index.html`.
 
 ---
 
 ## Making the contact form actually send
 
-GitHub Pages serves static files only, so it can't process a form on its own.
-Two options:
+GitHub Pages serves static files only, so it can't process a form. Two options:
 
 1. **Formspree (free tier).** Sign up at <https://formspree.io>, create a form,
-   and paste the endpoint into the `action=""` on `<form id="contactForm">`.
-2. **Do nothing.** Until that endpoint is set, submitting the form opens the
-   visitor's email client pre-filled with their message. Set `FALLBACK_EMAIL`
-   near the bottom of `js/main.js` to your address so this works.
+   and paste the endpoint into `action=""` on `<form data-form>`.
+2. **Do nothing.** Until that endpoint is set, submitting opens the visitor's
+   email client pre-filled. Set `FALLBACK_EMAIL` in `js/main.js` to your address.
 
 ---
 
 ## Previewing locally
 
-Open `index.html` in a browser, or run a local server for cleaner behaviour:
-
 ```bash
 python3 -m http.server 8000
-# then visit http://localhost:8000
+# then open http://localhost:8000
 ```
 
 ---
 
 ## Publishing on GitHub Pages
 
-In the repo: **Settings → Pages → Source: Deploy from a branch → `main` / `root`**,
-then Save. It goes live in a minute or two.
+Settings → Pages → Source: **Deploy from a branch** → `main` / `/ (root)` → Save.
 
-Because this repo is named `saketabdeo.github.io` but lives under the
-`abdeosaket23` account, GitHub treats it as a *project* site, so the URL is:
+A repo only becomes a *user site* (served at `username.github.io`) when its name
+matches the username exactly. Rename the repo to **`abdeosaket23.github.io`** for
+the clean URL; any other name serves at
+`abdeosaket23.github.io/<repo-name>/`, which works identically — every path in
+this template is relative.
 
-```
-https://abdeosaket23.github.io/saketabdeo.github.io/
-```
+Custom domain? Add a `CNAME` file at the repo root containing just the domain,
+then point a CNAME DNS record at `abdeosaket23.github.io`.
 
-To get the clean `https://abdeosaket23.github.io/` instead, rename the repo to
-**`abdeosaket23.github.io`** (Settings → General → Repository name) — it has to
-match the username exactly.
-
-Using your own domain? Add a file called `CNAME` at the repo root containing
-just the domain (e.g. `saketabdeo.com`), then point a CNAME DNS record at
-`abdeosaket23.github.io`.
-
-`.nojekyll` is already included so GitHub serves the files as-is.
+`.nojekyll` is included so GitHub serves the files as-is.
 
 ---
 
 ## License
 
-MIT — do whatever you like with it.
+MIT.
