@@ -682,6 +682,11 @@ var goToPage; /* exposed for the command palette below */
     links.forEach(function (l, i) { l.classList.toggle('active', i === index); });
     moveIndicator();
 
+    /* The scramble effect (section 14) listens for this. */
+    document.dispatchEvent(new CustomEvent('panelchange', {
+      detail: { panel: pages[index], name: order[index] }
+    }));
+
     if (!opts || opts.scroll !== false) {
       window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
     }
@@ -905,4 +910,462 @@ var goToPage; /* exposed for the command palette below */
   });
 
   render();
+})();
+
+
+/* ==========================================================================
+   ==========================================================================
+   SIGNATURE LAYER
+     14. text scramble
+     15. boot sequence
+     16. career chart
+     17. market clock
+   ==========================================================================
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   14. TEXT SCRAMBLE
+   Cycles random glyphs before settling on the real characters — used on the
+   name and on each panel title when you switch tabs.
+   -------------------------------------------------------------------------- */
+var scramble = function (el, done) {
+  if (!el || reduceMotion) { if (done) done(); return; }
+
+  var text = el.dataset.text || el.textContent;
+  el.dataset.text = text;
+
+  var CHARS = '$%#@&01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\';
+  var queue = [];
+
+  for (var i = 0; i < text.length; i++) {
+    queue.push({
+      to: text[i],
+      start: Math.floor(Math.random() * 12),
+      end: Math.floor(Math.random() * 14) + 12
+    });
+  }
+
+  var frame = 0;
+  var tick = function () {
+    var out = '';
+    var settled = 0;
+
+    for (var i = 0; i < queue.length; i++) {
+      var q = queue[i];
+      if (frame >= q.end) { settled++; out += q.to; }
+      else if (frame >= q.start) {
+        if (!q.char || Math.random() < 0.3) q.char = CHARS[Math.floor(Math.random() * CHARS.length)];
+        out += '<span class="scr">' + q.char + '</span>';
+      } else {
+        out += q.to === ' ' ? ' ' : '<span class="scr">&nbsp;</span>';
+      }
+    }
+
+    el.innerHTML = out;
+    if (settled === queue.length) {
+      el.textContent = text;
+      if (done) done();
+      return;
+    }
+    frame++;
+    requestAnimationFrame(tick);
+  };
+
+  tick();
+};
+
+/* Scramble the active panel's title whenever the panel changes. */
+document.addEventListener('panelchange', function (e) {
+  var title = $('[data-scramble]', e.detail.panel);
+  if (title) scramble(title);
+});
+
+
+/* --------------------------------------------------------------------------
+   15. BOOT SEQUENCE
+   Runs once per browser tab (sessionStorage), skippable with any key or click.
+   -------------------------------------------------------------------------- */
+(function () {
+  var boot = $('[data-boot]');
+  if (!boot) return;
+
+  var logEl = $('[data-boot-log]');
+  var barEl = $('[data-boot-bar]');
+  var pctEl = $('[data-boot-pct]');
+
+  /* ==========================================================
+     EDIT: the boot log. `tag` is the right-hand chip:
+       'ok'  → green OK
+       any other string → shown in yellow as-is
+     ========================================================== */
+  var BOOT_LINES = [
+    { text: 'initializing terminal',      tag: 'ok' },
+    { text: 'mounting /saket/profile',    tag: 'ok' },
+    { text: 'loading career index',       tag: '2018–2026' },
+    { text: 'fetching valuation models',  tag: '32' },
+    { text: 'reconciling deal history',   tag: 'ok' },
+    { text: 'auth: recruiter access',     tag: 'granted' }
+  ];
+
+  var stage = function (on) {
+    /* Everything that isn't the boot screen fades in behind it. */
+    $$('.bg-layer, .ticker, main, .cmdk-trigger').forEach(function (el) {
+      el.classList.add('stage');
+      if (on) el.classList.add('ready');
+    });
+  };
+
+  var finish = function () {
+    if (boot.dataset.done) return;
+    boot.dataset.done = '1';
+    boot.classList.add('done');
+    document.body.classList.remove('booting');
+    stage(true);
+    try { sessionStorage.setItem('booted', '1'); } catch (err) { /* private mode */ }
+    setTimeout(function () { boot.remove(); }, 700);
+  };
+
+  /* Skip entirely on repeat visits within the tab, or under reduced motion. */
+  var seen = false;
+  try { seen = sessionStorage.getItem('booted') === '1'; } catch (err) { seen = false; }
+
+  if (seen || reduceMotion) {
+    boot.remove();
+    return;
+  }
+
+  document.body.classList.add('booting');
+  stage(false);
+
+  var i = 0;
+  var pct = 0;
+
+  var addLine = function () {
+    if (i >= BOOT_LINES.length) {
+      /* Fill the bar the rest of the way, then clear. */
+      var settle = setInterval(function () {
+        pct = Math.min(100, pct + 4);
+        if (barEl) barEl.style.width = pct + '%';
+        if (pctEl) pctEl.textContent = pct;
+        if (pct >= 100) { clearInterval(settle); setTimeout(finish, 420); }
+      }, 22);
+      return;
+    }
+
+    var line = BOOT_LINES[i];
+    var li = document.createElement('li');
+    li.innerHTML = '<span class="dim">&gt;</span> ' + line.text +
+      (line.tag === 'ok'
+        ? '<span class="ok">OK</span>'
+        : '<span class="val">' + line.tag + '</span>');
+    if (logEl) logEl.appendChild(li);
+
+    i++;
+    pct = Math.min(92, Math.round((i / BOOT_LINES.length) * 92));
+    if (barEl) barEl.style.width = pct + '%';
+    if (pctEl) pctEl.textContent = pct;
+
+    setTimeout(addLine, 190 + Math.random() * 130);
+  };
+
+  setTimeout(addLine, 350);
+
+  document.addEventListener('keydown', finish, { once: true });
+  boot.addEventListener('click', finish, { once: true });
+
+  /* Never leave someone stuck behind the overlay. */
+  setTimeout(finish, 6000);
+})();
+
+
+/* --------------------------------------------------------------------------
+   16. CAREER CHART
+   Candles are derived from consecutive data-value numbers: each year opens at
+   the previous year's close and closes at its own value, with a small wick.
+   -------------------------------------------------------------------------- */
+(function () {
+  var wrap = $('[data-career-chart]');
+  var svg  = $('[data-career-svg]');
+  var data = $('[data-career-data]');
+  if (!wrap || !svg || !data) return;
+
+  var rows = $$('li', data).map(function (li) {
+    return {
+      year:  li.dataset.year || '',
+      value: parseFloat(li.dataset.value) || 0,
+      label: li.dataset.label || '',
+      note:  li.dataset.note || ''
+    };
+  });
+  if (rows.length < 2) return;
+
+  var W = 720, H = 260;
+  var PAD = { t: 14, r: 42, b: 26, l: 10 };
+  var plotW = W - PAD.l - PAD.r;
+  var plotH = H - PAD.t - PAD.b;
+
+  /* Build candles. Open = previous close; wicks extend a little past both. */
+  var candles = rows.map(function (row, i) {
+    var open = i === 0 ? row.value * 0.82 : rows[i - 1].value;
+    var close = row.value;
+    var spread = Math.max(2, Math.abs(close - open) * 0.45);
+    return {
+      row: row,
+      open: open,
+      close: close,
+      high: Math.max(open, close) + spread,
+      low:  Math.min(open, close) - spread,
+      up:   close >= open
+    };
+  });
+
+  var lo = Math.min.apply(null, candles.map(function (c) { return c.low; }));
+  var hi = Math.max.apply(null, candles.map(function (c) { return c.high; }));
+  var pad = (hi - lo) * 0.08;
+  lo -= pad; hi += pad;
+
+  var y = function (v) { return PAD.t + plotH - ((v - lo) / (hi - lo)) * plotH; };
+  var step = plotW / rows.length;
+  var cx = function (i) { return PAD.l + step * (i + 0.5); };
+  var bw = Math.min(24, step * 0.5);
+
+  var parts = [];
+
+  /* Horizontal gridlines + right-hand price axis */
+  for (var g = 0; g <= 4; g++) {
+    var v = lo + ((hi - lo) / 4) * g;
+    var gy = y(v);
+    parts.push('<line class="grid-line" x1="' + PAD.l + '" y1="' + gy.toFixed(1) + '" x2="' + (W - PAD.r) + '" y2="' + gy.toFixed(1) + '"/>');
+    parts.push('<text class="axis-text" x="' + (W - PAD.r + 8) + '" y="' + (gy + 3).toFixed(1) + '">' + Math.round(v) + '</text>');
+  }
+
+  /* Candles */
+  candles.forEach(function (c, i) {
+    var x = cx(i);
+    var cls = c.up ? 'up' : 'down';
+    var top = y(Math.max(c.open, c.close));
+    var bot = y(Math.min(c.open, c.close));
+    var h = Math.max(2, bot - top);
+    var delay = (0.35 + i * 0.07).toFixed(2) + 's';
+
+    parts.push('<line class="wick ' + cls + '" x1="' + x.toFixed(1) + '" y1="' + y(c.high).toFixed(1) +
+               '" x2="' + x.toFixed(1) + '" y2="' + y(c.low).toFixed(1) + '" style="animation-delay:' + delay + '"/>');
+    parts.push('<rect class="candle ' + cls + '" x="' + (x - bw / 2).toFixed(1) + '" y="' + top.toFixed(1) +
+               '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="1.5" style="animation-delay:' + delay + '"/>');
+  });
+
+  /* Close-price trend line + area fill */
+  var linePts = candles.map(function (c, i) { return { x: cx(i), y: y(c.close) }; });
+  var lineD = linePts.map(function (p, i) {
+    return (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
+  }).join(' ');
+
+  parts.push(
+    '<defs><linearGradient id="careerFade" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="hsl(45,100%,72%)" stop-opacity="0.22"/>' +
+      '<stop offset="100%" stop-color="hsl(45,100%,72%)" stop-opacity="0"/>' +
+    '</linearGradient></defs>'
+  );
+  parts.push('<path class="trend-area" d="' + lineD + ' L' + linePts[linePts.length - 1].x.toFixed(1) +
+             ' ' + (PAD.t + plotH) + ' L' + linePts[0].x.toFixed(1) + ' ' + (PAD.t + plotH) + ' Z"/>');
+  parts.push('<path class="trend" d="' + lineD + '"/>');
+
+  /* Marker on the most recent point */
+  var last = linePts[linePts.length - 1];
+  parts.push('<circle class="last-halo" cx="' + last.x.toFixed(1) + '" cy="' + last.y.toFixed(1) + '" r="6"/>');
+  parts.push('<circle class="last-dot" cx="' + last.x.toFixed(1) + '" cy="' + last.y.toFixed(1) + '" r="3.5"/>');
+
+  /* Year labels along the bottom — thinned out on narrow charts */
+  var everyN = rows.length > 7 ? 2 : 1;
+  rows.forEach(function (row, i) {
+    if (i % everyN !== 0 && i !== rows.length - 1) return;
+    parts.push('<text class="axis-text" x="' + cx(i).toFixed(1) + '" y="' + (H - 8) +
+               '" text-anchor="middle">' + row.year + '</text>');
+  });
+
+  /* Crosshair + one invisible hit-strip per year */
+  parts.push('<line class="crosshair" data-cross-v y1="' + PAD.t + '" y2="' + (PAD.t + plotH) + '" x1="0" x2="0"/>');
+  parts.push('<line class="crosshair" data-cross-h x1="' + PAD.l + '" x2="' + (W - PAD.r) + '" y1="0" y2="0"/>');
+
+  candles.forEach(function (c, i) {
+    parts.push('<rect class="hit" data-hit="' + i + '" x="' + (PAD.l + step * i).toFixed(1) +
+               '" y="' + PAD.t + '" width="' + step.toFixed(1) + '" height="' + plotH + '"/>');
+  });
+
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.innerHTML = parts.join('');
+
+  /* Give the trend line its dash length so the draw animation works. */
+  var trend = $('.trend', svg);
+  if (trend && trend.getTotalLength) trend.style.setProperty('--len', trend.getTotalLength());
+
+  /* --- Headline quote above the chart --- */
+  var first = rows[0].value;
+  var latest = rows[rows.length - 1].value;
+  var change = ((latest - first) / first) * 100;
+  var up = change >= 0;
+
+  var lastEl  = $('[data-career-last]');
+  var deltaEl = $('[data-career-delta]');
+  if (lastEl) lastEl.textContent = latest.toFixed(2);
+  if (deltaEl) deltaEl.textContent = (up ? '▲ +' : '▼ ') + change.toFixed(1) + '%  since ' + rows[0].year;
+  [lastEl, deltaEl].forEach(function (el) {
+    if (el) el.style.color = up ? 'var(--gain)' : 'var(--loss)';
+  });
+
+  /* --- Crosshair + tooltip --- */
+  var tip     = $('[data-career-tip]');
+  var crossV  = $('[data-cross-v]', svg);
+  var crossH  = $('[data-cross-h]', svg);
+  var tipYear = $('[data-tip-year]');
+  var tipLbl  = $('[data-tip-label]');
+  var tipNote = $('[data-tip-note]');
+  var tipVal  = $('[data-tip-val]');
+
+  var show = function (i, clientX) {
+    var c = candles[i];
+    if (!c) return;
+
+    wrap.classList.add('live');
+
+    var px = cx(i);
+    var py = y(c.close);
+    if (crossV) { crossV.setAttribute('x1', px); crossV.setAttribute('x2', px); }
+    if (crossH) { crossH.setAttribute('y1', py); crossH.setAttribute('y2', py); }
+
+    if (tipYear) tipYear.textContent = c.row.year;
+    if (tipLbl)  tipLbl.textContent  = c.row.label;
+    if (tipNote) tipNote.textContent = c.row.note;
+    if (tipVal) {
+      var d = c.close - c.open;
+      var pctChange = c.open ? (d / c.open) * 100 : 0;
+      tipVal.innerHTML = 'index ' + c.close.toFixed(1) +
+        '  <span style="color:var(--' + (d >= 0 ? 'gain' : 'loss') + ')">' +
+        (d >= 0 ? '+' : '') + pctChange.toFixed(1) + '%</span>';
+    }
+
+    if (tip) {
+      /* Position in CSS pixels, flipping near the right edge. */
+      var rect = wrap.getBoundingClientRect();
+      var left = ((px / W) * rect.width);
+      var topPx = ((py / H) * rect.height);
+      var tw = tip.offsetWidth || 190;
+      if (left + tw + 16 > rect.width) left -= tw + 14; else left += 14;
+      tip.style.left = Math.max(0, left) + 'px';
+      tip.style.top  = Math.max(0, topPx - 20) + 'px';
+      tip.classList.add('show');
+    }
+  };
+
+  var hide = function () {
+    wrap.classList.remove('live');
+    if (tip) tip.classList.remove('show');
+  };
+
+  $$('.hit', svg).forEach(function (hit) {
+    var i = parseInt(hit.dataset.hit, 10);
+    hit.addEventListener('mouseenter', function (e) { show(i, e.clientX); });
+    hit.addEventListener('focus', function () { show(i); });
+  });
+
+  wrap.addEventListener('mouseleave', hide);
+
+  /* Touch: drag across the chart to scrub through the years. */
+  wrap.addEventListener('touchstart', function (e) { scrub(e); }, { passive: true });
+  wrap.addEventListener('touchmove',  function (e) { scrub(e); }, { passive: true });
+  wrap.addEventListener('touchend', hide, { passive: true });
+
+  function scrub(e) {
+    var t = e.touches && e.touches[0];
+    if (!t) return;
+    var rect = wrap.getBoundingClientRect();
+    var rel = (t.clientX - rect.left) / rect.width;      /* 0–1 across the wrapper */
+    var xInView = rel * W;
+    var i = Math.floor((xInView - PAD.l) / step);
+    if (i >= 0 && i < candles.length) show(i);
+  }
+})();
+
+
+/* --------------------------------------------------------------------------
+   17. MARKET CLOCK
+   Shows New York time and whether the NYSE regular session is open
+   (Mon–Fri, 09:30–16:00 ET). Holidays are not accounted for.
+   -------------------------------------------------------------------------- */
+(function () {
+  var clock = $('[data-clock]');
+  if (!clock) return;
+
+  var stateEl = $('[data-clock-state]');
+  var timeEl  = $('[data-clock-time]');
+
+  var fmt = null;
+  try {
+    fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York',
+      hour12: false,
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  } catch (err) {
+    fmt = null;   /* very old browser — fall back to local time */
+  }
+
+  var tick = function () {
+    var now = new Date();
+    var day, h, m, s;
+
+    if (fmt) {
+      var parts = {};
+      fmt.formatToParts(now).forEach(function (p) { parts[p.type] = p.value; });
+      day = parts.weekday;
+      h = parseInt(parts.hour, 10);
+      m = parseInt(parts.minute, 10);
+      s = parts.second;
+    } else {
+      day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][now.getDay()];
+      h = now.getHours();
+      m = now.getMinutes();
+      s = String(now.getSeconds()).padStart(2, '0');
+    }
+
+    var weekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].indexOf(day) !== -1;
+    var mins = h * 60 + m;
+    var open = weekday && mins >= 570 && mins < 960;   /* 09:30 – 16:00 */
+
+    clock.dataset.open = String(open);
+    if (stateEl) stateEl.textContent = open ? 'MARKET OPEN' : 'MARKET CLOSED';
+    if (timeEl) {
+      timeEl.textContent =
+        String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+  };
+
+  tick();
+  setInterval(tick, 1000);
+})();
+
+
+/* --------------------------------------------------------------------------
+   18. FIRST PAINT
+   Scramble the name (and the opening panel title) once the stage is visible.
+   -------------------------------------------------------------------------- */
+(function () {
+  if (reduceMotion) return;
+
+  var run = function () {
+    var name = $('.info-content .name');
+    var title = $('.about [data-scramble]');
+    if (name) scramble(name);
+    if (title) setTimeout(function () { scramble(title); }, 220);
+  };
+
+  var booted = false;
+  try { booted = sessionStorage.getItem('booted') === '1'; } catch (err) { booted = false; }
+
+  /* After the boot screen if it played, right away if it didn't. */
+  setTimeout(run, booted ? 250 : 2400);
 })();

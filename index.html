@@ -23,8 +23,25 @@
 <body>
 
 <!-- ==============================================================
+     BOOT SEQUENCE
+     Plays once per browser tab, then fades out. Click or press any
+     key to skip. The log lines live in the BOOT_LINES array in
+     js/main.js. Delete this whole block (and its CSS) to remove it.
+     ============================================================== -->
+<div class="boot" data-boot>
+  <div class="boot-inner">
+    <p class="boot-brand">SAKET&nbsp;ABDEO<span class="boot-cursor"></span></p>
+    <p class="boot-sub">PERSONAL TERMINAL · v2.6</p>
+    <ul class="boot-log" data-boot-log></ul>
+    <div class="boot-bar"><span data-boot-bar></span></div>
+    <p class="boot-pct"><span data-boot-pct>0</span>%</p>
+  </div>
+  <p class="boot-skip">press any key to skip</p>
+</div>
+
+
+<!-- ==============================================================
      BACKGROUND LAYERS — decorative, fixed behind everything.
-     Tune or delete any of the three in css/styles.css.
      ============================================================== -->
 <div class="bg-layer" aria-hidden="true">
   <div class="bg-grid"></div>
@@ -33,16 +50,15 @@
     <span class="blob blob-2"></span>
     <span class="blob blob-3"></span>
   </div>
+  <div class="bg-scan"></div>
   <div class="bg-noise"></div>
 </div>
 
 
 <!-- ==============================================================
      TICKER TAPE
-     EDIT: each <li> is one ticker entry.
-       data-dir="up" | "down" | "flat"  → arrow + colour
-     The strip is duplicated in JS for a seamless loop, so edit
-     this one list only.
+     EDIT: each <li> is one entry. data-dir="up" | "down" | "flat"
+     The strip is duplicated in JS for a seamless loop.
      ============================================================== -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track" data-ticker>
@@ -75,7 +91,7 @@
       </figure>
 
       <div class="info-content">
-        <h1 class="name" title="Saket Abdeo">Saket Abdeo</h1> <!-- EDIT -->
+        <h1 class="name" data-scramble title="Saket Abdeo">Saket Abdeo</h1> <!-- EDIT -->
         <p class="title">Finance &amp; Corporate Strategy</p> <!-- EDIT -->
       </div>
 
@@ -87,6 +103,14 @@
     </div>
 
     <div class="sidebar-info_more">
+
+      <!-- Live market clock — reads NYSE hours in New York time -->
+      <div class="market-clock" data-clock>
+        <span class="mkt-dot" data-clock-dot></span>
+        <span class="mkt-state" data-clock-state>—</span>
+        <span class="mkt-time" data-clock-time>--:--:--</span>
+        <span class="mkt-tz">ET</span>
+      </div>
 
       <div class="separator"></div>
 
@@ -169,9 +193,77 @@
          ========================================================== -->
     <article class="about active" data-page="about">
 
+      <!-- Terminal window chrome -->
+      <div class="chrome">
+        <span class="chrome-dots"><i></i><i></i><i></i></span>
+        <span class="chrome-path">~/saket/about</span>
+      </div>
+
       <header>
-        <h2 class="h2 article-title">About Me</h2>
+        <h2 class="h2 article-title" data-scramble>About Me</h2>
       </header>
+
+
+      <!-- ========================================================
+           CAREER CHART — the signature piece.
+           Each <li> below is one candle. JS derives open/close from
+           consecutive data-value numbers, so all you edit is:
+             data-year   the x-axis label
+             data-value  where the career "index" sits that year
+             data-label  short headline shown in the tooltip
+             data-note   one line of detail shown in the tooltip
+           Add or remove <li> items freely — the chart rescales.
+           ======================================================== -->
+      <section class="career" data-reveal>
+
+        <div class="career-head">
+          <div>
+            <p class="career-sym">SAKET<span class="career-exch">:NYU</span></p>
+            <p class="career-name">Career Performance Index</p>
+          </div>
+          <div class="career-quote">
+            <p class="career-last" data-career-last>—</p>
+            <p class="career-delta" data-career-delta>—</p>
+          </div>
+        </div>
+
+        <div class="career-chart" data-career-chart>
+          <svg data-career-svg role="img" aria-label="Career progression chart"></svg>
+          <div class="career-tip" data-career-tip>
+            <p class="tip-year" data-tip-year></p>
+            <p class="tip-label" data-tip-label></p>
+            <p class="tip-note" data-tip-note></p>
+            <p class="tip-val" data-tip-val></p>
+          </div>
+        </div>
+
+        <ul class="career-data" data-career-data>
+          <li data-year="2018" data-value="18" data-label="Undergrad begins"
+              data-note="Started B.S. — first finance coursework."></li>
+          <li data-year="2019" data-value="27" data-label="First internship"
+              data-note="Summer analyst; built the first real model."></li>
+          <li data-year="2020" data-value="24" data-label="Market dislocation"
+              data-note="Remote year. Passed the CFA Level I curriculum."></li>
+          <li data-year="2021" data-value="41" data-label="Analyst role"
+              data-note="Owned a $[N]M P&amp;L forecast end to end."></li>
+          <li data-year="2022" data-value="56" data-label="Promoted"
+              data-note="Led reporting automation; saved [N] hrs/month."></li>
+          <li data-year="2023" data-value="52" data-label="Pivot to strategy"
+              data-note="Moved from FP&amp;A into corporate development."></li>
+          <li data-year="2024" data-value="74" data-label="MBA at NYU"
+              data-note="Concentration in finance and corporate strategy."></li>
+          <li data-year="2025" data-value="88" data-label="Summer associate"
+              data-note="Buy-side M&amp;A; supported a $[N]M transaction."></li>
+          <li data-year="2026" data-value="100" data-label="Next chapter"
+              data-note="Recruiting for full-time finance roles."></li>
+        </ul>
+
+        <p class="career-foot">
+          Hover the chart to read each year. Not investment advice — just a career.
+        </p>
+
+      </section>
+
 
       <section class="about-text" data-reveal>
         <!-- EDIT: two or three short paragraphs -->
@@ -196,8 +288,8 @@
 
           <!-- ====================================================
                EDIT: duplicate a <li> to add a tile.
-                 data-count-to  = the number to count up to
-                 data-prefix    = e.g. "$"   data-suffix = e.g. "M", "%", "+"
+                 data-count-to  = the number it settles on
+                 data-prefix    = e.g. "$"   data-suffix = "M", "%", "+"
                  data-decimals  = decimal places (default 0)
                  data-spark     = comma-separated values for the mini chart
                ==================================================== -->
@@ -304,7 +396,7 @@
 
         <ul class="testimonials-list has-scrollbar">
 
-          <!-- EDIT: duplicate a <li> to add one. Click opens the full text in a modal. -->
+          <!-- EDIT: duplicate a <li> to add one. Click opens the full text. -->
           <li class="testimonials-item">
             <div class="content-card" data-testimonials-item>
               <figure class="testimonials-avatar-box">
@@ -371,7 +463,7 @@
         <h3 class="h3 section-heading">Platforms &amp; Tools</h3>
 
         <ul class="clients-list has-scrollbar">
-          <!-- EDIT: swap the SVGs in assets/img/ for real logos, or change the text. -->
+          <!-- EDIT: swap the SVGs in assets/img/ for real logos. -->
           <li class="clients-item"><a href="#"><img src="assets/img/logo-1.svg" alt="Bloomberg" /></a></li>
           <li class="clients-item"><a href="#"><img src="assets/img/logo-2.svg" alt="Capital IQ" /></a></li>
           <li class="clients-item"><a href="#"><img src="assets/img/logo-3.svg" alt="FactSet" /></a></li>
@@ -390,8 +482,13 @@
          ========================================================== -->
     <article class="resume" data-page="resume">
 
+      <div class="chrome">
+        <span class="chrome-dots"><i></i><i></i><i></i></span>
+        <span class="chrome-path">~/saket/resume</span>
+      </div>
+
       <header>
-        <h2 class="h2 article-title">Resume</h2>
+        <h2 class="h2 article-title" data-scramble>Resume</h2>
       </header>
 
       <!-- ---------- Education ---------- -->
@@ -518,7 +615,7 @@
         <h3 class="h3 section-heading">Certifications &amp; Coursework</h3>
 
         <ul class="certs-list">
-          <!-- EDIT: duplicate a <li> to add one. data-status drives the badge colour. -->
+          <!-- EDIT: duplicate a <li>. data-status drives the badge colour. -->
           <li class="cert-card content-card">
             <div class="icon-box">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg>
@@ -573,8 +670,8 @@
         <h3 class="h3 section-heading">Technical Skills</h3>
 
         <ul class="skills-list content-card">
-          <!-- EDIT: change the label and the data-level (0–100). The bar and the
-               percentage text are both driven by data-level. -->
+          <!-- EDIT: change the label and data-level (0–100). The bar and the
+               percentage are both driven by data-level. -->
           <li class="skills-item" data-level="92">
             <div class="title-wrapper"><h5 class="h5">Excel / Financial Modelling</h5><data></data></div>
             <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
@@ -614,13 +711,17 @@
          ========================================================== -->
     <article class="portfolio" data-page="portfolio">
 
+      <div class="chrome">
+        <span class="chrome-dots"><i></i><i></i><i></i></span>
+        <span class="chrome-path">~/saket/portfolio</span>
+      </div>
+
       <header>
-        <h2 class="h2 article-title">Portfolio</h2>
+        <h2 class="h2 article-title" data-scramble>Portfolio</h2>
       </header>
 
       <section class="projects">
 
-        <!-- Filters build themselves from each card's data-category — nothing to edit here -->
         <ul class="filter-list" data-filter-list></ul>
 
         <div class="filter-select-box">
@@ -637,10 +738,9 @@
 
           <!-- ======================================================
                EDIT: one <li> per project.
-                 data-category = filter label (any text)
+                 data-category = filter group
                  href          = your deck / model / write-up
-                 img           = 4:3-ish image in assets/img/
-                 .project-stat = the headline number for the card
+                 .project-stat = the headline number on the card
                ====================================================== -->
 
           <li class="project-item active" data-filter-item data-category="valuation">
@@ -739,8 +839,13 @@
          ========================================================== -->
     <article class="contact" data-page="contact">
 
+      <div class="chrome">
+        <span class="chrome-dots"><i></i><i></i><i></i></span>
+        <span class="chrome-path">~/saket/contact</span>
+      </div>
+
       <header>
-        <h2 class="h2 article-title">Contact</h2>
+        <h2 class="h2 article-title" data-scramble>Contact</h2>
       </header>
 
       <section class="contact-form" data-reveal>
@@ -748,7 +853,7 @@
         <h3 class="h3 form-title">Contact Form</h3>
 
         <!-- ==========================================================
-             GitHub Pages can't process forms. To make this actually send:
+             GitHub Pages can't process forms. To make this send:
                1. Sign up free at https://formspree.io
                2. Paste your endpoint into action="" below.
              Until then, submitting opens the visitor's email client.
@@ -782,7 +887,7 @@
 
 <!-- ==============================================================
      COMMAND PALETTE — opens with ⌘K / Ctrl+K.
-     Entries are generated in js/main.js (see the COMMANDS array).
+     Entries are the COMMANDS array in js/main.js.
      ============================================================== -->
 <button class="cmdk-trigger" data-cmdk-open aria-label="Open command palette">
   <kbd>⌘</kbd><kbd>K</kbd>
@@ -792,8 +897,8 @@
   <div class="cmdk-overlay" data-cmdk-close></div>
   <div class="cmdk-panel">
     <div class="cmdk-input-row">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input type="text" class="cmdk-input" placeholder="Jump to a section, copy an email…" data-cmdk-input aria-label="Search commands" />
+      <span class="cmdk-prompt">&gt;</span>
+      <input type="text" class="cmdk-input" placeholder="run a command…" data-cmdk-input aria-label="Search commands" />
       <button class="cmdk-esc" data-cmdk-close>esc</button>
     </div>
     <ul class="cmdk-list" data-cmdk-list></ul>
@@ -801,7 +906,6 @@
   </div>
 </div>
 
-<!-- Toast for the copy-email confirmation -->
 <div class="toast" data-toast role="status" aria-live="polite"></div>
 
 <script src="js/main.js"></script>

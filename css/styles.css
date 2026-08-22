@@ -1552,3 +1552,432 @@ textarea.form-input::-webkit-resizer { display: none; }
   [data-reveal] .cert-card, [data-reveal] .timeline-item { opacity: 1; transform: none; }
   .radar .shape { transform: scale(1); }
 }
+
+
+/* ==========================================================================
+   ==========================================================================
+   SIGNATURE LAYER — the pieces that make this a terminal rather than a
+   generic portfolio: boot sequence, career chart, window chrome, clock.
+   ==========================================================================
+   ========================================================================== */
+
+
+/* ==========================================================================
+   BOOT SEQUENCE
+   Full-screen overlay shown once per browser tab.
+   ========================================================================== */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  background: var(--smoky-black);
+  font-family: var(--ff-mono);
+  transition: opacity 0.6s ease, visibility 0.6s;
+}
+/* Faint scanlines over the boot screen */
+.boot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    hsla(0, 0%, 100%, 0.025) 0 1px,
+    transparent 1px 3px
+  );
+  pointer-events: none;
+}
+.boot.done { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* Nothing scrolls while the boot screen is up */
+body.booting { overflow: hidden; }
+
+.boot-inner { width: min(100% - 40px, 460px); }
+
+.boot-brand {
+  color: var(--orange-yellow-crayola);
+  font-size: clamp(20px, 5vw, 30px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  display: flex;
+  align-items: center;
+}
+.boot-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1em;
+  margin-left: 6px;
+  background: var(--orange-yellow-crayola);
+  animation: blink 1s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.boot-sub {
+  color: var(--light-gray-70);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  margin: 6px 0 26px;
+}
+
+.boot-log { min-height: 132px; margin-bottom: 20px; }
+.boot-log li {
+  display: flex;
+  gap: 10px;
+  font-size: 11.5px;
+  line-height: 2;
+  color: var(--light-gray-70);
+  animation: bootLine 0.3s ease both;
+}
+@keyframes bootLine {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.boot-log .ok  { color: var(--gain); margin-left: auto; }
+.boot-log .val { color: var(--orange-yellow-crayola); margin-left: auto; }
+
+.boot-bar {
+  height: 3px;
+  background: hsla(0, 0%, 100%, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.boot-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--text-gradient-yellow);
+  box-shadow: 0 0 14px hsla(45, 100%, 60%, 0.8);
+  transition: width 0.2s linear;
+}
+
+.boot-pct {
+  color: var(--orange-yellow-crayola);
+  font-size: 11px;
+  text-align: right;
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.boot-skip {
+  position: absolute;
+  bottom: 28px;
+  color: hsla(0, 0%, 84%, 0.35);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Everything behind the boot screen eases in once it clears */
+.stage {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.stage.ready {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s ease 0.05s, transform 0.7s var(--ease-out-back) 0.05s;
+}
+
+
+/* ==========================================================================
+   CRT SCANLINE OVERLAY (background layer 4)
+   ========================================================================== */
+.bg-scan {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background: repeating-linear-gradient(
+    to bottom,
+    hsla(0, 0%, 100%, 0.014) 0 1px,
+    transparent 1px 4px
+  );
+}
+
+
+/* ==========================================================================
+   TERMINAL WINDOW CHROME on each panel
+   ========================================================================== */
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -15px -15px 18px;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--jet);
+  background: hsla(0, 0%, 100%, 0.02);
+  border-radius: 20px 20px 0 0;
+}
+
+.chrome-dots { display: flex; gap: 6px; }
+.chrome-dots i {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--jet);
+  transition: background 0.3s ease;
+}
+.chrome-dots i:nth-child(1) { background: hsl(4, 60%, 45%); }
+.chrome-dots i:nth-child(2) { background: hsl(45, 60%, 45%); }
+.chrome-dots i:nth-child(3) { background: hsl(150, 40%, 38%); }
+article:hover .chrome-dots i:nth-child(1) { background: hsl(4, 78%, 62%); }
+article:hover .chrome-dots i:nth-child(2) { background: hsl(45, 100%, 62%); }
+article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
+
+.chrome-path {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--light-gray-70);
+  letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   MARKET CLOCK
+   ========================================================================== */
+.market-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 8px 12px;
+  border: 1px solid var(--jet);
+  border-radius: 10px;
+  background: hsla(0, 0%, 0%, 0.25);
+  font-family: var(--ff-mono);
+  font-size: 10.5px;
+}
+
+.mkt-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--light-gray-70);
+  flex-shrink: 0;
+}
+.market-clock[data-open="true"]  .mkt-dot { background: var(--gain); box-shadow: 0 0 8px var(--gain); animation: blink 2s ease-in-out infinite; }
+.market-clock[data-open="false"] .mkt-dot { background: var(--loss); }
+
+.mkt-state { color: var(--white-2); font-weight: 700; letter-spacing: 0.08em; }
+.market-clock[data-open="true"]  .mkt-state { color: var(--gain); }
+.market-clock[data-open="false"] .mkt-state { color: var(--loss); }
+
+.mkt-time { color: var(--light-gray); margin-left: auto; font-variant-numeric: tabular-nums; }
+.mkt-tz { color: var(--light-gray-70); }
+
+
+/* ==========================================================================
+   CAREER CHART — the signature piece
+   ========================================================================== */
+.career {
+  margin: 0 0 35px;
+  padding: 18px 16px 14px;
+  border: 1px solid var(--jet);
+  border-radius: 16px;
+  background:
+    linear-gradient(hsla(0, 0%, 100%, 0.02), transparent 40%),
+    hsla(0, 0%, 0%, 0.28);
+}
+
+.career-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.career-sym {
+  font-family: var(--ff-mono);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--white-2);
+}
+.career-exch { color: var(--light-gray-70); font-weight: 400; font-size: 12px; }
+.career-name { font-size: 11px; color: var(--light-gray-70); margin-top: 2px; }
+
+.career-quote { text-align: right; flex-shrink: 0; }
+.career-last {
+  font-family: var(--ff-mono);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gain);
+  font-variant-numeric: tabular-nums;
+}
+.career-delta { font-family: var(--ff-mono); font-size: 11px; color: var(--gain); margin-top: 3px; }
+
+/* --- the chart itself --- */
+.career-chart { position: relative; width: 100%; }
+.career-chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+.career-chart .grid-line { stroke: hsla(0, 0%, 100%, 0.06); stroke-width: 1; fill: none; }
+.career-chart .axis-text {
+  fill: var(--light-gray-70);
+  stroke: none;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+}
+
+/* Candles grow from their open price */
+.career-chart .candle { transform: scaleY(0); transform-box: fill-box; transform-origin: center bottom; }
+.career-chart .wick   { opacity: 0; }
+.in .career-chart .candle { animation: candleGrow 0.45s var(--ease-out-back) both; }
+.in .career-chart .wick   { animation: fadeIn 0.3s ease both; }
+
+@keyframes candleGrow { to { transform: scaleY(1); } }
+
+.career-chart .up   { fill: var(--gain); stroke: var(--gain); }
+.career-chart .down { fill: var(--loss); stroke: var(--loss); }
+.career-chart .wick { stroke-width: 1.4; }
+
+/* The close-price line drawn over the candles */
+.career-chart .trend {
+  fill: none;
+  stroke: var(--orange-yellow-crayola);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px hsla(45, 100%, 60%, 0.55));
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
+}
+.in .career-chart .trend { animation: draw 1.8s 0.5s ease forwards; }
+
+.career-chart .trend-area { fill: url(#careerFade); stroke: none; opacity: 0; }
+.in .career-chart .trend-area { animation: fadeIn 1s 1.4s ease forwards; }
+
+/* Pulsing marker on the latest point */
+.career-chart .last-dot { fill: var(--orange-yellow-crayola); stroke: none; opacity: 0; }
+.in .career-chart .last-dot { animation: fadeIn 0.4s 2s ease forwards; }
+.career-chart .last-halo {
+  fill: none;
+  stroke: var(--orange-yellow-crayola);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.in .career-chart .last-halo { animation: haloPulse 2.4s 2.2s ease-out infinite; }
+@keyframes haloPulse {
+  0%   { opacity: 0.8; transform: scale(0.5); }
+  100% { opacity: 0;   transform: scale(2.4); }
+}
+
+/* Crosshair follows the cursor */
+.career-chart .crosshair { stroke: hsla(45, 100%, 72%, 0.5); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; }
+.career-chart.live .crosshair { opacity: 1; }
+.career-chart .hit { fill: transparent; stroke: none; cursor: crosshair; }
+
+/* Tooltip */
+.career-tip {
+  position: absolute;
+  top: 0; left: 0;
+  min-width: 160px;
+  max-width: 230px;
+  padding: 10px 12px;
+  background: hsla(240, 2%, 10%, 0.96);
+  border: 1px solid var(--jet);
+  border-radius: 10px;
+  box-shadow: var(--shadow-3);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 3;
+}
+.career-tip.show { opacity: 1; transform: none; }
+
+.tip-year {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  color: var(--orange-yellow-crayola);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.tip-label { font-size: 13px; font-weight: 600; color: var(--white-2); line-height: 1.3; }
+.tip-note { font-size: 11px; font-weight: 300; color: var(--light-gray-70); line-height: 1.5; margin-top: 4px; }
+.tip-val {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  margin-top: 7px;
+  padding-top: 7px;
+  border-top: 1px solid var(--jet);
+  color: var(--light-gray);
+}
+
+.career-foot {
+  font-family: var(--ff-mono);
+  font-size: 9.5px;
+  color: hsla(0, 0%, 84%, 0.4);
+  text-align: center;
+  margin-top: 10px;
+}
+
+
+/* ==========================================================================
+   COMMAND PALETTE — terminal prompt styling
+   ========================================================================== */
+.cmdk-prompt {
+  font-family: var(--ff-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--orange-yellow-crayola);
+  flex-shrink: 0;
+}
+.cmdk-input { font-family: var(--ff-mono); font-size: 13px; }
+
+
+/* ==========================================================================
+   SIGNATURE LAYER — responsive
+   ========================================================================== */
+@media (min-width: 580px) {
+  .chrome { margin: -30px -30px 24px; padding: 12px 22px; }
+  .career { padding: 22px 22px 16px; }
+  .career-sym { font-size: 20px; }
+  .career-last { font-size: 26px; }
+  .boot-log { min-height: 150px; }
+}
+
+@media (min-width: 1250px) {
+  .sidebar { padding-top: 50px; }
+}
+
+
+/* ==========================================================================
+   SIGNATURE LAYER — print + reduced motion
+   ========================================================================== */
+@media print {
+  .boot, .bg-scan, .chrome, .market-clock, .career { display: none !important; }
+  .stage { opacity: 1 !important; transform: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-cursor, .mkt-dot { animation: none !important; }
+  .career-chart .candle { transform: none; }
+  .career-chart .wick, .career-chart .trend-area, .career-chart .last-dot { opacity: 1; }
+  .career-chart .trend { stroke-dashoffset: 0; }
+  .stage { opacity: 1; transform: none; }
+}
+
+
+/* ==========================================================================
+   TEXT SCRAMBLE — the transient glyphs shown mid-animation
+   ========================================================================== */
+.scr { color: var(--orange-yellow-crayola); opacity: 0.65; }
+.boot-log .dim { color: hsla(0, 0%, 84%, 0.35); }
+
+
+/* ==========================================================================
+   SIGNATURE LAYER — fixes
+   ========================================================================== */
+
+/* The career chart reads its numbers from this list; it is never displayed. */
+.career-data { display: none; }
+
+/* The name is painted with a clipped gradient (-webkit-text-fill-color:
+   transparent), which inherits into the scramble spans and would hide them.
+   Opt the transient glyphs back into normal painting. */
+.scr { -webkit-text-fill-color: currentColor; }
