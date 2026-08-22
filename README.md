@@ -51,6 +51,43 @@ Start with a find-and-replace across the whole file:
 - `Saket Abdeo` → your name
 - the bracketed blanks like `[Your Program]`, `[N]`, `[outcome]`
 
+### The 3D avatar
+
+The avatar in the sidebar is a real CSS-3D scene, not a tilted image. Five
+layers sit at different `translateZ` depths — glow, disc, ring, face, gloss —
+so they separate as it turns toward your cursor. Three credential chips orbit
+it on a ring, counter-spinning so their labels always face you.
+
+Drag it and it pops out of the sidebar and follows the pointer; let go with
+some speed and it flies, bouncing off the edges of the window with a squash on
+impact. Double-click it (or run "Send avatar home" from `⌘K`) to send it back.
+The slot it leaves behind holds the layout, so nothing shifts.
+
+**Using your own Bitmoji or Memoji.** Save it as a square image — a transparent
+PNG is best, since the disc behind it becomes the backdrop — into
+`assets/img/`, then point the `.av-face` `src` at it:
+
+```html
+<img class="av-face" src="assets/img/bitmoji.png" alt="" />
+```
+
+- **Bitmoji:** bitmoji.com → sign in → pick a pose → right-click → save image.
+  Or export from the Bitmoji app.
+- **Memoji:** open Messages, tap the Memoji sticker, send it to yourself, then
+  save the image.
+
+Aim for roughly 400×400. If your image has a solid background, either remove it
+or set `.av-disc { background: none }` so the two don't fight.
+
+Edit the chips in the same block — keep them to three or four short labels:
+
+```html
+<span class="av-chip" style="--a: 0deg"><i>MBA</i></span>
+```
+
+`--a` is where each chip sits on the ring. The chips are hidden below 1250px,
+where the avatar sits inline beside your name and there's no room to orbit.
+
 ### The career chart
 
 The chart on the About panel is the signature piece: your career rendered as a

@@ -788,7 +788,8 @@ var goToPage; /* exposed for the command palette below */
     copy:   '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
     down:   '<path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>',
     link:   '<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
-    print:  '<path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M8 17h8v4H8z"/>'
+    print:  '<path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M8 17h8v4H8z"/>',
+    home:   '<path d="m3 11 9-8 9 8M5 10v10h14V10"/>'
   };
 
   /* ==========================================================
@@ -819,6 +820,9 @@ var goToPage; /* exposed for the command palette below */
     { title: 'Print resume',                icon: icon.print, run: function () {
         goToPage('resume');
         setTimeout(function () { window.print(); }, 350);
+      } },
+    { title: 'Send avatar home',            icon: icon.home,  run: function () {
+        if (typeof resetAvatar === 'function') resetAvatar();
       } }
   ];
 
@@ -1368,4 +1372,252 @@ document.addEventListener('panelchange', function (e) {
 
   /* After the boot screen if it played, right away if it didn't. */
   setTimeout(run, booted ? 250 : 2400);
+})();
+
+
+/* --------------------------------------------------------------------------
+   19. 3D AVATAR
+   Three behaviours in one element:
+     a) docked  — the stack turns to face the cursor, with an idle float
+     b) drag    — press and move to pop it out of the sidebar and carry it
+     c) throw   — release with speed and it flies, bouncing off the edges
+   Double-click (or the command palette) sends it home.
+   -------------------------------------------------------------------------- */
+var resetAvatar;   /* exposed for the command palette */
+
+(function () {
+  var av = $('[data-avatar]');
+  if (!av) return;
+
+  var stage  = $('[data-av-stage]', av);
+  var shadow = $('[data-av-shadow]', av);
+  if (!stage) return;
+
+  /* ---- tunables ---------------------------------------------------------- */
+  var MAX_TILT = 17;     /* degrees the stack turns at full deflection */
+  var REACH    = 480;    /* px of cursor distance that maps to full tilt */
+  var EASE     = 0.12;   /* how fast the tilt catches up (0–1) */
+  var FRICTION = 0.94;   /* velocity retained per frame after a throw */
+  var BOUNCE   = 0.68;   /* velocity retained when it hits an edge */
+  var STOP     = 0.25;   /* px/frame below which motion stops */
+
+  /* ---- state ------------------------------------------------------------- */
+  var tilt = { x: 0, y: 0 };      /* current, rendered */
+  var want = { x: 0, y: 0 };      /* target, from the cursor */
+  var pos  = { x: 0, y: 0 };      /* page position while free */
+  var vel  = { x: 0, y: 0 };
+  var free = false, dragging = false, thrown = false;
+  var grab = { x: 0, y: 0 };
+  var last = { x: 0, y: 0, t: 0 };
+  var bobT = Math.random() * 1000;
+
+  var size = function () { return av.offsetWidth || 88; };
+
+  /* ---- cursor → target tilt ---------------------------------------------- */
+  var pointDesire = function (clientX, clientY) {
+    var r = av.getBoundingClientRect();
+    var dx = clientX - (r.left + r.width / 2);
+    var dy = clientY - (r.top + r.height / 2);
+    var clamp = function (n) { return Math.max(-1, Math.min(1, n)); };
+    want.y =  clamp(dx / REACH) * MAX_TILT;   /* rotateY follows horizontal */
+    want.x = -clamp(dy / REACH) * MAX_TILT;   /* rotateX follows vertical */
+  };
+
+  if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+    window.addEventListener('mousemove', function (e) {
+      if (dragging) return;
+      pointDesire(e.clientX, e.clientY);
+    }, { passive: true });
+
+    window.addEventListener('mouseout', function (e) {
+      if (e.relatedTarget) return;        /* left the window entirely */
+      want.x = 0; want.y = 0;
+    });
+  }
+
+  /* ---- render loop ------------------------------------------------------- */
+  var render = function () {
+    /* Ease the tilt toward the target. */
+    tilt.x += (want.x - tilt.x) * EASE;
+    tilt.y += (want.y - tilt.y) * EASE;
+
+    /* Idle float, only while it's sitting still and docked. */
+    var bob = 0;
+    if (!dragging && !free && !reduceMotion) {
+      bobT += 0.016;
+      bob = Math.sin(bobT) * 3;
+    }
+
+    stage.style.setProperty('--rx', tilt.x.toFixed(2));
+    stage.style.setProperty('--ry', tilt.y.toFixed(2));
+    stage.style.setProperty('--bob', bob.toFixed(2));
+
+    /* The contact shadow leans and shrinks with the avatar. */
+    if (shadow) {
+      shadow.style.setProperty('--sx', (tilt.y * 0.45).toFixed(2));
+      shadow.style.setProperty('--ss', (1 - Math.abs(tilt.y) / 90).toFixed(3));
+    }
+
+    /* Inertia after a throw. */
+    if (thrown && !dragging) {
+      pos.x += vel.x;
+      pos.y += vel.y;
+      vel.x *= FRICTION;
+      vel.y *= FRICTION;
+
+      var s = size();
+      var maxX = window.innerWidth - s;
+      var maxY = window.innerHeight - s;
+      var hit = false;
+
+      if (pos.x < 0)      { pos.x = 0;    vel.x = -vel.x * BOUNCE; hit = true; }
+      if (pos.x > maxX)   { pos.x = maxX; vel.x = -vel.x * BOUNCE; hit = true; }
+      if (pos.y < 0)      { pos.y = 0;    vel.y = -vel.y * BOUNCE; hit = true; }
+      if (pos.y > maxY)   { pos.y = maxY; vel.y = -vel.y * BOUNCE; hit = true; }
+
+      if (hit && Math.abs(vel.x) + Math.abs(vel.y) > 2) bump();
+
+      place();
+      if (Math.abs(vel.x) < STOP && Math.abs(vel.y) < STOP) thrown = false;
+    }
+
+    requestAnimationFrame(render);
+  };
+
+  var place = function () {
+    av.style.setProperty('--x', pos.x.toFixed(1) + 'px');
+    av.style.setProperty('--y', pos.y.toFixed(1) + 'px');
+  };
+
+  var bump = function () {
+    av.classList.remove('bump');
+    void av.offsetWidth;              /* restart the squash animation */
+    av.classList.add('bump');
+  };
+
+  /* ---- pop out of the sidebar -------------------------------------------- */
+  var popOut = function () {
+    if (free) return;
+    var r = av.getBoundingClientRect();
+    pos.x = r.left;
+    pos.y = r.top;
+    free = true;
+    av.classList.add('free', 'moved');
+    av.classList.remove('homing');
+    place();
+  };
+
+  /* ---- send it home ------------------------------------------------------ */
+  resetAvatar = function () {
+    if (!free) return;
+    thrown = false;
+    vel.x = vel.y = 0;
+
+    /* Animate back to the empty slot, then drop out of fixed positioning. */
+    var slot = av.parentElement;
+    var target = slot ? slot.getBoundingClientRect() : null;
+
+    if (target && !reduceMotion) {
+      av.classList.add('homing');
+      pos.x = target.left;
+      pos.y = target.top;
+      place();
+      setTimeout(function () {
+        av.classList.remove('free', 'homing');
+        av.style.removeProperty('--x');
+        av.style.removeProperty('--y');
+        free = false;
+      }, 560);
+    } else {
+      av.classList.remove('free', 'homing');
+      av.style.removeProperty('--x');
+      av.style.removeProperty('--y');
+      free = false;
+    }
+  };
+
+  /* ---- drag -------------------------------------------------------------- */
+  var started = false;
+
+  av.addEventListener('pointerdown', function (e) {
+    if (e.button !== undefined && e.button !== 0) return;
+    started = true;
+    dragging = false;
+    grab.x = e.clientX;
+    grab.y = e.clientY;
+    last.x = e.clientX;
+    last.y = e.clientY;
+    last.t = e.timeStamp;
+    thrown = false;
+    vel.x = vel.y = 0;
+    av.setPointerCapture(e.pointerId);
+  });
+
+  av.addEventListener('pointermove', function (e) {
+    if (!started) return;
+
+    if (!dragging) {
+      /* Wait for a real drag before hijacking the pointer. */
+      if (Math.abs(e.clientX - grab.x) + Math.abs(e.clientY - grab.y) < 5) return;
+      dragging = true;
+
+      var r = av.getBoundingClientRect();
+      grab.x = e.clientX - r.left;      /* where inside the avatar they grabbed */
+      grab.y = e.clientY - r.top;
+      popOut();
+    }
+
+    pos.x = e.clientX - grab.x;
+    pos.y = e.clientY - grab.y;
+    place();
+
+    /* Lean into the direction of travel. */
+    var dt = Math.max(1, e.timeStamp - last.t);
+    vel.x = (e.clientX - last.x) / dt * 16;
+    vel.y = (e.clientY - last.y) / dt * 16;
+    want.y = Math.max(-MAX_TILT, Math.min(MAX_TILT, vel.x * 1.6));
+    want.x = Math.max(-MAX_TILT, Math.min(MAX_TILT, -vel.y * 1.6));
+
+    last.x = e.clientX;
+    last.y = e.clientY;
+    last.t = e.timeStamp;
+  });
+
+  var release = function (e) {
+    if (!started) return;
+    started = false;
+    try { av.releasePointerCapture(e.pointerId); } catch (err) { /* already gone */ }
+
+    if (!dragging) return;
+    dragging = false;
+
+    /* Cap the throw so it can't rocket off. */
+    var cap = 42;
+    vel.x = Math.max(-cap, Math.min(cap, vel.x));
+    vel.y = Math.max(-cap, Math.min(cap, vel.y));
+    thrown = Math.abs(vel.x) + Math.abs(vel.y) > STOP;
+
+    want.x = want.y = 0;
+  };
+
+  av.addEventListener('pointerup', release);
+  av.addEventListener('pointercancel', release);
+
+  /* ---- send home ---------------------------------------------------------- */
+  av.addEventListener('dblclick', function (e) { e.preventDefault(); resetAvatar(); });
+
+  av.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); resetAvatar(); }
+  });
+
+  /* Keep it on screen if the window is resized while it's loose. */
+  window.addEventListener('resize', function () {
+    if (!free) return;
+    var s = size();
+    pos.x = Math.max(0, Math.min(window.innerWidth - s, pos.x));
+    pos.y = Math.max(0, Math.min(window.innerHeight - s, pos.y));
+    place();
+  });
+
+  requestAnimationFrame(render);
 })();

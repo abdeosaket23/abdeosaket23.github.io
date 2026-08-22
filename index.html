@@ -84,11 +84,44 @@
 
     <div class="sidebar-info">
 
-      <figure class="avatar-box">
-        <!-- EDIT: swap in your photo. Square, ~400x400. -->
-        <img src="assets/img/my-avatar.svg" alt="Saket Abdeo" width="80" />
-        <span class="avatar-status" title="Open to opportunities"></span>
-      </figure>
+      <!-- ==========================================================
+           3D AVATAR
+           The slot holds the layout space so the avatar can be
+           dragged out of the sidebar without shifting anything.
+           Layers separate in real 3D as it turns toward the cursor.
+           Drag it anywhere; double-click to send it home.
+           ========================================================== -->
+      <div class="av-slot">
+        <figure class="avatar-box avatar-3d" data-avatar tabindex="0"
+                role="img" aria-label="Saket Abdeo — drag to move">
+
+          <span class="av-shadow" data-av-shadow></span>
+
+          <div class="av-stage" data-av-stage>
+            <span class="av-glow"></span>
+            <span class="av-disc"></span>
+            <span class="av-ring"></span>
+
+            <!-- EDIT: your memoji or photo. A transparent PNG works best —
+                 the disc behind it becomes the backdrop. ~400x400. -->
+            <img class="av-face" src="assets/img/my-avatar.svg" alt="" />
+
+            <span class="av-gloss"></span>
+
+            <!-- EDIT: the orbiting chips. Keep them short — 3 or 4 max.
+                 --a is where each one sits on the ring. -->
+            <div class="av-orbit" data-av-orbit>
+              <span class="av-chip" style="--a: 0deg"><i>MBA</i></span>
+              <span class="av-chip" style="--a: 120deg"><i>CFA</i></span>
+              <span class="av-chip" style="--a: 240deg"><i>M&amp;A</i></span>
+            </div>
+          </div>
+
+          <span class="avatar-status" title="Open to opportunities"></span>
+          <span class="av-hint" data-av-hint>drag me</span>
+
+        </figure>
+      </div>
 
       <div class="info-content">
         <h1 class="name" data-scramble title="Saket Abdeo">Saket Abdeo</h1> <!-- EDIT -->

@@ -1981,3 +1981,269 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
    transparent), which inherits into the scramble spans and would hide them.
    Opt the transient glyphs back into normal painting. */
 .scr { -webkit-text-fill-color: currentColor; }
+
+
+/* ==========================================================================
+   ==========================================================================
+   3D AVATAR
+   A real CSS-3D scene: each layer sits at its own translateZ, so they
+   genuinely separate as the avatar turns toward the cursor. Drag it
+   anywhere on the page; double-click sends it home.
+   ==========================================================================
+   ========================================================================== */
+
+:root { --av-size: 88px; }
+
+/* The slot reserves layout space so popping the avatar out of the sidebar
+   doesn't shift the name beside it. */
+.av-slot {
+  width: var(--av-size);
+  height: var(--av-size);
+  flex-shrink: 0;
+}
+
+.avatar-3d {
+  position: relative;
+  width: var(--av-size);
+  height: var(--av-size);
+  background: none;          /* the .av-disc layer is the backdrop now */
+  border-radius: 0;
+  perspective: 620px;
+  cursor: grab;
+  touch-action: none;        /* so a drag doesn't scroll the page */
+  -webkit-user-select: none;
+  user-select: none;
+  z-index: 2;
+}
+.avatar-3d:active { cursor: grabbing; }
+
+/* --- the rotating stack --- */
+.av-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* --rx / --ry are written by JS; --bob is the idle float */
+  transform:
+    translateY(calc(var(--bob, 0) * 1px))
+    rotateX(calc(var(--rx, 0) * 1deg))
+    rotateY(calc(var(--ry, 0) * 1deg));
+  will-change: transform;
+}
+
+.av-stage > * {
+  position: absolute;
+  inset: 0;
+  border-radius: 30%;
+}
+
+/* Depth layer 1 — glow, furthest back */
+.av-glow {
+  transform: translateZ(-46px) scale(1.18);
+  background: radial-gradient(circle at 50% 45%, hsla(45, 100%, 62%, 0.45), transparent 68%);
+  filter: blur(14px);
+}
+
+/* Depth layer 2 — the disc the face sits on */
+.av-disc {
+  transform: translateZ(-16px);
+  background: var(--bg-gradient-onyx);
+  box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.09);
+}
+
+/* Depth layer 3 — thin ring, catches the light as it turns */
+.av-ring {
+  transform: translateZ(-6px) scale(1.05);
+  border: 1px solid hsla(45, 100%, 72%, 0.28);
+  box-shadow: 0 0 18px hsla(45, 100%, 62%, 0.18);
+}
+
+/* Depth layer 4 — the face itself */
+.av-face {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateZ(6px);
+  border-radius: 30%;
+}
+
+/* Depth layer 5 — specular sheen that slides across as it turns */
+.av-gloss {
+  transform: translateZ(26px);
+  background: linear-gradient(
+    145deg,
+    hsla(0, 0%, 100%, 0.22) 0%,
+    hsla(0, 0%, 100%, 0.05) 28%,
+    transparent 52%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* --- contact shadow on the "floor" --- */
+.av-shadow {
+  position: absolute;
+  left: 8%;
+  bottom: -14px;
+  width: 84%;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, hsla(0, 0%, 0%, 0.55), transparent 72%);
+  filter: blur(5px);
+  /* JS nudges --sx as the avatar tilts, so the shadow tracks the lean */
+  transform: translateX(calc(var(--sx, 0) * 1px)) scale(var(--ss, 1));
+  z-index: 0;
+}
+
+/* --- orbiting credential chips --- */
+.av-orbit {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: avOrbit 15s linear infinite;
+  pointer-events: none;
+}
+@keyframes avOrbit {
+  to { transform: rotateY(360deg); }
+}
+
+.av-chip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--a)) translateZ(calc(var(--av-size) * 0.82));
+}
+
+/* The inner span counter-spins so the label always faces the viewer. */
+.av-chip i {
+  position: absolute;
+  display: block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-style: normal;
+  color: var(--orange-yellow-crayola);
+  background: hsla(240, 2%, 10%, 0.92);
+  border: 1px solid hsla(45, 100%, 72%, 0.35);
+  box-shadow: 0 4px 14px hsla(0, 0%, 0%, 0.5);
+  animation: avChipFace 15s linear infinite;
+}
+@keyframes avChipFace {
+  from { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a))); }
+  to   { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a) - 360deg)); }
+}
+
+/* --- "drag me" hint, fades out once they do --- */
+.av-hint {
+  position: absolute;
+  left: 50%;
+  bottom: -26px;
+  transform: translateX(-50%);
+  font-family: var(--ff-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: hsla(0, 0%, 84%, 0.4);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  animation: avHint 3s 3.5s ease forwards;
+}
+@keyframes avHint {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.avatar-3d.moved .av-hint { animation: none; opacity: 0; }
+
+/* --- status dot rides the front layer --- */
+.avatar-3d .avatar-status {
+  right: 2px;
+  bottom: 2px;
+  z-index: 4;
+}
+
+/* --- free-floating state --- */
+.avatar-3d.free {
+  position: fixed;
+  left: 0;
+  top: 0;
+  margin: 0;
+  z-index: 45;
+  transform: translate3d(var(--x, 0px), var(--y, 0px), 0);
+}
+.avatar-3d.free .av-glow { filter: blur(20px); }
+.avatar-3d.free .av-shadow { opacity: 0.75; }
+
+/* Springs back when sent home */
+.avatar-3d.homing {
+  transition: transform 0.55s var(--ease-out-back);
+}
+
+/* Squash on impact with a viewport edge */
+.avatar-3d.bump .av-stage { animation: avBump 0.32s ease; }
+@keyframes avBump {
+  0%   { scale: 1 1; }
+  40%  { scale: 1.14 0.86; }
+  100% { scale: 1 1; }
+}
+
+
+/* ==========================================================================
+   3D AVATAR — responsive
+   ========================================================================== */
+@media (min-width: 580px) {
+  :root { --av-size: 128px; }
+  .av-hint { bottom: -30px; font-size: 9px; }
+}
+
+@media (min-width: 1250px) {
+  :root { --av-size: 158px; }
+
+  /* Chips need room to orbit, and the sidebar is no longer a collapsing
+     panel at this width, so it can stop clipping. */
+  .sidebar { overflow: visible; }
+  .av-slot { margin-inline: auto; }
+}
+
+/* Below the desktop layout the avatar sits inline beside the name — there
+   isn't room for chips to orbit without colliding with it. */
+@media (max-width: 1249px) {
+  .av-orbit { display: none; }
+}
+
+
+/* ==========================================================================
+   3D AVATAR — print + reduced motion
+   ========================================================================== */
+@media print {
+  .av-orbit, .av-hint, .av-glow, .av-gloss, .av-shadow { display: none !important; }
+  .avatar-3d.free { position: static !important; transform: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .av-orbit, .av-chip i, .av-hint { animation: none !important; }
+  .av-hint { opacity: 0; }
+  .av-stage { transform: none !important; }
+  .avatar-3d.bump .av-stage { animation: none !important; }
+}
+
+
+/* ==========================================================================
+   3D AVATAR — overrides
+   The original `.avatar-box img` rules (0,1,1) outrank `.av-face` (0,1,0)
+   and would pin the face to a fixed pixel width at each breakpoint. Raise
+   the specificity so the face always fills its 3D layer.
+   ========================================================================== */
+.avatar-3d .av-face {
+  width: 100%;
+  height: 100%;
+}
