@@ -1829,6 +1829,15 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 
 @keyframes candleGrow { to { transform: scaleY(1); } }
 
+/* Company / university mark, on a plate above each candle */
+.career-chart .candle-badge { opacity: 0; pointer-events: none; }
+.in .career-chart .candle-badge { animation: fadeIn 0.45s ease both; }
+.career-chart .badge-plate {
+  fill: hsla(240, 2%, 12%, 0.92);
+  stroke: hsla(45, 100%, 72%, 0.3);
+  stroke-width: 1;
+}
+
 .career-chart .up   { fill: var(--gain); stroke: var(--gain); }
 .career-chart .down { fill: var(--loss); stroke: var(--loss); }
 .career-chart .wick { stroke-width: 1.4; }
@@ -1957,7 +1966,8 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 @media (prefers-reduced-motion: reduce) {
   .boot-cursor, .mkt-dot { animation: none !important; }
   .career-chart .candle { transform: none; }
-  .career-chart .wick, .career-chart .trend-area, .career-chart .last-dot { opacity: 1; }
+  .career-chart .wick, .career-chart .trend-area, .career-chart .last-dot,
+  .career-chart .candle-badge { opacity: 1; }
   .career-chart .trend { stroke-dashoffset: 0; }
   .stage { opacity: 1; transform: none; }
 }

@@ -1099,13 +1099,18 @@ document.addEventListener('panelchange', function (e) {
       year:  li.dataset.year || '',
       value: parseFloat(li.dataset.value) || 0,
       label: li.dataset.label || '',
-      note:  li.dataset.note || ''
+      note:  li.dataset.note || '',
+      logo:  li.dataset.logo || ''
     };
   });
   if (rows.length < 2) return;
 
   var W = 720, H = 260;
-  var PAD = { t: 14, r: 42, b: 26, l: 10 };
+  var BADGE = 26;                                   /* logo plate, viewBox units */
+  var hasLogos = rows.some(function (r) { return r.logo; });
+  /* The plates ride above each candle's high, so the top padding has to clear
+     one plus its gap before the tallest wick starts. */
+  var PAD = { t: hasLogos ? BADGE + 20 : 14, r: 42, b: 26, l: 10 };
   var plotW = W - PAD.l - PAD.r;
   var plotH = H - PAD.t - PAD.b;
 
@@ -1157,6 +1162,22 @@ document.addEventListener('panelchange', function (e) {
                '" x2="' + x.toFixed(1) + '" y2="' + y(c.low).toFixed(1) + '" style="animation-delay:' + delay + '"/>');
     parts.push('<rect class="candle ' + cls + '" x="' + (x - bw / 2).toFixed(1) + '" y="' + top.toFixed(1) +
                '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="1.5" style="animation-delay:' + delay + '"/>');
+
+    /* Who the year belongs to, on a plate above the wick. The mark is an
+       ordinary image, so swapping a monogram for a real logo is a file
+       drop — see data-logo on the <li>. */
+    if (!c.row.logo) return;
+    var bx = x - BADGE / 2;
+    var by = y(c.high) - BADGE - 7;
+    parts.push(
+      '<g class="candle-badge" style="animation-delay:' + delay + '">' +
+        '<rect class="badge-plate" x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) +
+          '" width="' + BADGE + '" height="' + BADGE + '" rx="7"/>' +
+        '<image href="' + c.row.logo + '" x="' + (bx + 4).toFixed(1) + '" y="' + (by + 4).toFixed(1) +
+          '" width="' + (BADGE - 8) + '" height="' + (BADGE - 8) +
+          '" preserveAspectRatio="xMidYMid meet"/>' +
+      '</g>'
+    );
   });
 
   /* Close-price trend line + area fill */

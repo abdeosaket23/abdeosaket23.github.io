@@ -96,14 +96,23 @@ candles are derived (each year opens at the previous year's close and closes at
 its own value, with a proportional wick):
 
 ```html
-<li data-year="2025" data-value="88" data-label="Summer associate"
-    data-note="Buy-side M&A; supported a $[N]M transaction."></li>
+<li data-year="2023" data-value="64" data-label="Joined JSW Steel"
+    data-logo="assets/img/logos/jsw.svg"
+    data-note="Trade Finance & Treasury Analyst — FX settlements across 4+ currencies."></li>
 ```
 
 `data-value` is an arbitrary "career index" — it only matters relative to the
 other years, and the axis rescales to whatever range you use. `data-label` and
 `data-note` show in the tooltip on hover (or on drag, on touch). The headline
 quote above the chart is computed from the first and last values.
+
+`data-logo` is optional: point it at a square image and the chart draws it on
+a small plate above that year's candle, riding the trend line. The marks in
+`assets/img/logos/` are monograms — plain SVG text, gold for a school and grey
+for an employer. To use a real logo, drop the file into that folder and change
+the one attribute; nothing else needs touching. Square marks work best, since a
+wide wordmark shrinks to nothing inside a 26px plate. The top padding of the
+plot opens up on its own when any year carries a logo.
 
 Add or remove `<li>` entries freely; the chart re-lays itself out, and year
 labels thin to every other one past seven entries.
