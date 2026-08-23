@@ -1829,6 +1829,15 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 
 @keyframes candleGrow { to { transform: scaleY(1); } }
 
+/* Award stars, above the mark */
+.career-chart .candle-awards { opacity: 0; pointer-events: none; }
+.in .career-chart .candle-awards { animation: fadeIn 0.45s ease both; }
+.career-chart .award-star {
+  fill: var(--orange-yellow-crayola);
+  stroke: none;
+  filter: drop-shadow(0 0 4px hsla(45, 100%, 62%, 0.7));
+}
+
 /* Company / university mark, on a plate above each candle */
 .career-chart .candle-badge { opacity: 0; pointer-events: none; }
 .in .career-chart .candle-badge { animation: fadeIn 0.45s ease both; }
@@ -1908,6 +1917,15 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 }
 .tip-label { font-size: 13px; font-weight: 600; color: var(--white-2); line-height: 1.3; }
 .tip-note { font-size: 11px; font-weight: 300; color: var(--light-gray-70); line-height: 1.5; margin-top: 4px; }
+.tip-awards { margin-top: 6px; }
+.tip-awards span {
+  display: block;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--orange-yellow-crayola);
+}
+
 .tip-val {
   font-family: var(--ff-mono);
   font-size: 11px;
@@ -1967,7 +1985,7 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   .boot-cursor, .mkt-dot { animation: none !important; }
   .career-chart .candle { transform: none; }
   .career-chart .wick, .career-chart .trend-area, .career-chart .last-dot,
-  .career-chart .candle-badge { opacity: 1; }
+  .career-chart .candle-badge, .career-chart .candle-awards { opacity: 1; }
   .career-chart .trend { stroke-dashoffset: 0; }
   .stage { opacity: 1; transform: none; }
 }

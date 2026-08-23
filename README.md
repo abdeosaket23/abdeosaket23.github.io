@@ -96,13 +96,20 @@ candles are derived (each year opens at the previous year's close and closes at
 its own value, with a proportional wick):
 
 ```html
-<li data-year="2023" data-value="64" data-label="Joined JSW Steel"
+<li data-year="Sep '23" data-value="72" data-label="Trade Finance Officer"
+    data-range="Sep 2023 – Aug 2025"
     data-logo="assets/img/logos/jsw.svg"
-    data-note="Trade Finance & Treasury Analyst — FX settlements across 4+ currencies."></li>
+    data-awards="JSW: Best Newcomer of the Quarter (2023–2024)|JSW: Change Catalyst (2023–2024)"
+    data-note="JSW, Mumbai — FX settlements across 4+ currencies, volumes to $3M."></li>
 ```
 
+One `<li>` is one step, not necessarily one year: a degree, a role, a
+certification. `data-year` is the short tick under it and `data-range` the full
+dates in the tooltip. `data-awards` holds anything won at that step, separated
+by `|` — each award draws a star over the candle and a line in the tooltip.
+
 `data-value` is an arbitrary "career index" — it only matters relative to the
-other years, and the axis rescales to whatever range you use. `data-label` and
+other steps, and the axis rescales to whatever range you use. `data-label` and
 `data-note` show in the tooltip on hover (or on drag, on touch). The headline
 quote above the chart is computed from the first and last values.
 

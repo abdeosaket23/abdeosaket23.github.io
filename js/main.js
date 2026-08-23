@@ -1100,17 +1100,25 @@ document.addEventListener('panelchange', function (e) {
       value: parseFloat(li.dataset.value) || 0,
       label: li.dataset.label || '',
       note:  li.dataset.note || '',
-      logo:  li.dataset.logo || ''
+      logo:  li.dataset.logo || '',
+      range: li.dataset.range || '',
+      awards: (li.dataset.awards || '').split('|').filter(Boolean)
     };
   });
   if (rows.length < 2) return;
 
-  var W = 720, H = 260;
   var BADGE = 26;                                   /* logo plate, viewBox units */
-  var hasLogos = rows.some(function (r) { return r.logo; });
-  /* The plates ride above each candle's high, so the top padding has to clear
-     one plus its gap before the tallest wick starts. */
-  var PAD = { t: hasLogos ? BADGE + 20 : 14, r: 42, b: 26, l: 10 };
+  var STAR  = 4.6;                                  /* award star, outer radius */
+  var hasLogos  = rows.some(function (r) { return r.logo; });
+  var hasAwards = rows.some(function (r) { return r.awards.length; });
+
+  var W = 720, H = hasLogos ? 285 : 260;
+  /* Plates ride above each candle's high and stars above the plates, so the
+     top padding has to clear whichever of them is in play. */
+  var PAD = {
+    t: hasLogos ? BADGE + 16 + (hasAwards ? 14 : 0) : 14,
+    r: 42, b: 26, l: 10
+  };
   var plotW = W - PAD.l - PAD.r;
   var plotH = H - PAD.t - PAD.b;
 
@@ -1138,6 +1146,17 @@ document.addEventListener('panelchange', function (e) {
   var step = plotW / rows.length;
   var cx = function (i) { return PAD.l + step * (i + 0.5); };
   var bw = Math.min(24, step * 0.5);
+
+  /* Five-point star, drawn from its centre. */
+  var starPath = function (sx, sy, r) {
+    var pts = [];
+    for (var k = 0; k < 10; k++) {
+      var ang = -Math.PI / 2 + k * Math.PI / 5;
+      var rad = k % 2 ? r * 0.42 : r;
+      pts.push((sx + Math.cos(ang) * rad).toFixed(2) + ' ' + (sy + Math.sin(ang) * rad).toFixed(2));
+    }
+    return 'M' + pts.join(' L') + ' Z';
+  };
 
   var parts = [];
 
@@ -1178,6 +1197,15 @@ document.addEventListener('panelchange', function (e) {
           '" preserveAspectRatio="xMidYMid meet"/>' +
       '</g>'
     );
+
+    /* An award sits above the mark as a star apiece — the tooltip names them. */
+    if (!c.row.awards.length) return;
+    var gap = STAR * 2 + 3;
+    var sx0 = x - (c.row.awards.length - 1) * gap / 2;
+    var stars = c.row.awards.map(function (_, k) {
+      return '<path class="award-star" d="' + starPath(sx0 + k * gap, by - STAR - 4, STAR) + '"/>';
+    }).join('');
+    parts.push('<g class="candle-awards" style="animation-delay:' + delay + '">' + stars + '</g>');
   });
 
   /* Close-price trend line + area fill */
@@ -1202,7 +1230,7 @@ document.addEventListener('panelchange', function (e) {
   parts.push('<circle class="last-dot" cx="' + last.x.toFixed(1) + '" cy="' + last.y.toFixed(1) + '" r="3.5"/>');
 
   /* Year labels along the bottom — thinned out on narrow charts */
-  var everyN = rows.length > 7 ? 2 : 1;
+  var everyN = rows.length > 10 ? 2 : 1;
   rows.forEach(function (row, i) {
     if (i % everyN !== 0 && i !== rows.length - 1) return;
     parts.push('<text class="axis-text" x="' + cx(i).toFixed(1) + '" y="' + (H - 8) +
@@ -1247,6 +1275,7 @@ document.addEventListener('panelchange', function (e) {
   var tipLbl  = $('[data-tip-label]');
   var tipNote = $('[data-tip-note]');
   var tipVal  = $('[data-tip-val]');
+  var tipAwd  = $('[data-tip-awards]');
 
   var show = function (i, clientX) {
     var c = candles[i];
@@ -1259,9 +1288,19 @@ document.addEventListener('panelchange', function (e) {
     if (crossV) { crossV.setAttribute('x1', px); crossV.setAttribute('x2', px); }
     if (crossH) { crossH.setAttribute('y1', py); crossH.setAttribute('y2', py); }
 
-    if (tipYear) tipYear.textContent = c.row.year;
+    if (tipYear) tipYear.textContent = c.row.range || c.row.year;
     if (tipLbl)  tipLbl.textContent  = c.row.label;
     if (tipNote) tipNote.textContent = c.row.note;
+    if (tipAwd) {
+      tipAwd.textContent = '';
+      c.row.awards.forEach(function (a) {
+        var line = document.createElement('span');
+        line.textContent = '\u2605 ' + a;
+        tipAwd.appendChild(line);
+      });
+      tipAwd.hidden = !c.row.awards.length;
+    }
+
     if (tipVal) {
       var d = c.close - c.open;
       var pctChange = c.open ? (d / c.open) * 100 : 0;
