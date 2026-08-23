@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Your photo goes here">
+  <defs>
+    <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3e3e42"/><stop offset="100%" stop-color="#242427"/>
+    </linearGradient>
+    <clipPath id="pc"><rect width="400" height="400" rx="120"/></clipPath>
+  </defs>
+  <g clip-path="url(#pc)">
+    <rect width="400" height="400" fill="url(#pg)"/>
+    <circle cx="200" cy="160" r="66" fill="#55555c"/>
+    <path d="M76 372c0-68 55-124 124-124s124 56 124 124z" fill="#55555c"/>
+    <g fill="none" stroke="#8b8b93" stroke-width="6" stroke-linecap="round">
+      <path d="M132 96h-24v-24M268 96h24v-24M132 304h-24v24M268 304h24v24"/>
+    </g>
+    <text x="200" y="386" font-family="JetBrains Mono, monospace" font-size="20"
+          fill="#8b8b93" text-anchor="middle" letter-spacing="2">YOUR PHOTO</text>
+  </g>
+</svg>

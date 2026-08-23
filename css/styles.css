@@ -2271,3 +2271,143 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
     translateY(var(--av-nudge, 0px))
     scale(var(--av-zoom, 1));
 }
+
+
+/* ==========================================================================
+   ==========================================================================
+   PHOTO → MEMOJI FLIP
+   Both faces live on one 3D card inside the avatar stage. Only the card
+   turns — the disc, ring, glow and gloss stay put, so the face appears to
+   transform in place rather than the whole object spinning around.
+   ==========================================================================
+   ========================================================================== */
+
+.av-flip {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* --flip is 0 (photo) or 1 (Memoji); JS toggles it */
+  transform: rotateY(calc(var(--flip, 0) * 180deg));
+  transition: transform 0.85s cubic-bezier(0.62, 0.04, 0.28, 1);
+}
+
+.av-flip .av-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 30%;
+}
+
+/* The Memoji sits on the reverse of the card. */
+.av-back { transform: translateZ(6px) rotateY(180deg); }
+
+/* Mid-flip the face blurs and the glow flares, so it reads as a
+   transformation rather than a plain turn. */
+.avatar-3d.flipping .av-flip { animation: avFlipBlur 0.85s ease; }
+@keyframes avFlipBlur {
+  0%, 100% { filter: blur(0); }
+  50%      { filter: blur(3px) saturate(1.4); }
+}
+
+.avatar-3d.flipping .av-glow { animation: avBurst 0.85s ease; }
+@keyframes avBurst {
+  0%   { opacity: 1;   scale: 1.18; }
+  45%  { opacity: 1;   scale: 1.55; }
+  100% { opacity: 1;   scale: 1.18; }
+}
+
+.avatar-3d.flipping .av-ring { animation: avRingFlare 0.85s ease; }
+@keyframes avRingFlare {
+  0%, 100% { box-shadow: 0 0 18px hsla(45, 100%, 62%, 0.18); border-color: hsla(45, 100%, 72%, 0.28); }
+  45%      { box-shadow: 0 0 40px hsla(45, 100%, 62%, 0.65); border-color: hsla(45, 100%, 72%, 0.85); }
+}
+
+/* Small badge naming whichever side is showing */
+.av-mode {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  font-family: var(--ff-mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orange-yellow-crayola);
+  background: hsla(240, 2%, 10%, 0.9);
+  border: 1px solid hsla(45, 100%, 72%, 0.3);
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 5;
+}
+.avatar-3d:hover .av-mode,
+.avatar-3d.pinned .av-mode { opacity: 1; }
+
+/* Pinned to the Memoji side — the ring stays lit */
+.avatar-3d.pinned .av-ring {
+  border-color: hsla(45, 100%, 72%, 0.6);
+  box-shadow: 0 0 26px hsla(45, 100%, 62%, 0.35);
+}
+
+/* The hint sits below the badge once both are present */
+.avatar-3d .av-hint { bottom: -40px; }
+@media (min-width: 580px) { .avatar-3d .av-hint { bottom: -44px; } }
+
+
+/* ==========================================================================
+   PHOTO → MEMOJI FLIP — print + reduced motion
+   ========================================================================== */
+@media print {
+  .av-flip { transform: none !important; }
+  .av-back, .av-mode { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Still switchable, just instant and without the flare. */
+  .av-flip { transition: none; }
+  .avatar-3d.flipping .av-flip,
+  .avatar-3d.flipping .av-glow,
+  .avatar-3d.flipping .av-ring { animation: none !important; }
+}
+
+
+/* ==========================================================================
+   PHOTO → MEMOJI FLIP — corrections
+   ========================================================================== */
+
+/* 1. `.avatar-3d .av-face` (0,2,0) outranks `.av-back` (0,1,0), so the back
+      face never received its rotateY(180deg) and stayed invisible. Match the
+      specificity, and give each side its own framing knobs — a photo and a
+      Memoji almost never crop the same way.
+
+      Per-side overrides, all optional:
+        --av-fit-back / --av-zoom-back / --av-nudge-back                     */
+.avatar-3d .av-front {
+  object-fit: var(--av-fit, cover);
+  transform:
+    translateZ(6px)
+    translateY(var(--av-nudge, 0px))
+    scale(var(--av-zoom, 1));
+}
+
+.avatar-3d .av-back {
+  object-fit: var(--av-fit-back, var(--av-fit, contain));
+  transform:
+    translateZ(6px)
+    rotateY(180deg)
+    translateY(var(--av-nudge-back, var(--av-nudge, 0px)))
+    scale(var(--av-zoom-back, var(--av-zoom, 1)));
+}
+
+/* 2. `.av-glow` already carries scale(1.18) in its transform, and the
+      independent `scale` property composes with it — the flare was jumping
+      to 1.39x at rest. Animate opacity and blur instead. */
+@keyframes avBurst {
+  0%, 100% { opacity: 0.85; filter: blur(14px); }
+  45%      { opacity: 1;    filter: blur(24px); }
+}

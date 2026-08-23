@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Your Memoji goes here">
+  <defs>
+    <linearGradient id="mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a3a24"/><stop offset="100%" stop-color="#2a2119"/>
+    </linearGradient>
+    <clipPath id="mc"><rect width="400" height="400" rx="120"/></clipPath>
+  </defs>
+  <g clip-path="url(#mc)">
+    <rect width="400" height="400" fill="url(#mg)"/>
+    <circle cx="200" cy="168" r="78" fill="none" stroke="#FFDB70" stroke-width="7" opacity=".75"/>
+    <circle cx="172" cy="156" r="9" fill="#FFDB70"/>
+    <circle cx="228" cy="156" r="9" fill="#FFDB70"/>
+    <path d="M166 196q34 30 68 0" fill="none" stroke="#FFDB70" stroke-width="7" stroke-linecap="round"/>
+    <path d="M92 372c0-62 48-108 108-108s108 46 108 108z" fill="none" stroke="#FFDB70" stroke-width="7" opacity=".55"/>
+    <text x="200" y="386" font-family="JetBrains Mono, monospace" font-size="20"
+          fill="#c7a35a" text-anchor="middle" letter-spacing="2">YOUR MEMOJI</text>
+  </g>
+</svg>

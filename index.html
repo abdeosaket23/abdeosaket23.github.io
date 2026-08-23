@@ -102,9 +102,26 @@
             <span class="av-disc"></span>
             <span class="av-ring"></span>
 
-            <!-- EDIT: your memoji or photo. A transparent PNG works best —
-                 the disc behind it becomes the backdrop. ~400x400. -->
-            <img class="av-face" src="assets/img/my-avatar.svg" alt="" />
+            <!-- ======================================================
+                 PHOTO → MEMOJI FLIP
+                 Two faces on opposite sides of the same 3D card. Hover
+                 (or tap) turns your photo over to reveal the Memoji;
+                 click to pin whichever side you prefer.
+
+                 EDIT: point these at your own images. Square, ~400x400.
+                 The Memoji works best as a transparent PNG — the disc
+                 layer behind it becomes the backdrop.
+                 ====================================================== -->
+            <div class="av-flip" data-av-flip>
+              <img class="av-face av-front"
+                   src="assets/img/my-photo.jpg"
+                   onerror="this.onerror=null;this.src='assets/img/my-photo.svg'"
+                   alt="" />
+              <img class="av-face av-back"
+                   src="assets/img/my-memoji.png"
+                   onerror="this.onerror=null;this.src='assets/img/my-memoji.svg'"
+                   alt="" />
+            </div>
 
             <span class="av-gloss"></span>
 

@@ -1591,6 +1591,10 @@ var resetAvatar;   /* exposed for the command palette */
     if (!dragging) return;
     dragging = false;
 
+    /* Flag the drag so the click that follows doesn't also flip the card. */
+    av.dataset.dragged = '1';
+    setTimeout(function () { delete av.dataset.dragged; }, 60);
+
     /* Cap the throw so it can't rocket off. */
     var cap = 42;
     vel.x = Math.max(-cap, Math.min(cap, vel.x));
@@ -1620,4 +1624,85 @@ var resetAvatar;   /* exposed for the command palette */
   });
 
   requestAnimationFrame(render);
+})();
+
+
+/* --------------------------------------------------------------------------
+   20. PHOTO → MEMOJI FLIP
+   Hover (or tap) turns the card over; click pins whichever side you want.
+   Runs one demo flip shortly after load so people know it's there.
+   -------------------------------------------------------------------------- */
+var toggleAvatarFace;   /* exposed for the command palette */
+
+(function () {
+  var av   = $('[data-avatar]');
+  var card = $('[data-av-flip]');
+  if (!av || !card) return;
+
+  /* EDIT: the labels on the badge under the avatar. */
+  var LABELS = { front: 'Photo', back: 'Memoji' };
+
+  var badge = document.createElement('span');
+  badge.className = 'av-mode';
+  badge.textContent = LABELS.front;
+  av.appendChild(badge);
+
+  var showingBack = false;   /* which side is up */
+  var pinned = false;        /* click locks a side */
+  var flipTimer;
+
+  var setFace = function (back) {
+    if (back === showingBack) return;
+    showingBack = back;
+
+    av.style.setProperty('--flip', back ? 1 : 0);
+    badge.textContent = back ? LABELS.back : LABELS.front;
+
+    /* Retrigger the blur + flare. */
+    av.classList.remove('flipping');
+    void av.offsetWidth;
+    av.classList.add('flipping');
+    clearTimeout(flipTimer);
+    flipTimer = setTimeout(function () { av.classList.remove('flipping'); }, 900);
+  };
+
+  toggleAvatarFace = function () {
+    pinned = !showingBack;                 /* pin whichever side we turn to */
+    av.classList.toggle('pinned', pinned);
+    setFace(!showingBack);
+  };
+
+  /* --- hover previews the other side, unless a side is pinned --- */
+  if (window.matchMedia('(pointer: fine)').matches) {
+    av.addEventListener('mouseenter', function () {
+      if (!pinned) setFace(true);
+    });
+    av.addEventListener('mouseleave', function () {
+      if (!pinned) setFace(false);
+    });
+  }
+
+  /* --- click pins; but never right after a drag --- */
+  av.addEventListener('click', function (e) {
+    if (av.dataset.dragged === '1') return;   /* set by the drag module */
+    e.preventDefault();
+    toggleAvatarFace();
+  });
+
+  /* --- keyboard --- */
+  av.addEventListener('keydown', function (e) {
+    if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleAvatarFace(); }
+  });
+
+  /* --- one demo flip after the page settles, so the trick is discoverable --- */
+  if (!reduceMotion) {
+    var booted = false;
+    try { booted = sessionStorage.getItem('booted') === '1'; } catch (err) { booted = false; }
+
+    setTimeout(function () {
+      if (pinned) return;
+      setFace(true);
+      setTimeout(function () { if (!pinned) setFace(false); }, 1500);
+    }, booted ? 1200 : 3400);
+  }
 })();
