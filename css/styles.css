@@ -2055,7 +2055,9 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   background: var(--bg-gradient-onyx);
   box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.09);
   opacity: var(--flip, 0);
-  transition: opacity 0.6s ease;
+  /* Timed to change hands while the card is edge-on, around 0.42s into the
+     0.85s turn, so the backdrop is never seen arriving or leaving. */
+  transition: opacity 0.3s ease 0.28s;
 }
 
 /* Depth layer 3 — thin ring, catches the light as it turns */
@@ -2310,13 +2312,12 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 /* The Memoji sits on the reverse of the card. */
 .av-back { transform: translateZ(6px) rotateY(180deg); }
 
-/* Mid-flip the face blurs and the glow flares, so it reads as a
-   transformation rather than a plain turn. */
-.avatar-3d.flipping .av-flip { animation: avFlipBlur 0.85s ease; }
-@keyframes avFlipBlur {
-  0%, 100% { filter: blur(0); }
-  50%      { filter: blur(3px) saturate(1.4); }
-}
+/* NO FILTER ON THE CARD. A blur here used to sell the flip as a
+   transformation, but any filter renders the element into a flat buffer:
+   the card lost preserve-3d for the whole 0.85s, backface culling stopped
+   working, and the photo stayed up past 90 degrees, squashed and mirrored,
+   with the Memoji snapping in at the end — the flicker. The turn carries
+   itself; the flare below is on layers that don't hold the two faces. */
 
 .avatar-3d.flipping .av-glow { animation: avBurst 0.85s ease; }
 @keyframes avBurst {
@@ -2350,7 +2351,6 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 @media (prefers-reduced-motion: reduce) {
   /* Still switchable, just instant and without the flare. */
   .av-flip { transition: none; }
-  .avatar-3d.flipping .av-flip,
   .avatar-3d.flipping .av-glow,
   .avatar-3d.flipping .av-ring { animation: none !important; }
 }
