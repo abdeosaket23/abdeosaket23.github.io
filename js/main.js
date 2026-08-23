@@ -1629,8 +1629,9 @@ var resetAvatar;   /* exposed for the command palette */
 
 /* --------------------------------------------------------------------------
    20. PHOTO → MEMOJI FLIP
-   Hover (or tap) turns the card over; click pins whichever side you want.
-   Runs one demo flip shortly after load so people know it's there.
+   The card turns itself over every few seconds so both faces get seen,
+   hovering brings the Memoji up on demand, and a click pins whichever
+   side you want to keep.
    -------------------------------------------------------------------------- */
 var toggleAvatarFace;   /* exposed for the command palette */
 
@@ -1639,24 +1640,18 @@ var toggleAvatarFace;   /* exposed for the command palette */
   var card = $('[data-av-flip]');
   if (!av || !card) return;
 
-  /* EDIT: the labels on the badge under the avatar. */
-  var LABELS = { front: 'Photo', back: 'Memoji' };
-
-  var badge = document.createElement('span');
-  badge.className = 'av-mode';
-  badge.textContent = LABELS.front;
-  av.appendChild(badge);
+  var CYCLE = 3000;          /* EDIT: ms each side holds during the idle turn */
 
   var showingBack = false;   /* which side is up */
   var pinned = false;        /* click locks a side */
-  var flipTimer;
+  var hovering = false;
+  var flipTimer, cycleTimer;
 
   var setFace = function (back) {
     if (back === showingBack) return;
     showingBack = back;
 
     av.style.setProperty('--flip', back ? 1 : 0);
-    badge.textContent = back ? LABELS.back : LABELS.front;
 
     /* Retrigger the blur + flare. */
     av.classList.remove('flipping');
@@ -1666,23 +1661,33 @@ var toggleAvatarFace;   /* exposed for the command palette */
     flipTimer = setTimeout(function () { av.classList.remove('flipping'); }, 900);
   };
 
-  /* A click means "keep the Memoji up", not "turn the card over". On a mouse
-     the pointer is already hovering when the click lands, so the Memoji is
-     the side showing — toggling away from it flipped straight back to the
-     photo and unpinned, which read as the flip refusing to stick. Pin state
-     drives the face directly instead: pinned = Memoji, unpinned = photo. */
+  /* --- the idle turn: keeps going unless something else owns the card ---
+     A pin, a hover or a backgrounded tab all hold it where it is; the
+     interval keeps its own phase so the rhythm survives an interruption. */
+  var startCycle = function () {
+    if (reduceMotion || cycleTimer) return;
+    cycleTimer = setInterval(function () {
+      if (pinned || hovering || document.hidden) return;
+      setFace(!showingBack);
+    }, CYCLE);
+  };
+
+  /* A click means "keep this side up". Pin state drives the face directly:
+     pinned = Memoji, unpinned = back to the idle turn from the photo. */
   toggleAvatarFace = function () {
     pinned = !pinned;
     av.classList.toggle('pinned', pinned);
     setFace(pinned);
   };
 
-  /* --- hover previews the other side, unless a side is pinned --- */
+  /* --- hover holds the Memoji, unless a side is pinned --- */
   if (window.matchMedia('(pointer: fine)').matches) {
     av.addEventListener('mouseenter', function () {
+      hovering = true;
       if (!pinned) setFace(true);
     });
     av.addEventListener('mouseleave', function () {
+      hovering = false;
       if (!pinned) setFace(false);
     });
   }
@@ -1699,15 +1704,8 @@ var toggleAvatarFace;   /* exposed for the command palette */
     if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleAvatarFace(); }
   });
 
-  /* --- one demo flip after the page settles, so the trick is discoverable --- */
-  if (!reduceMotion) {
-    var booted = false;
-    try { booted = sessionStorage.getItem('booted') === '1'; } catch (err) { booted = false; }
-
-    setTimeout(function () {
-      if (pinned) return;
-      setFace(true);
-      setTimeout(function () { if (!pinned) setFace(false); }, 1500);
-    }, booted ? 1200 : 3400);
-  }
+  /* Hold the first turn until the boot screen is out of the way. */
+  var booted = false;
+  try { booted = sessionStorage.getItem('booted') === '1'; } catch (err) { booted = false; }
+  setTimeout(startCycle, booted ? 1200 : 3400);
 })();
