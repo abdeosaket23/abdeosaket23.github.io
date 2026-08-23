@@ -1666,10 +1666,15 @@ var toggleAvatarFace;   /* exposed for the command palette */
     flipTimer = setTimeout(function () { av.classList.remove('flipping'); }, 900);
   };
 
+  /* A click means "keep the Memoji up", not "turn the card over". On a mouse
+     the pointer is already hovering when the click lands, so the Memoji is
+     the side showing — toggling away from it flipped straight back to the
+     photo and unpinned, which read as the flip refusing to stick. Pin state
+     drives the face directly instead: pinned = Memoji, unpinned = photo. */
   toggleAvatarFace = function () {
-    pinned = !showingBack;                 /* pin whichever side we turn to */
+    pinned = !pinned;
     av.classList.toggle('pinned', pinned);
-    setFace(!showingBack);
+    setFace(pinned);
   };
 
   /* --- hover previews the other side, unless a side is pinned --- */

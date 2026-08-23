@@ -2411,3 +2411,16 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   0%, 100% { opacity: 0.85; filter: blur(14px); }
   45%      { opacity: 1;    filter: blur(24px); }
 }
+
+
+/* ==========================================================================
+   3D AVATAR — framing for the images actually in use
+   The headshot is a studio crop with a lot of air around the head, so it
+   reads small on a 150px disc. Zoom the photo in; leave the Memoji alone,
+   it was already trimmed to the head.
+   ========================================================================== */
+.avatar-3d {
+  --av-zoom: 1.2;         /* photo — 1 is the raw crop */
+  --av-nudge: 0px;        /* negative moves the face up */
+  --av-zoom-back: 1;      /* Memoji */
+}
