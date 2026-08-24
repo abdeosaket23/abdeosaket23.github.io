@@ -784,7 +784,6 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 /* ==========================================================================
    RESUME
    ========================================================================== */
-.resume .article-title { margin-bottom: 30px; }
 
 .timeline { margin-bottom: 30px; }
 .timeline .title-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
@@ -892,8 +891,24 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   transition-delay: calc(var(--i, 0) * 100ms);
 }
 
-.resume-download { margin-top: 25px; }
-.resume-download .form-btn { width: max-content; }
+/* The download sits with the title rather than at the foot of the panel:
+   it's the one thing a recruiter is looking for, and it was three sections
+   of scrolling away. */
+.resume-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.resume-head .article-title { margin-bottom: 0; }
+.resume-dl {
+  width: max-content;
+  flex-shrink: 0;
+  padding: 11px 16px;
+  font-size: var(--fs-8);
+}
 
 
 /* ==========================================================================
