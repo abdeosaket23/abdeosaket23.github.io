@@ -741,18 +741,24 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 }
 .tool-card:hover { transform: translateY(-4px); }
 
+/* White tile, same reasoning as the career-chart plates: these are real
+   brand marks drawn for light backgrounds — SAP's blue, Bloomberg's black
+   B, the Excel sheet — and half of them disappear on a dark one. */
 .tool-icon {
   flex-shrink: 0;
-  width: 34px; height: 34px;
+  width: 36px; height: 36px;
   display: grid; place-items: center;
+  padding: 4px;
   border-radius: 9px;
-  color: var(--orange-yellow-crayola);
-  background: hsla(45, 100%, 70%, 0.08);
-  border: 1px solid hsla(45, 100%, 72%, 0.18);
+  background: hsl(0, 0%, 97%);
+  border: 1px solid hsla(45, 100%, 72%, 0.3);
   transition: var(--transition-1);
 }
-.tool-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.tool-card:hover .tool-icon { background: hsla(45, 100%, 70%, 0.16); border-color: hsla(45, 100%, 72%, 0.45); }
+.tool-icon img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+}
+.tool-card:hover .tool-icon { border-color: hsla(45, 100%, 72%, 0.65); }
 
 .tool-meta { min-width: 0; }
 .tool-name {

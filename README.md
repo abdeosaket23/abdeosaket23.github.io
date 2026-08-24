@@ -34,7 +34,7 @@ Every spot you need to change in `index.html` is marked with an `EDIT` comment.
 | Bio paragraphs | `.about-text` |
 | Key metric tiles | `.metrics-list` — see below |
 | "My Expertise" cards | `.service-list` — duplicate a `<li class="service-item">` |
-| Platforms & tools | `.tools-grid` — duplicate a `<li class="tool-card">`; the glyph is inline SVG on a 24x24 grid |
+| Platforms & tools | `.tools-grid` — duplicate a `<li class="tool-card">`; the mark is a square image in `assets/img/` on a white tile |
 | Education / experience entries | `.timeline-list` — duplicate a `<li class="timeline-item">` |
 | Competency radar | `.radar-legend` — see below |
 | Certifications | `.certs-list` — duplicate a `<li class="cert-card">` |
