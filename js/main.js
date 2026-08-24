@@ -11,7 +11,6 @@
      6.  competency radar
      7.  skill bars
      8.  card tilt + spotlight
-     9.  testimonials modal
      10. portfolio filter
      11. contact form
      12. page tabs, swipe gestures, nav indicator
@@ -420,7 +419,7 @@ on($$('[data-copy-email]'), 'click', function (e) {
   if (reduceMotion) return;
   if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return;
 
-  var cards = $$('.service-item, .metric-card, .cert-card, .testimonials-item .content-card');
+  var cards = $$('.service-item, .metric-card, .cert-card');
   cards.forEach(function (card) { card.classList.add('tilt'); });
 
   var MAX = 6; /* degrees */
@@ -442,45 +441,6 @@ on($$('[data-copy-email]'), 'click', function (e) {
     card.addEventListener('mouseleave', function () {
       card.style.transform = '';
     });
-  });
-})();
-
-
-/* --------------------------------------------------------------------------
-   9. TESTIMONIALS MODAL
-   -------------------------------------------------------------------------- */
-(function () {
-  var items = $$('[data-testimonials-item]');
-  var container = $('[data-modal-container]');
-  if (!container || !items.length) return;
-
-  var modalImg      = $('[data-modal-img]');
-  var modalTitle    = $('[data-modal-title]');
-  var modalSubtitle = $('[data-modal-subtitle]');
-  var modalText     = $('[data-modal-text]');
-
-  var toggle = function () { container.classList.toggle('active'); };
-
-  items.forEach(function (item) {
-    item.addEventListener('click', function () {
-      var avatar   = $('[data-testimonials-avatar]', item);
-      var title    = $('.testimonials-item-title', item);
-      var subtitle = $('.testimonials-item-subtitle', item);
-      var text     = $('.testimonials-text', item);
-
-      if (avatar && modalImg) { modalImg.src = avatar.src; modalImg.alt = avatar.alt; }
-      if (title && modalTitle)       modalTitle.textContent = title.textContent;
-      if (subtitle && modalSubtitle) modalSubtitle.textContent = subtitle.textContent;
-      if (text && modalText)         modalText.innerHTML = text.innerHTML;
-
-      toggle();
-    });
-  });
-
-  on($$('[data-modal-close-btn], [data-overlay]'), 'click', toggle);
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && container.classList.contains('active')) toggle();
   });
 })();
 
@@ -711,7 +671,7 @@ var goToPage; /* exposed for the command palette below */
 
     content.addEventListener('touchstart', function (e) {
       /* Ignore swipes that begin inside a horizontally scrolling strip. */
-      if (e.target.closest('.has-scrollbar, .cmdk, .modal-container')) return;
+      if (e.target.closest('.has-scrollbar, .cmdk')) return;
       if (e.touches.length !== 1) return;
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
@@ -760,7 +720,7 @@ var goToPage; /* exposed for the command palette below */
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     var tag = (e.target.tagName || '').toLowerCase();
     if (tag === 'input' || tag === 'textarea') return;
-    if ($('.cmdk.active') || $('.modal-container.active')) return;
+    if ($('.cmdk.active')) return;
 
     if (e.key >= '1' && e.key <= String(order.length)) {
       goToPage(order[parseInt(e.key, 10) - 1]);

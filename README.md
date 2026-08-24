@@ -12,8 +12,8 @@ Layout and design language follow the open-source
 ```
 index.html          all the content — this is the file you edit
 css/styles.css      theme tokens at the top, then layout
-js/main.js          tabs, sidebar toggle, filters, modal, contact form
-assets/img/         avatar, testimonial avatars, project thumbs, tool logos
+js/main.js          tabs, sidebar toggle, filters, contact form
+assets/img/         avatar, career-chart marks, project thumbs, tool logos
 assets/files/       drop resume.pdf here
 404.html            styled not-found page
 ```
@@ -34,7 +34,6 @@ Every spot you need to change in `index.html` is marked with an `EDIT` comment.
 | Bio paragraphs | `.about-text` |
 | Key metric tiles | `.metrics-list` — see below |
 | "My Expertise" cards | `.service-list` — duplicate a `<li class="service-item">` |
-| Testimonials | `.testimonials-list` — duplicate a `<li class="testimonials-item">` |
 | Tool logos | `.clients-list` |
 | Education / experience entries | `.timeline-list` — duplicate a `<li class="timeline-item">` |
 | Competency radar | `.radar-legend` — see below |
@@ -223,7 +222,6 @@ Files in `assets/img/` are SVG placeholders. Drop your real images in the same
 folder and update the `src` (change the `.svg` extension to `.jpg`/`.png`):
 
 - `my-avatar` — sidebar photo, square, ~400×400
-- `avatar-1`, `avatar-2` — testimonial headshots, square, ~200×200
 - `project-1` … `project-6` — 4:3 ratio, ~800×600
 - `logo-1` … `logo-6` — tool logos, wide; they're greyscaled until hovered
 
