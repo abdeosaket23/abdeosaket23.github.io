@@ -772,9 +772,9 @@ var goToPage; /* exposed for the command palette below */
         var a = $('.social-list a[href*="linkedin"]');
         if (a) window.open(a.href, '_blank', 'noopener');
       } },
-    { title: 'Open GitHub',                 icon: icon.link,  run: function () {
-        var a = $('.social-list a[href*="github"]');
-        if (a) window.open(a.href, '_blank', 'noopener');
+    { title: 'Call',                        icon: icon.link,  run: function () {
+        var a = $('.social-list a[href^="tel:"]');
+        if (a) window.location.href = a.getAttribute('href');
       } },
     { title: 'Print resume',                icon: icon.print, run: function () {
         goToPage('resume');

@@ -1990,30 +1990,6 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   to   { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a) - 360deg)); }
 }
 
-/* --- "drag me" hint, fades out once they do --- */
-.av-hint {
-  position: absolute;
-  left: 50%;
-  bottom: -26px;
-  transform: translateX(-50%);
-  font-family: var(--ff-mono);
-  font-size: 8.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: hsla(0, 0%, 84%, 0.4);
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  animation: avHint 3s 3.5s ease forwards;
-}
-@keyframes avHint {
-  0%   { opacity: 0; }
-  25%  { opacity: 1; }
-  75%  { opacity: 1; }
-  100% { opacity: 0; }
-}
-.avatar-3d.moved .av-hint { animation: none; opacity: 0; }
-
 /* --- status dot rides the front layer --- */
 .avatar-3d .avatar-status {
   right: 2px;
@@ -2052,7 +2028,6 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
    ========================================================================== */
 @media (min-width: 580px) {
   :root { --av-size: 128px; }
-  .av-hint { bottom: -30px; font-size: 9px; }
 }
 
 @media (min-width: 1250px) {
@@ -2075,13 +2050,12 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
    3D AVATAR — print + reduced motion
    ========================================================================== */
 @media print {
-  .av-orbit, .av-hint, .av-glow, .av-gloss, .av-shadow { display: none !important; }
+  .av-orbit, .av-glow, .av-gloss, .av-shadow { display: none !important; }
   .avatar-3d.free { position: static !important; transform: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .av-orbit, .av-chip i, .av-hint { animation: none !important; }
-  .av-hint { opacity: 0; }
+  .av-orbit, .av-chip i { animation: none !important; }
   .av-stage { transform: none !important; }
   .avatar-3d.bump .av-stage { animation: none !important; }
 }
