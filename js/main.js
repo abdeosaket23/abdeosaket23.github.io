@@ -1173,8 +1173,23 @@ var goToPage; /* exposed for the command palette below */
     if (tipAwd) {
       tipAwd.textContent = '';
       c.row.awards.forEach(function (a) {
+        /* "Name (years)" — the years drop to their own quiet line rather than
+           wrapping into the middle of the title. */
+        var m = a.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
         var line = document.createElement('span');
-        line.textContent = '\u2605 ' + a;
+
+        var star = document.createElement('i');
+        star.textContent = '\u2605';
+        var name = document.createElement('b');
+        name.textContent = m ? m[1] : a;
+        line.appendChild(star);
+        line.appendChild(name);
+
+        if (m) {
+          var when = document.createElement('em');
+          when.textContent = m[2];
+          line.appendChild(when);
+        }
         tipAwd.appendChild(line);
       });
       tipAwd.hidden = !c.row.awards.length;
