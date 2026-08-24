@@ -134,21 +134,6 @@ plot opens up on its own when any year carries a logo.
 Add or remove `<li>` entries freely; the chart re-lays itself out, and year
 labels thin to every other one past seven entries.
 
-### The boot sequence
-
-The terminal boot plays once per browser tab, then `sessionStorage` remembers
-it — so it's a first-impression, not a toll booth. Any key or click skips it,
-and a 6-second failsafe clears it regardless. Edit the log lines in the
-`BOOT_LINES` array near the top of section 15 in `js/main.js`:
-
-```js
-{ text: 'loading career index', tag: '2018–2026' },   // yellow chip
-{ text: 'mounting /saket/profile', tag: 'ok' },       // green OK
-```
-
-To remove the boot screen entirely, delete the `<div class="boot">` block from
-`index.html` — the script no-ops when it isn't there.
-
 ### The ticker tape
 
 Each `<li class="ticker-item">` is one entry. `data-dir` picks the arrow and
@@ -246,9 +231,7 @@ to drop that layer.
 
 | Feature | How it works |
 |---|---|
-| Boot sequence | Terminal boot log on first load per tab; any key skips |
 | Career chart | Candles grow in sequence, the trend line draws itself, the latest point pulses; crosshair + tooltip on hover, drag to scrub on touch |
-| Text scramble | The name and each panel title decode from random glyphs |
 | Market clock | Live New York time with NYSE open/closed state (regular hours, holidays not handled) |
 | Panel transitions | Moving to a later tab slides in from the right, an earlier tab from the left |
 | Swipe | Swipe left/right anywhere on the content to change panel (touch devices) |

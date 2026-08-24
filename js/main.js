@@ -642,7 +642,6 @@ var goToPage; /* exposed for the command palette below */
     links.forEach(function (l, i) { l.classList.toggle('active', i === index); });
     moveIndicator();
 
-    /* The scramble effect (section 14) listens for this. */
     document.dispatchEvent(new CustomEvent('panelchange', {
       detail: { panel: pages[index], name: order[index] }
     }));
@@ -880,167 +879,10 @@ var goToPage; /* exposed for the command palette below */
 /* ==========================================================================
    ==========================================================================
    SIGNATURE LAYER
-     14. text scramble
-     15. boot sequence
      16. career chart
      17. market clock
    ==========================================================================
    ========================================================================== */
-
-
-/* --------------------------------------------------------------------------
-   14. TEXT SCRAMBLE
-   Cycles random glyphs before settling on the real characters — used on the
-   name and on each panel title when you switch tabs.
-   -------------------------------------------------------------------------- */
-var scramble = function (el, done) {
-  if (!el || reduceMotion) { if (done) done(); return; }
-
-  var text = el.dataset.text || el.textContent;
-  el.dataset.text = text;
-
-  var CHARS = '$%#@&01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\';
-  var queue = [];
-
-  for (var i = 0; i < text.length; i++) {
-    queue.push({
-      to: text[i],
-      start: Math.floor(Math.random() * 12),
-      end: Math.floor(Math.random() * 14) + 12
-    });
-  }
-
-  var frame = 0;
-  var tick = function () {
-    var out = '';
-    var settled = 0;
-
-    for (var i = 0; i < queue.length; i++) {
-      var q = queue[i];
-      if (frame >= q.end) { settled++; out += q.to; }
-      else if (frame >= q.start) {
-        if (!q.char || Math.random() < 0.3) q.char = CHARS[Math.floor(Math.random() * CHARS.length)];
-        out += '<span class="scr">' + q.char + '</span>';
-      } else {
-        out += q.to === ' ' ? ' ' : '<span class="scr">&nbsp;</span>';
-      }
-    }
-
-    el.innerHTML = out;
-    if (settled === queue.length) {
-      el.textContent = text;
-      if (done) done();
-      return;
-    }
-    frame++;
-    requestAnimationFrame(tick);
-  };
-
-  tick();
-};
-
-/* Scramble the active panel's title whenever the panel changes. */
-document.addEventListener('panelchange', function (e) {
-  var title = $('[data-scramble]', e.detail.panel);
-  if (title) scramble(title);
-});
-
-
-/* --------------------------------------------------------------------------
-   15. BOOT SEQUENCE
-   Runs once per browser tab (sessionStorage), skippable with any key or click.
-   -------------------------------------------------------------------------- */
-(function () {
-  var boot = $('[data-boot]');
-  if (!boot) return;
-
-  var logEl = $('[data-boot-log]');
-  var barEl = $('[data-boot-bar]');
-  var pctEl = $('[data-boot-pct]');
-
-  /* ==========================================================
-     EDIT: the boot log. `tag` is the right-hand chip:
-       'ok'  → green OK
-       any other string → shown in yellow as-is
-     ========================================================== */
-  var BOOT_LINES = [
-    { text: 'initializing terminal',      tag: 'ok' },
-    { text: 'mounting /saket/profile',    tag: 'ok' },
-    { text: 'loading career index',       tag: '2018–2026' },
-    { text: 'fetching valuation models',  tag: '32' },
-    { text: 'reconciling deal history',   tag: 'ok' },
-    { text: 'auth: recruiter access',     tag: 'granted' }
-  ];
-
-  var stage = function (on) {
-    /* Everything that isn't the boot screen fades in behind it. */
-    $$('.bg-layer, .ticker, main, .cmdk-trigger').forEach(function (el) {
-      el.classList.add('stage');
-      if (on) el.classList.add('ready');
-    });
-  };
-
-  var finish = function () {
-    if (boot.dataset.done) return;
-    boot.dataset.done = '1';
-    boot.classList.add('done');
-    document.body.classList.remove('booting');
-    stage(true);
-    try { sessionStorage.setItem('booted', '1'); } catch (err) { /* private mode */ }
-    setTimeout(function () { boot.remove(); }, 700);
-  };
-
-  /* Skip entirely on repeat visits within the tab, or under reduced motion. */
-  var seen = false;
-  try { seen = sessionStorage.getItem('booted') === '1'; } catch (err) { seen = false; }
-
-  if (seen || reduceMotion) {
-    boot.remove();
-    return;
-  }
-
-  document.body.classList.add('booting');
-  stage(false);
-
-  var i = 0;
-  var pct = 0;
-
-  var addLine = function () {
-    if (i >= BOOT_LINES.length) {
-      /* Fill the bar the rest of the way, then clear. */
-      var settle = setInterval(function () {
-        pct = Math.min(100, pct + 4);
-        if (barEl) barEl.style.width = pct + '%';
-        if (pctEl) pctEl.textContent = pct;
-        if (pct >= 100) { clearInterval(settle); setTimeout(finish, 420); }
-      }, 22);
-      return;
-    }
-
-    var line = BOOT_LINES[i];
-    var li = document.createElement('li');
-    li.innerHTML = '<span class="dim">&gt;</span> ' + line.text +
-      (line.tag === 'ok'
-        ? '<span class="ok">OK</span>'
-        : '<span class="val">' + line.tag + '</span>');
-    if (logEl) logEl.appendChild(li);
-
-    i++;
-    pct = Math.min(92, Math.round((i / BOOT_LINES.length) * 92));
-    if (barEl) barEl.style.width = pct + '%';
-    if (pctEl) pctEl.textContent = pct;
-
-    setTimeout(addLine, 190 + Math.random() * 130);
-  };
-
-  setTimeout(addLine, 350);
-
-  document.addEventListener('keydown', finish, { once: true });
-  boot.addEventListener('click', finish, { once: true });
-
-  /* Never leave someone stuck behind the overlay. */
-  setTimeout(finish, 6000);
-})();
 
 
 /* --------------------------------------------------------------------------
@@ -1416,28 +1258,6 @@ document.addEventListener('panelchange', function (e) {
 
 
 /* --------------------------------------------------------------------------
-   18. FIRST PAINT
-   Scramble the name (and the opening panel title) once the stage is visible.
-   -------------------------------------------------------------------------- */
-(function () {
-  if (reduceMotion) return;
-
-  var run = function () {
-    var name = $('.info-content .name');
-    var title = $('.about [data-scramble]');
-    if (name) scramble(name);
-    if (title) setTimeout(function () { scramble(title); }, 220);
-  };
-
-  var booted = false;
-  try { booted = sessionStorage.getItem('booted') === '1'; } catch (err) { booted = false; }
-
-  /* After the boot screen if it played, right away if it didn't. */
-  setTimeout(run, booted ? 250 : 2400);
-})();
-
-
-/* --------------------------------------------------------------------------
    19. 3D AVATAR
    Three behaviours in one element:
      a) docked  — the stack turns to face the cursor, with an idle float
@@ -1766,8 +1586,6 @@ var toggleAvatarFace;   /* exposed for the command palette */
     if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleAvatarFace(); }
   });
 
-  /* Hold the first turn until the boot screen is out of the way. */
-  var booted = false;
-  try { booted = sessionStorage.getItem('booted') === '1'; } catch (err) { booted = false; }
-  setTimeout(startCycle, booted ? 1200 : 3400);
+  /* A beat after load, so the first turn isn't mid-entrance. */
+  setTimeout(startCycle, 1200);
 })();
