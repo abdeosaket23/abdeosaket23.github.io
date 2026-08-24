@@ -1139,13 +1139,17 @@ document.addEventListener('panelchange', function (e) {
 
   var lo = Math.min.apply(null, candles.map(function (c) { return c.low; }));
   var hi = Math.max.apply(null, candles.map(function (c) { return c.high; }));
-  var pad = (hi - lo) * 0.08;
+  /* A little more air than the data needs: bodies are drawn to a minimum
+     height below, and they grow about their own midpoint, so the first and
+     last steps need somewhere to grow into. */
+  var pad = (hi - lo) * 0.13;
   lo -= pad; hi += pad;
 
   var y = function (v) { return PAD.t + plotH - ((v - lo) / (hi - lo)) * plotH; };
   var step = plotW / rows.length;
   var cx = function (i) { return PAD.l + step * (i + 0.5); };
-  var bw = Math.min(24, step * 0.5);
+  var bw = Math.min(26, step * 0.5);
+  var BODY_MIN = 34;   /* viewBox units — no step draws thinner than this */
 
   /* Five-point star, drawn from its centre. */
   var starPath = function (sx, sy, r) {
@@ -1172,13 +1176,25 @@ document.addEventListener('panelchange', function (e) {
   candles.forEach(function (c, i) {
     var x = cx(i);
     var cls = c.up ? 'up' : 'down';
+    /* The move itself is only a few index points, which on this scale draws
+       a sliver. Hold every body to BODY_MIN, grown about its own midpoint so
+       it stays centred on the step it represents. */
     var top = y(Math.max(c.open, c.close));
     var bot = y(Math.min(c.open, c.close));
-    var h = Math.max(2, bot - top);
+    var h = Math.max(BODY_MIN, bot - top);
+    var mid = (top + bot) / 2;
+    top = mid - h / 2;
+    bot = mid + h / 2;
+
+    /* Wicks then have to clear the grown body, or they vanish inside it. */
+    var wickTop = Math.min(y(c.high), top - 7);
+    var wickBot = Math.max(y(c.low), bot + 7);
+    c.wickTop = wickTop;
+
     var delay = (0.35 + i * 0.07).toFixed(2) + 's';
 
-    parts.push('<line class="wick ' + cls + '" x1="' + x.toFixed(1) + '" y1="' + y(c.high).toFixed(1) +
-               '" x2="' + x.toFixed(1) + '" y2="' + y(c.low).toFixed(1) + '" style="animation-delay:' + delay + '"/>');
+    parts.push('<line class="wick ' + cls + '" x1="' + x.toFixed(1) + '" y1="' + wickTop.toFixed(1) +
+               '" x2="' + x.toFixed(1) + '" y2="' + wickBot.toFixed(1) + '" style="animation-delay:' + delay + '"/>');
     parts.push('<rect class="candle ' + cls + '" x="' + (x - bw / 2).toFixed(1) + '" y="' + top.toFixed(1) +
                '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="1.5" style="animation-delay:' + delay + '"/>');
 
@@ -1187,7 +1203,7 @@ document.addEventListener('panelchange', function (e) {
        drop — see data-logo on the <li>. */
     if (!c.row.logo) return;
     var bx = x - BADGE / 2;
-    var by = y(c.high) - BADGE - 7;
+    var by = c.wickTop - BADGE - 7;
     parts.push(
       '<g class="candle-badge" style="animation-delay:' + delay + '">' +
         '<rect class="badge-plate" x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) +
