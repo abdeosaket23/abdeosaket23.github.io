@@ -1838,6 +1838,15 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   filter: drop-shadow(0 0 4px hsla(45, 100%, 62%, 0.7));
 }
 
+/* Mortarboard on the marks that are study rather than work */
+.career-chart .cap-mark { fill: var(--orange-yellow-crayola); stroke: none; }
+.career-chart .cap-mark .cap-tassel {
+  fill: none;
+  stroke: var(--orange-yellow-crayola);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
 /* Company / university mark, on a plate above each candle */
 .career-chart .candle-badge { opacity: 0; pointer-events: none; }
 .in .career-chart .candle-badge { animation: fadeIn 0.45s ease both; }

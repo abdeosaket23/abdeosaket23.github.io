@@ -104,6 +104,10 @@ its own value, with a proportional wick):
     data-note="JSW, Mumbai — FX settlements across 4+ currencies, volumes to $3M."></li>
 ```
 
+`data-kind="study"` hangs a graduation cap off the corner of that step's mark,
+so a degree or a certification reads apart from a job at a glance — the chart
+mixes the two freely and the cap is what tells them apart.
+
 A block is as tall as the step was long: `data-months` sets the height, so a
 two-month internship draws short and a two-year role draws tall. The block is
 centred on its own close, which is where the trend line runs, and the axis

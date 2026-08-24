@@ -1103,6 +1103,7 @@ document.addEventListener('panelchange', function (e) {
       logo:  li.dataset.logo || '',
       range: li.dataset.range || '',
       months: parseFloat(li.dataset.months) || 0,
+      kind:  li.dataset.kind || '',
       awards: (li.dataset.awards || '').split('|').filter(Boolean)
     };
   });
@@ -1117,7 +1118,7 @@ document.addEventListener('panelchange', function (e) {
   /* Plates ride above each candle's high and stars above the plates, so the
      top padding has to clear whichever of them is in play. */
   var PAD = {
-    t: hasLogos ? BADGE + 16 + (hasAwards ? 14 : 0) : 14,
+    t: hasLogos ? BADGE + 18 + (hasAwards ? 16 : 0) : 14,
     r: 42, b: 26, l: 10
   };
   var plotW = W - PAD.l - PAD.r;
@@ -1163,6 +1164,17 @@ document.addEventListener('panelchange', function (e) {
   var step = plotW / rows.length;
   var cx = function (i) { return PAD.l + step * (i + 0.5); };
   var bw = Math.min(26, step * 0.5);
+
+  /* Mortarboard, drawn from the top-left of a 20-wide artwork. */
+  var capMark = function (gx, gy, w) {
+    return '<g class="cap-mark" transform="translate(' + gx.toFixed(1) + ' ' + gy.toFixed(1) +
+             ') scale(' + (w / 20).toFixed(3) + ')">' +
+        '<path d="M0 6 L10 1 L20 6 L10 11 Z"/>' +
+        '<path d="M4.6 8.3 L4.6 12.6 C4.6 14.7 15.4 14.7 15.4 12.6 L15.4 8.3 L10 11 Z"/>' +
+        '<path d="M18.4 7.4 L18.4 13.2" class="cap-tassel"/>' +
+        '<circle cx="18.4" cy="14.4" r="1.5"/>' +
+      '</g>';
+  };
 
   /* Five-point star, drawn from its centre. */
   var starPath = function (sx, sy, r) {
@@ -1221,6 +1233,7 @@ document.addEventListener('panelchange', function (e) {
         '<image href="' + c.row.logo + '" x="' + (bx + 4).toFixed(1) + '" y="' + (by + 4).toFixed(1) +
           '" width="' + (BADGE - 8) + '" height="' + (BADGE - 8) +
           '" preserveAspectRatio="xMidYMid meet"/>' +
+        (c.row.kind === 'study' ? capMark(bx - 4, by - 5, 14) : '') +
       '</g>'
     );
 
@@ -1229,7 +1242,7 @@ document.addEventListener('panelchange', function (e) {
     var gap = STAR * 2 + 3;
     var sx0 = x - (c.row.awards.length - 1) * gap / 2;
     var stars = c.row.awards.map(function (_, k) {
-      return '<path class="award-star" d="' + starPath(sx0 + k * gap, by - STAR - 4, STAR) + '"/>';
+      return '<path class="award-star" d="' + starPath(sx0 + k * gap, by - STAR - 6, STAR) + '"/>';
     }).join('');
     parts.push('<g class="candle-awards" style="animation-delay:' + delay + '">' + stars + '</g>');
   });
