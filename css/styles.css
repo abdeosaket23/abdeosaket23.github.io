@@ -707,29 +707,68 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .service-item-text { color: var(--light-gray); font-size: var(--fs-6); font-weight: var(--fw-300); line-height: 1.6; }
 
 
-/* ---------- Tools strip ---------- */
-.clients { margin-bottom: 15px; }
+/* ---------- Tools strip ----------
+   A grid of cards rather than a scrolling row of logos: the logos were
+   placeholder SVGs that read as empty circles, and real ones would be seven
+   different brands fighting each other. A drawn glyph on the site's own
+   palette keeps them one family, and each card says what the tool is for. */
+.tools { margin-bottom: 15px; }
 
-.clients-list {
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 12px;
+}
+
+.tool-card {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin: 0 -15px;
-  padding: 25px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  overscroll-behavior-inline: contain;
-  scroll-snap-type: inline mandatory;
+  gap: 13px;
+  padding: 13px 15px;
+  background: var(--border-gradient-onyx);
+  border-radius: 12px;
+  box-shadow: var(--shadow-2);
+  z-index: 1;
+  transition: transform 0.35s var(--ease-out-back);
 }
+.tool-card::before {
+  content: "";
+  position: absolute; inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: -1;
+}
+.tool-card:hover { transform: translateY(-4px); }
 
-.clients-item { min-width: 50%; scroll-snap-align: start; }
-.clients-item img {
-  width: 100%;
-  filter: grayscale(1);
-  opacity: 0.6;
-  transition: filter var(--transition-1), opacity var(--transition-1), transform var(--transition-1);
+.tool-icon {
+  flex-shrink: 0;
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 9px;
+  color: var(--orange-yellow-crayola);
+  background: hsla(45, 100%, 70%, 0.08);
+  border: 1px solid hsla(45, 100%, 72%, 0.18);
+  transition: var(--transition-1);
 }
-.clients-item img:hover { filter: grayscale(0); opacity: 1; transform: scale(1.07); }
+.tool-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tool-card:hover .tool-icon { background: hsla(45, 100%, 70%, 0.16); border-color: hsla(45, 100%, 72%, 0.45); }
+
+.tool-meta { min-width: 0; }
+.tool-name {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  font-weight: var(--fw-500);
+  letter-spacing: 0.04em;
+  color: var(--white-2);
+}
+.tool-use {
+  font-size: 11px;
+  font-weight: var(--fw-300);
+  line-height: 1.45;
+  color: var(--light-gray-70);
+  margin-top: 2px;
+}
 
 
 /* ==========================================================================
@@ -1253,8 +1292,6 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 
 
-  .clients-list { gap: 50px; margin: 0 -30px; padding: 45px; }
-  .clients-item { min-width: calc(33.33% - 35px); }
 
   .timeline-list { margin-left: 65px; }
   .timeline-item:not(:last-child) { margin-bottom: 30px; }
@@ -1283,7 +1320,6 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .metrics-list { grid-template-columns: repeat(4, 1fr); }
   .service-list { grid-template-columns: 1fr 1fr; gap: 20px 25px; }
-  .clients-item { min-width: calc(33.33% - 35px); }
   .timeline-text { max-width: 700px; }
 
   .filter-list { display: flex; justify-content: flex-start; align-items: center; gap: 25px; padding-left: 5px; margin-bottom: 30px; }
@@ -1345,7 +1381,6 @@ textarea.form-input::-webkit-resizer { display: none; }
   .nav-indicator { bottom: 14px; }
 
   .service-item { padding: 30px; }
-  .clients-item { min-width: calc(25% - 38px); }
   .project-list { grid-template-columns: repeat(3, 1fr); }
 
   .cmdk-trigger { display: flex; }

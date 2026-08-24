@@ -34,7 +34,7 @@ Every spot you need to change in `index.html` is marked with an `EDIT` comment.
 | Bio paragraphs | `.about-text` |
 | Key metric tiles | `.metrics-list` — see below |
 | "My Expertise" cards | `.service-list` — duplicate a `<li class="service-item">` |
-| Tool logos | `.clients-list` |
+| Platforms & tools | `.tools-grid` — duplicate a `<li class="tool-card">`; the glyph is inline SVG on a 24x24 grid |
 | Education / experience entries | `.timeline-list` — duplicate a `<li class="timeline-item">` |
 | Competency radar | `.radar-legend` — see below |
 | Certifications | `.certs-list` — duplicate a `<li class="cert-card">` |
@@ -223,7 +223,6 @@ folder and update the `src` (change the `.svg` extension to `.jpg`/`.png`):
 
 - `my-avatar` — sidebar photo, square, ~400×400
 - `project-1` … `project-6` — 4:3 ratio, ~800×600
-- `logo-1` … `logo-6` — tool logos, wide; they're greyscaled until hovered
 
 Put your resume PDF at `assets/files/resume.pdf` and the download button works.
 
