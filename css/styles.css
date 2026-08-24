@@ -254,6 +254,7 @@ body {
 
 .icon-box {
   position: relative;
+  flex-shrink: 0;
   background: var(--border-gradient-onyx);
   width: 30px; height: 30px;
   border-radius: 8px;
@@ -516,8 +517,11 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .sidebar.active .sidebar-info_more { opacity: 1; visibility: visible; }
 
 .contacts-list { display: grid; gap: 16px; }
-.contact-item { min-width: 100%; display: flex; align-items: center; gap: 16px; }
-.contact-info { max-width: calc(100% - 46px); width: calc(100% - 46px); }
+.contact-item { min-width: 100%; display: flex; align-items: center; gap: 12px; }
+/* Let the text column take whatever the icon and the copy button leave, and
+   let it shrink below its content width — a fixed calc() here didn't count
+   the button, so the button was pushed out past the sidebar's edge. */
+.contact-info { flex: 1 1 auto; min-width: 0; }
 .contact-title {
   color: var(--light-gray-70);
   font-size: var(--fs-8);
@@ -528,9 +532,10 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .contact-info :is(.contact-link, address) {
   color: var(--white-2);
   font-size: var(--fs-7);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* Wrap rather than ellipsize: a truncated email address is useless, and
+     the sidebar is too narrow to hold a long one on a single line. */
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .contact-info address { font-style: normal; }
 .contact-link:hover { color: var(--orange-yellow-crayola); }
@@ -1339,7 +1344,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   .info_more-btn .ico { display: none; }
   .separator { margin: 32px 0; }
   .contacts-list { gap: 20px; }
-  .contact-info { max-width: calc(100% - 64px); width: calc(100% - 64px); }
+  .contact-info { flex: 1 1 auto; min-width: 0; }
 
   .navbar { border-radius: 20px 20px 0 0; }
   .navbar-list { gap: 20px; }
