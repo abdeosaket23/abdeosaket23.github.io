@@ -8,8 +8,6 @@
      3.  sidebar toggle + copy email + toast
      4.  scroll reveal (staggered)
      5.  metric counters + sparklines
-     6.  competency radar
-     7.  skill bars
      8.  card tilt + spotlight
      10. portfolio filter
      11. contact form
@@ -186,7 +184,7 @@ on($$('[data-copy-email]'), 'click', function (e) {
     var kids = $$(':scope > *', block);
     kids.forEach(function (kid, i) { kid.style.setProperty('--i', i); });
 
-    $$('.service-item, .metric-card, .cert-card, .timeline-item, .skills-item', block)
+    $$('.service-item, .metric-card, .cert-card, .timeline-item, .skill-tags li', block)
       .forEach(function (kid, i) { kid.style.setProperty('--i', i); });
   });
 
@@ -290,121 +288,6 @@ on($$('[data-copy-email]'), 'click', function (e) {
         io.disconnect();
       });
     }, { threshold: 0.3 });
-    io.observe(section);
-  } else {
-    run();
-  }
-})();
-
-
-/* --------------------------------------------------------------------------
-   6. COMPETENCY RADAR
-   Rings, spokes, the value polygon, and labels are all drawn from the
-   <li data-label data-value> entries in the markup.
-   -------------------------------------------------------------------------- */
-(function () {
-  var svg = $('[data-radar]');
-  var data = $('[data-radar-data]');
-  if (!svg || !data) return;
-
-  var axes = $$('li', data).map(function (li) {
-    return {
-      label: li.dataset.label || '',
-      value: Math.max(0, Math.min(100, parseFloat(li.dataset.value) || 0))
-    };
-  });
-  if (axes.length < 3) return;
-
-  var CX = 200, CY = 150, R = 100;
-  var n = axes.length;
-
-  /* Angle for axis i, starting at 12 o'clock and going clockwise. */
-  var angle = function (i) { return (Math.PI * 2 * i) / n - Math.PI / 2; };
-  var point = function (i, r) {
-    return {
-      x: CX + Math.cos(angle(i)) * r,
-      y: CY + Math.sin(angle(i)) * r
-    };
-  };
-
-  var parts = [];
-
-  /* Rings at 25 / 50 / 75 / 100% */
-  [0.25, 0.5, 0.75, 1].forEach(function (f) {
-    var d = axes.map(function (_, i) {
-      var p = point(i, R * f);
-      return (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
-    }).join(' ') + ' Z';
-    parts.push('<path class="ring" d="' + d + '"/>');
-  });
-
-  /* Spokes */
-  axes.forEach(function (_, i) {
-    var p = point(i, R);
-    parts.push('<line class="spoke" x1="' + CX + '" y1="' + CY + '" x2="' + p.x.toFixed(1) + '" y2="' + p.y.toFixed(1) + '"/>');
-  });
-
-  /* Value polygon */
-  var shape = axes.map(function (a, i) {
-    var p = point(i, R * (a.value / 100));
-    return (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
-  }).join(' ') + ' Z';
-  parts.push('<path class="shape" d="' + shape + '"/>');
-
-  /* Vertex dots */
-  axes.forEach(function (a, i) {
-    var p = point(i, R * (a.value / 100));
-    parts.push('<circle class="dot" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="3"/>');
-  });
-
-  /* Labels, nudged outward and aligned by which side they sit on */
-  axes.forEach(function (a, i) {
-    var p = point(i, R + 24);
-    var cos = Math.cos(angle(i));
-    var anchor = Math.abs(cos) < 0.25 ? 'middle' : (cos > 0 ? 'start' : 'end');
-    parts.push(
-      '<text class="axis-label" x="' + p.x.toFixed(1) + '" y="' + p.y.toFixed(1) + '" text-anchor="' + anchor + '">' + a.label + '</text>' +
-      '<text class="axis-value" x="' + p.x.toFixed(1) + '" y="' + (p.y + 13).toFixed(1) + '" text-anchor="' + anchor + '">' + a.value + '</text>'
-    );
-  });
-
-  svg.innerHTML = parts.join('');
-})();
-
-
-/* --------------------------------------------------------------------------
-   7. SKILL BARS — width and the percentage label both come from data-level.
-   -------------------------------------------------------------------------- */
-(function () {
-  var items = $$('.skills-item');
-  if (!items.length) return;
-
-  items.forEach(function (item) {
-    var level = Math.max(0, Math.min(100, parseFloat(item.dataset.level) || 0));
-    var label = $('data', item);
-    var fill  = $('.skill-progress-fill', item);
-    if (label) { label.textContent = level + '%'; label.setAttribute('value', level); }
-    if (fill)  item.dataset.target = level;
-  });
-
-  var section = $('.skill');
-  if (!section) return;
-
-  var run = function () {
-    items.forEach(function (item) {
-      var fill = $('.skill-progress-fill', item);
-      if (fill) fill.style.width = (item.dataset.target || 0) + '%';
-    });
-  };
-
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        run();
-        io.disconnect();
-      });
-    }, { threshold: 0.25 });
     io.observe(section);
   } else {
     run();

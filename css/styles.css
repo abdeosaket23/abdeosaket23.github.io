@@ -817,79 +817,46 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .timeline-text { color: var(--light-gray); font-weight: var(--fw-300); line-height: 1.6; margin-top: 7px; }
 
 
-/* ---------- Radar chart ---------- */
-.radar-section { margin-bottom: 35px; }
-.radar-wrap { padding: 20px 10px; display: grid; place-items: center; }
-.radar { width: 100%; max-width: 380px; height: auto; }
+/* ---------- Skills ----------
+   Grouped tags rather than bars. A bar states a level, and the level was a
+   number invented for the layout — this says what the work has covered and
+   leaves the depth to the rest of the panel. */
+.skill-groups { display: grid; gap: 18px; }
 
-.radar .ring   { fill: none; stroke: hsla(0, 0%, 100%, 0.08); stroke-width: 1; }
-.radar .spoke  { stroke: hsla(0, 0%, 100%, 0.08); stroke-width: 1; }
-.radar .shape  {
-  fill: hsla(45, 100%, 65%, 0.18);
-  stroke: var(--orange-yellow-crayola);
-  stroke-width: 2;
-  stroke-linejoin: round;
-  /* Grows from the centre of the chart, which is at 200,150 in the viewBox */
-  transform-box: view-box;
-  transform-origin: 200px 150px;
-  transform: scale(0);
-  transition: transform 1s var(--ease-out-back);
-}
-.in .radar .shape { transform: scale(1); }
-.radar .dot { fill: var(--orange-yellow-crayola); stroke: none; }
-.radar .axis-label { fill: var(--light-gray-70); font-size: 11px; font-family: var(--ff-poppins); stroke: none; }
-.radar .axis-value { fill: var(--vegas-gold); font-size: 10px; font-family: var(--ff-mono); stroke: none; }
-
-.radar-legend { display: none; }
-
-
-/* ---------- Certifications ---------- */
-.certs { margin-bottom: 35px; }
-.certs-list { display: grid; gap: 12px; }
-
-.cert-card { display: flex; align-items: center; gap: 14px; padding: 14px 16px; }
-.cert-body { flex: 1; min-width: 0; }
-.cert-body .h4 { font-size: var(--fs-6); line-height: 1.3; text-transform: none; }
-.cert-meta { color: var(--light-gray-70); font-size: var(--fs-8); margin-top: 2px; }
-
-.cert-badge {
+.skill-group-title {
   font-family: var(--ff-mono);
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 4px 9px;
-  border-radius: 999px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.cert-badge[data-status="done"]     { color: var(--gain); background: hsla(150, 62%, 52%, 0.14); }
-.cert-badge[data-status="progress"] { color: var(--orange-yellow-crayola); background: hsla(45, 100%, 70%, 0.14); }
-
-
-/* ---------- Skills ---------- */
-.skills-list { padding: 20px; }
-.skills-item:not(:last-child) { margin-bottom: 15px; }
-
-.skill .title-wrapper { display: flex; align-items: center; gap: 5px; margin-bottom: 8px; }
-.skill .title-wrapper data {
-  color: var(--vegas-gold);
-  font-family: var(--ff-mono);
-  font-size: var(--fs-7);
-  font-weight: var(--fw-500);
-  margin-left: auto;
+  color: var(--orange-yellow-crayola);
+  margin-bottom: 10px;
+  padding-left: 10px;
+  border-left: 2px solid hsla(45, 100%, 72%, 0.55);
 }
 
-.skill-progress-bg { background: var(--jet); width: 100%; height: 8px; border-radius: 10px; overflow: hidden; }
-.skill-progress-fill {
-  background: var(--text-gradient-yellow);
-  height: 100%;
-  width: 0;
+.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tags li {
+  font-size: 12px;
+  font-weight: var(--fw-300);
+  color: var(--light-gray);
+  padding: 7px 12px;
+  border-radius: 9px;
+  background: var(--border-gradient-onyx);
+  box-shadow: var(--shadow-2);
+  position: relative;
+  z-index: 1;
+  transition: color var(--transition-1), transform 0.3s var(--ease-out-back);
+}
+.skill-tags li::before {
+  content: "";
+  position: absolute; inset: 1px;
+  background: var(--bg-gradient-jet);
   border-radius: inherit;
-  box-shadow: 0 0 12px hsla(45, 100%, 60%, 0.5);
-  transition: width 1.1s var(--ease-out-back);
-  transition-delay: calc(var(--i, 0) * 100ms);
+  z-index: -1;
 }
+.skill-tags li:hover { color: var(--white-2); transform: translateY(-2px); }
+
 
 /* The download sits with the title rather than at the foot of the panel:
    it's the one thing a recruiter is looking for, and it was three sections
@@ -1324,7 +1291,6 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-item::after { height: 8px; width: 8px; left: -43px; }
 
   .certs-list { grid-template-columns: 1fr 1fr; }
-  .skills-item:not(:last-child) { margin-bottom: 25px; }
 
   .filter-select-box { margin-bottom: 30px; }
 
@@ -1485,7 +1451,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-list span { color: #666; }
   [data-reveal] > *, [data-reveal] .timeline-item, [data-reveal] .cert-card { opacity: 1 !important; transform: none !important; }
   .info-content .name { -webkit-text-fill-color: #111; color: #111; animation: none; }
-  .radar-section, .skill { break-inside: avoid; }
+  .skill { break-inside: avoid; }
 }
 
 
@@ -1502,7 +1468,6 @@ textarea.form-input::-webkit-resizer { display: none; }
   .ticker-track { animation: none; }
   [data-reveal] > *, [data-reveal] .service-item, [data-reveal] .metric-card,
   [data-reveal] .cert-card, [data-reveal] .timeline-item { opacity: 1; transform: none; }
-  .radar .shape { transform: scale(1); }
 }
 
 

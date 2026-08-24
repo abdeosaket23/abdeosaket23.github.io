@@ -700,28 +700,6 @@
       </section>
 
 
-      <!-- ---------- Competency radar ---------- -->
-      <section class="radar-section" data-reveal>
-
-        <h3 class="h3 section-heading">Competency Map</h3>
-
-        <div class="radar-wrap content-card">
-          <svg class="radar" data-radar viewBox="0 0 400 320" role="img" aria-label="Competency radar chart"></svg>
-
-          <!-- EDIT: one <li> per axis. 3–8 axes read best. value = 0–100. -->
-          <ul class="radar-legend" data-radar-data>
-            <li data-label="Valuation"      data-value="92"></li>
-            <li data-label="Modelling"      data-value="88"></li>
-            <li data-label="Accounting"     data-value="80"></li>
-            <li data-label="Strategy"       data-value="85"></li>
-            <li data-label="Data / SQL"     data-value="72"></li>
-            <li data-label="Communication"  data-value="90"></li>
-          </ul>
-        </div>
-
-      </section>
-
-
       <!-- ---------- Certifications ---------- -->
       <section class="certs" data-reveal>
 
@@ -777,45 +755,55 @@
       </section>
 
 
-      <!-- ---------- Skills ---------- -->
+      <!-- ---------- Skills ----------
+           EDIT: one <div class="skill-group"> per heading, one <li> per
+           skill. No levels — a self-scored percentage is a number you
+           can be asked to defend. -->
       <section class="skill" data-reveal>
 
-        <h3 class="h3 section-heading">Technical Skills</h3>
+        <h3 class="h3 section-heading">Skills</h3>
 
-        <ul class="skills-list content-card">
-          <!-- EDIT: change the label and data-level (0–100). The bar and the
-               percentage are both driven by data-level. Kept in descending
-               order — a bar list reads worst when it zig-zags. -->
-          <li class="skills-item" data-level="92">
-            <div class="title-wrapper"><h5 class="h5">Excel / Financial Modelling</h5><data></data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
-          </li>
+        <div class="skill-groups">
+          <div class="skill-group">
+            <p class="skill-group-title">Operations &amp; Controls</p>
+            <ul class="skill-tags">
+              <li>Transaction Processing</li>
+              <li>Settlement &amp; Reconciliation</li>
+              <li>Exception Management</li>
+              <li>Process Improvement</li>
+              <li>Operational Risk</li>
+              <li>Internal Controls</li>
+              <li>Data Validation</li>
+            </ul>
+          </div>
 
-          <li class="skills-item" data-level="90">
-            <div class="title-wrapper"><h5 class="h5">Treasury &amp; FX Hedging</h5><data></data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
-          </li>
+          <div class="skill-group">
+            <p class="skill-group-title">Finance &amp; Transactions</p>
+            <ul class="skill-tags">
+              <li>Trade Finance</li>
+              <li>Cross-Border Payments</li>
+              <li>FX Settlements</li>
+              <li>Accounts Receivable</li>
+              <li>Working Capital Analysis</li>
+              <li>Cash Flow Management</li>
+              <li>International Banking</li>
+            </ul>
+          </div>
 
-          <li class="skills-item" data-level="88">
-            <div class="title-wrapper"><h5 class="h5">Trade Finance &amp; Working Capital</h5><data></data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
-          </li>
+          <div class="skill-group">
+            <p class="skill-group-title">Business &amp; Analytics</p>
+            <ul class="skill-tags">
+              <li>KPI Analysis</li>
+              <li>Management Reporting</li>
+              <li>Process Mapping</li>
+              <li>Workflow Analysis</li>
+              <li>Cross-Functional Collaboration</li>
+              <li>Stakeholder Management</li>
+              <li>Root Cause Analysis</li>
+            </ul>
+          </div>
 
-          <li class="skills-item" data-level="85">
-            <div class="title-wrapper"><h5 class="h5">Valuation &amp; Comps</h5><data></data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
-          </li>
-
-          <li class="skills-item" data-level="80">
-            <div class="title-wrapper"><h5 class="h5">Tableau / Power BI</h5><data></data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
-          </li>
-
-          <li class="skills-item" data-level="78">
-            <div class="title-wrapper"><h5 class="h5">SQL &amp; Python</h5><data></data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill"></div></div>
-          </li>
-        </ul>
+        </div>
 
       </section>
 

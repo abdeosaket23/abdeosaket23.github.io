@@ -36,9 +36,8 @@ Every spot you need to change in `index.html` is marked with an `EDIT` comment.
 | "My Expertise" cards | `.service-list` — duplicate a `<li class="service-item">` |
 | Platforms & tools | `.tools-grid` — duplicate a `<li class="tool-card">`; the mark is a square image in `assets/img/` on a white tile |
 | Education / experience entries | `.timeline-list` — duplicate a `<li class="timeline-item">` |
-| Competency radar | `.radar-legend` — see below |
 | Certifications | `.certs-list` — duplicate a `<li class="cert-card">` |
-| Skill bars | `.skills-list` — set `data-level="0–100"` |
+| Skills | `.skill-groups` — a `<div class="skill-group">` per heading, an `<li>` per tag |
 | Projects | `.project-list` — see below |
 | Contact form | `.contact-form` |
 | Command palette entries | the `COMMANDS` array in `js/main.js` |
@@ -167,18 +166,6 @@ add `data-decimals="1"` for one decimal place. `data-spark` is any list of
 numbers — the sparkline is drawn and scaled from them, so the values only need
 to be right relative to each other.
 
-### Competency radar
-
-The chart is drawn from the hidden list beneath it. Three to eight axes read
-best, and short labels avoid crowding the edges:
-
-```html
-<ul class="radar-legend" data-radar-data>
-  <li data-label="Valuation" data-value="92"></li>
-  <li data-label="Modelling" data-value="88"></li>
-</ul>
-```
-
 ### Adding a project
 
 Copy one `<li class="project-item">` and change four things:
@@ -239,7 +226,7 @@ to drop that layer.
 | Keyboard | `1`–`4` jump to a panel, `←`/`→` step through, `Esc` closes overlays |
 | Command palette | `⌘K` / `Ctrl+K`, or the button bottom-right on desktop |
 | Scroll reveal | Sections fade up in sequence as they enter view |
-| Counters and charts | Metric numbers count up, sparklines draw, the radar scales in, skill bars fill — all on first scroll into view |
+| Counters and charts | Metric numbers count up and sparklines draw on first scroll into view |
 | Card tilt | Cards tilt toward the cursor with a spotlight glow (desktop pointers only) |
 | Scroll progress | Thin gradient bar across the top of the window |
 | Copy email | The button beside the email address, or the palette entry; confirms with a toast |
