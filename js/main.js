@@ -1218,15 +1218,14 @@ var goToPage; /* exposed for the command palette below */
 
 
 /* --------------------------------------------------------------------------
-   17. MARKET CLOCK
-   Shows New York time and whether the NYSE regular session is open
-   (Mon–Fri, 09:30–16:00 ET). Holidays are not accounted for.
+   17. LOCAL CLOCK
+   Boston time, beside the availability line in the sidebar. The label is
+   plain HTML — edit it there, not here.
    -------------------------------------------------------------------------- */
 (function () {
   var clock = $('[data-clock]');
   if (!clock) return;
 
-  var stateEl = $('[data-clock-state]');
   var timeEl  = $('[data-clock-time]');
 
   var fmt = null;
@@ -1234,7 +1233,6 @@ var goToPage; /* exposed for the command palette below */
     fmt = new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/New_York',
       hour12: false,
-      weekday: 'short',
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit'
@@ -1245,28 +1243,20 @@ var goToPage; /* exposed for the command palette below */
 
   var tick = function () {
     var now = new Date();
-    var day, h, m, s;
+    var h, m, s;
 
     if (fmt) {
       var parts = {};
       fmt.formatToParts(now).forEach(function (p) { parts[p.type] = p.value; });
-      day = parts.weekday;
       h = parseInt(parts.hour, 10);
       m = parseInt(parts.minute, 10);
       s = parts.second;
     } else {
-      day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][now.getDay()];
       h = now.getHours();
       m = now.getMinutes();
       s = String(now.getSeconds()).padStart(2, '0');
     }
 
-    var weekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].indexOf(day) !== -1;
-    var mins = h * 60 + m;
-    var open = weekday && mins >= 570 && mins < 960;   /* 09:30 – 16:00 */
-
-    clock.dataset.open = String(open);
-    if (stateEl) stateEl.textContent = open ? 'MARKET OPEN' : 'MARKET CLOSED';
     if (timeEl) {
       timeEl.textContent =
         String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');

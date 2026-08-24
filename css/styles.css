@@ -1561,15 +1561,18 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 .mkt-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
-  background: var(--light-gray-70);
   flex-shrink: 0;
+  background: var(--gain);
+  box-shadow: 0 0 8px var(--gain);
+  animation: blink 2s ease-in-out infinite;
 }
-.market-clock[data-open="true"]  .mkt-dot { background: var(--gain); box-shadow: 0 0 8px var(--gain); animation: blink 2s ease-in-out infinite; }
-.market-clock[data-open="false"] .mkt-dot { background: var(--loss); }
 
-.mkt-state { color: var(--white-2); font-weight: 700; letter-spacing: 0.08em; }
-.market-clock[data-open="true"]  .mkt-state { color: var(--gain); }
-.market-clock[data-open="false"] .mkt-state { color: var(--loss); }
+.mkt-state {
+  color: var(--gain);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
 .mkt-time { color: var(--light-gray); margin-left: auto; font-variant-numeric: tabular-nums; }
 .mkt-tz { color: var(--light-gray-70); }
