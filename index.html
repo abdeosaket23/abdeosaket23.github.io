@@ -261,6 +261,9 @@
              data-year   the short x-axis tick
              data-value  where the career "index" sits at that step
              data-range  full dates, shown at the top of the tooltip
+             data-months how long that step lasted — this is what sets the
+                         height of the block, so a two-month internship
+                         draws short and a two-year role draws tall
              data-label  short headline shown in the tooltip
              data-note   one line of detail shown in the tooltip
              data-awards awards won here, separated by | — each one puts a
@@ -296,47 +299,56 @@
 
         <ul class="career-data" data-career-data>
           <li data-year="2019" data-value="18" data-label="B.Com Honors, 9.51/10"
+              data-months="35"
               data-range="Jul 2019 – May 2022"
               data-logo="assets/img/logos/mumbai.svg"
               data-note="University of Mumbai — Banking &amp; Insurance."></li>
           <li data-year="Oct '21" data-value="27" data-label="Finance Intern"
+              data-months="2"
               data-range="Oct 2021 – Nov 2021"
               data-logo="assets/img/logos/learnovate.svg"
               data-note="Learnovate Ecommerce, Mumbai — models for new product lines."></li>
           <li data-year="May '22" data-value="35" data-label="Advanced Certification"
+              data-months="5"
               data-range="May 2022 – Sep 2022"
               data-logo="assets/img/logos/etti.svg"
               data-note="Export Trade &amp; Training Institute — international trade and management."></li>
           <li data-year="Nov '22" data-value="44" data-label="Logistics Operations Intern"
+              data-months="2"
               data-range="Nov 2022 – Dec 2022"
               data-logo="assets/img/logos/samudra.svg"
               data-note="Samudra Group of Companies, Mumbai."></li>
           <li data-year="Feb '23" data-value="56" data-label="Accounting Executive"
+              data-months="8"
               data-range="Feb 2023 – Sep 2023"
               data-logo="assets/img/logos/jsw.svg"
               data-note="JSW — India's largest steel manufacturer and exporter."></li>
           <li data-year="Sep '23" data-value="72" data-label="Trade Finance Officer"
+              data-months="24"
               data-range="Sep 2023 – Aug 2025"
               data-logo="assets/img/logos/jsw.svg"
               data-awards="JSW: Best Newcomer of the Quarter (2023–2024)|JSW: Change Catalyst (2023–2024)"
               data-note="JSW, Mumbai — FX settlements across 4+ currencies, volumes to $3M."></li>
           <li data-year="Sep '25" data-value="84" data-label="MSQF / MBA"
+              data-months="12"
               data-range="Sep 2025 – Present"
               data-logo="assets/img/logos/northeastern.svg"
               data-awards="D'Amore-McKim Achievers Scholarship (2026–present)|Global Learners Award (2026–present)"
               data-note="Northeastern University, D'Amore-McKim School of Business — Boston."></li>
           <li data-year="Jan '26" data-value="92" data-label="Equity Research Analyst"
+              data-months="5"
               data-range="Jan 2026 – May 2026"
               data-logo="assets/img/logos/huntington.svg"
               data-note="360 Huntington Fund — Vertiv (VRT) coverage for a $2M student-managed fund."></li>
           <li data-year="May '26" data-value="100" data-label="Student Success Assistant"
+              data-months="4"
               data-range="May 2026 – Present"
               data-logo="assets/img/logos/northeastern.svg"
               data-note="Global Experience Office, Northeastern University — Boston."></li>
         </ul>
 
         <p class="career-foot">
-          Hover the chart to read each step. ★ marks an award. Not investment advice — just a career.
+          Block height is time spent. Hover to read each step; ★ marks an award. Not investment advice — just a career.
         </p>
 
       </section>

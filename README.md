@@ -97,11 +97,18 @@ its own value, with a proportional wick):
 
 ```html
 <li data-year="Sep '23" data-value="72" data-label="Trade Finance Officer"
+    data-months="24"
     data-range="Sep 2023 – Aug 2025"
     data-logo="assets/img/logos/jsw.svg"
     data-awards="JSW: Best Newcomer of the Quarter (2023–2024)|JSW: Change Catalyst (2023–2024)"
     data-note="JSW, Mumbai — FX settlements across 4+ currencies, volumes to $3M."></li>
 ```
+
+A block is as tall as the step was long: `data-months` sets the height, so a
+two-month internship draws short and a two-year role draws tall. The block is
+centred on its own close, which is where the trend line runs, and the axis
+reserves room for half of the tallest block at either end. Leave `data-months`
+off and that step falls back to the size of its own move.
 
 One `<li>` is one step, not necessarily one year: a degree, a role, a
 certification. `data-year` is the short tick under it and `data-range` the full

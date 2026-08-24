@@ -1102,6 +1102,7 @@ document.addEventListener('panelchange', function (e) {
       note:  li.dataset.note || '',
       logo:  li.dataset.logo || '',
       range: li.dataset.range || '',
+      months: parseFloat(li.dataset.months) || 0,
       awards: (li.dataset.awards || '').split('|').filter(Boolean)
     };
   });
@@ -1139,17 +1140,29 @@ document.addEventListener('panelchange', function (e) {
 
   var lo = Math.min.apply(null, candles.map(function (c) { return c.low; }));
   var hi = Math.max.apply(null, candles.map(function (c) { return c.high; }));
-  /* A little more air than the data needs: bodies are drawn to a minimum
-     height below, and they grow about their own midpoint, so the first and
-     last steps need somewhere to grow into. */
-  var pad = (hi - lo) * 0.13;
-  lo -= pad; hi += pad;
+  /* --- how tall each block is -------------------------------------------
+     Height is time, not price: a block is as tall as the step was long, so a
+     two-month internship draws short and a two-year role draws tall. Steps
+     without a data-months fall back to the size of their own move. */
+  var BODY_MIN = 13;                  /* viewBox units — the shortest stint */
+  var PER_MONTH = 2.5;                /* units per month */
+  var longest = Math.max.apply(null, rows.map(function (r) { return r.months; }));
 
-  var y = function (v) { return PAD.t + plotH - ((v - lo) / (hi - lo)) * plotH; };
+  var bodyHeight = function (c) {
+    if (!c.row.months) return Math.max(BODY_MIN, Math.abs(c.close - c.open));
+    return Math.max(BODY_MIN, c.row.months * PER_MONTH);
+  };
+
+  /* Blocks are centred on their own close, so the scale has to keep half of
+     the tallest one clear of the top and bottom of the plot. */
+  var reserve = (longest ? longest * PER_MONTH : BODY_MIN) / 2 + 8;
+  var innerTop = PAD.t + reserve;
+  var innerBot = PAD.t + plotH - reserve;
+
+  var y = function (v) { return innerBot - ((v - lo) / (hi - lo)) * (innerBot - innerTop); };
   var step = plotW / rows.length;
   var cx = function (i) { return PAD.l + step * (i + 0.5); };
   var bw = Math.min(26, step * 0.5);
-  var BODY_MIN = 34;   /* viewBox units — no step draws thinner than this */
 
   /* Five-point star, drawn from its centre. */
   var starPath = function (sx, sy, r) {
@@ -1176,15 +1189,12 @@ document.addEventListener('panelchange', function (e) {
   candles.forEach(function (c, i) {
     var x = cx(i);
     var cls = c.up ? 'up' : 'down';
-    /* The move itself is only a few index points, which on this scale draws
-       a sliver. Hold every body to BODY_MIN, grown about its own midpoint so
-       it stays centred on the step it represents. */
-    var top = y(Math.max(c.open, c.close));
-    var bot = y(Math.min(c.open, c.close));
-    var h = Math.max(BODY_MIN, bot - top);
-    var mid = (top + bot) / 2;
-    top = mid - h / 2;
-    bot = mid + h / 2;
+    /* Centred on the step's own close — which is where the trend line runs —
+       and as tall as the step was long. */
+    var h = bodyHeight(c);
+    var mid = y(c.close);
+    var top = mid - h / 2;
+    var bot = mid + h / 2;
 
     /* Wicks then have to clear the grown body, or they vanish inside it. */
     var wickTop = Math.min(y(c.high), top - 7);
@@ -1304,7 +1314,10 @@ document.addEventListener('panelchange', function (e) {
     if (crossV) { crossV.setAttribute('x1', px); crossV.setAttribute('x2', px); }
     if (crossH) { crossH.setAttribute('y1', py); crossH.setAttribute('y2', py); }
 
-    if (tipYear) tipYear.textContent = c.row.range || c.row.year;
+    if (tipYear) {
+      tipYear.textContent = (c.row.range || c.row.year) +
+        (c.row.months ? '  ·  ' + c.row.months + ' mo' : '');
+    }
     if (tipLbl)  tipLbl.textContent  = c.row.label;
     if (tipNote) tipNote.textContent = c.row.note;
     if (tipAwd) {
