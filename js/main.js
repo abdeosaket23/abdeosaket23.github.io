@@ -547,7 +547,7 @@ on($$('[data-copy-email]'), 'click', function (e) {
   if (!form || !btn) return;
 
   /* EDIT: your address — used only for the mailto fallback below. */
-  var FALLBACK_EMAIL = 'you@example.com';
+  var FALLBACK_EMAIL = 'abdeosaket23@gmail.com';
 
   on($$('[data-form-input]'), 'input', function () {
     btn.disabled = !form.checkValidity();
