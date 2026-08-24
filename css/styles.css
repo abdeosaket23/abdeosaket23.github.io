@@ -1403,7 +1403,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   .sidebar, article { width: auto; }
 
   main {
-    max-width: 1200px;
+    max-width: 1300px;
     margin-inline: auto;
     display: flex;
     justify-content: center;
@@ -1411,9 +1411,15 @@ textarea.form-input::-webkit-resizer { display: none; }
     gap: 25px;
   }
 
-  .main-content { min-width: 75%; width: 75%; margin: 0; }
+  /* The sidebar takes whatever is left, so widening it is one number here.
+     At 70% of 1300 the panel is a shade wider than it was at 75% of 1200,
+     and the card gains ~90px — enough to hold the full email address and
+     "Northeastern University" on one line each. */
+  .main-content { flex: 0 0 70%; min-width: 0; width: 70%; margin: 0; }
 
   .sidebar {
+    flex: 1 1 auto;
+    min-width: 0;
     position: sticky;
     top: 40px;
     max-height: max-content;
