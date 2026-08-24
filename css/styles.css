@@ -1735,7 +1735,7 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   position: absolute;
   top: 0; left: 0;
   min-width: 160px;
-  max-width: 230px;
+  max-width: 250px;
   padding: 10px 12px;
   background: hsla(240, 2%, 10%, 0.96);
   border: 1px solid var(--jet);
@@ -1749,31 +1749,67 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 }
 .career-tip.show { opacity: 1; transform: none; }
 
+/* One row of identity — the mark, what it was, when — then the detail.
+   The old tooltip stacked four unrelated lines and finished on an index
+   reading nobody asked for. */
+.tip-head { display: flex; align-items: center; gap: 10px; }
+
+.tip-logo {
+  flex-shrink: 0;
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  padding: 3px;
+  border-radius: 9px;
+  background: hsl(0, 0%, 97%);
+  overflow: hidden;
+}
+/* Marks that are already a solid tile fill it instead of sitting on it. */
+.tip-logo.bleed { padding: 0; background: none; }
+.tip-logo img { width: 100%; height: 100%; object-fit: contain; }
+.tip-logo.bleed img { object-fit: cover; border-radius: 9px; }
+
+.tip-headings { min-width: 0; }
+.tip-label { font-size: 13px; font-weight: 600; color: var(--white-2); line-height: 1.25; }
 .tip-year {
   font-family: var(--ff-mono);
   font-size: 10px;
-  color: var(--orange-yellow-crayola);
-  letter-spacing: 0.1em;
-  margin-bottom: 4px;
+  color: var(--light-gray-70);
+  letter-spacing: 0.06em;
+  margin-top: 3px;
 }
-.tip-label { font-size: 13px; font-weight: 600; color: var(--white-2); line-height: 1.3; }
-.tip-note { font-size: 11px; font-weight: 300; color: var(--light-gray-70); line-height: 1.5; margin-top: 4px; }
-.tip-awards { margin-top: 6px; }
+
+/* Study or work, said outright rather than left to the reader */
+.tip-kind {
+  display: inline-block;
+  margin-top: 9px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.tip-kind[data-kind="study"] {
+  color: var(--orange-yellow-crayola);
+  background: hsla(45, 100%, 70%, 0.12);
+  border: 1px solid hsla(45, 100%, 72%, 0.35);
+}
+.tip-kind[data-kind="work"] {
+  color: var(--gain);
+  background: hsla(150, 62%, 52%, 0.12);
+  border: 1px solid hsla(150, 62%, 52%, 0.35);
+}
+
+.tip-note { font-size: 11px; font-weight: 300; color: var(--light-gray-70); line-height: 1.5; margin-top: 8px; }
+
+.tip-awards { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--jet); }
 .tip-awards span {
   display: block;
   font-family: var(--ff-mono);
   font-size: 10px;
   line-height: 1.6;
   color: var(--orange-yellow-crayola);
-}
-
-.tip-val {
-  font-family: var(--ff-mono);
-  font-size: 11px;
-  margin-top: 7px;
-  padding-top: 7px;
-  border-top: 1px solid var(--jet);
-  color: var(--light-gray);
 }
 
 .career-foot {

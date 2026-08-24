@@ -1136,8 +1136,10 @@ var goToPage; /* exposed for the command palette below */
   var tipYear = $('[data-tip-year]');
   var tipLbl  = $('[data-tip-label]');
   var tipNote = $('[data-tip-note]');
-  var tipVal  = $('[data-tip-val]');
   var tipAwd  = $('[data-tip-awards]');
+  var tipLogo = $('[data-tip-logo]');
+  var tipLogoBox = $('[data-tip-logo-box]');
+  var tipKind = $('[data-tip-kind]');
 
   var show = function (i, clientX) {
     var c = candles[i];
@@ -1156,6 +1158,18 @@ var goToPage; /* exposed for the command palette below */
     }
     if (tipLbl)  tipLbl.textContent  = c.row.label;
     if (tipNote) tipNote.textContent = c.row.note;
+
+    if (tipLogo && tipLogoBox) {
+      tipLogoBox.hidden = !c.row.logo;
+      if (c.row.logo) tipLogo.src = c.row.logo;
+      tipLogoBox.classList.toggle('bleed', c.row.bleed);
+    }
+
+    if (tipKind) {
+      var study = c.row.kind === 'study';
+      tipKind.textContent = study ? 'Study' : 'Work';
+      tipKind.dataset.kind = study ? 'study' : 'work';
+    }
     if (tipAwd) {
       tipAwd.textContent = '';
       c.row.awards.forEach(function (a) {
@@ -1164,14 +1178,6 @@ var goToPage; /* exposed for the command palette below */
         tipAwd.appendChild(line);
       });
       tipAwd.hidden = !c.row.awards.length;
-    }
-
-    if (tipVal) {
-      var d = c.close - c.open;
-      var pctChange = c.open ? (d / c.open) * 100 : 0;
-      tipVal.innerHTML = 'index ' + c.close.toFixed(1) +
-        '  <span style="color:var(--' + (d >= 0 ? 'gain' : 'loss') + ')">' +
-        (d >= 0 ? '+' : '') + pctChange.toFixed(1) + '%</span>';
     }
 
     if (tip) {
