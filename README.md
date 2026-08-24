@@ -98,7 +98,7 @@ its own value, with a proportional wick):
 <li data-year="Sep '23" data-value="72" data-label="Trade Finance Officer"
     data-months="24"
     data-range="Sep 2023 – Aug 2025"
-    data-logo="assets/img/logos/jsw.svg"
+    data-logo="assets/img/jsw.png"
     data-awards="JSW: Best Newcomer of the Quarter (2023–2024)|JSW: Change Catalyst (2023–2024)"
     data-note="JSW, Mumbai — FX settlements across 4+ currencies, volumes to $3M."></li>
 ```
@@ -124,12 +124,13 @@ other steps, and the axis rescales to whatever range you use. `data-label` and
 quote above the chart is computed from the first and last values.
 
 `data-logo` is optional: point it at a square image and the chart draws it on
-a small plate above that year's candle, riding the trend line. The marks in
-`assets/img/logos/` are monograms — plain SVG text, gold for a school and grey
-for an employer. To use a real logo, drop the file into that folder and change
-the one attribute; nothing else needs touching. Square marks work best, since a
-wide wordmark shrinks to nothing inside a 26px plate. The top padding of the
-plot opens up on its own when any year carries a logo.
+a white plate above that year's candle, riding the trend line. The plate is
+light on purpose — most brand logos are drawn for white, and the Mumbai crest
+and the Samudra monogram are near-black line art that would vanish on a dark
+tile. Square marks work best, since a wide wordmark shrinks inside a 30px
+plate. Steps without a real logo fall back to a monogram in
+`assets/img/logos/` — plain SVG text in the same dark ink. The top padding of
+the plot opens up on its own when any step carries a logo.
 
 Add or remove `<li>` entries freely; the chart re-lays itself out, and year
 labels thin to every other one past seven entries.

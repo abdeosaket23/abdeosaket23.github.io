@@ -911,7 +911,7 @@ var goToPage; /* exposed for the command palette below */
   });
   if (rows.length < 2) return;
 
-  var BADGE = 26;                                   /* logo plate, viewBox units */
+  var BADGE = 30;                                   /* logo plate, viewBox units */
   var STAR  = 4.6;                                  /* award star, outer radius */
   var hasLogos  = rows.some(function (r) { return r.logo; });
   var hasAwards = rows.some(function (r) { return r.awards.length; });
@@ -1035,7 +1035,7 @@ var goToPage; /* exposed for the command palette below */
         '<image href="' + c.row.logo + '" x="' + (bx + 4).toFixed(1) + '" y="' + (by + 4).toFixed(1) +
           '" width="' + (BADGE - 8) + '" height="' + (BADGE - 8) +
           '" preserveAspectRatio="xMidYMid meet"/>' +
-        (c.row.kind === 'study' ? capMark(bx - 4, by - 5, 14) : '') +
+        (c.row.kind === 'study' ? capMark(bx - 12, by - 12, 14) : '') +
       '</g>'
     );
 

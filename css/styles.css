@@ -1652,9 +1652,13 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 /* Company / university mark, on a plate above each candle */
 .career-chart .candle-badge { opacity: 0; pointer-events: none; }
 .in .career-chart .candle-badge { animation: fadeIn 0.45s ease both; }
+/* Light plate, because that's what these logos were drawn for: the Mumbai
+   crest is black line art and the Samudra monogram is navy — both vanish on
+   a dark tile. A white chip also stops six different brand palettes from
+   fighting the chart behind them. */
 .career-chart .badge-plate {
-  fill: hsla(240, 2%, 12%, 0.92);
-  stroke: hsla(45, 100%, 72%, 0.3);
+  fill: hsl(0, 0%, 97%);
+  stroke: hsla(45, 100%, 72%, 0.45);
   stroke-width: 1;
 }
 
