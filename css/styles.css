@@ -1658,6 +1658,13 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
    fighting the chart behind them. */
 .career-chart .badge-plate {
   fill: hsl(0, 0%, 97%);
+  stroke: none;
+}
+
+/* One hairline over every mark, plate or full-bleed, so the nine read as
+   one set however different the logos behind them are. */
+.career-chart .badge-edge {
+  fill: none;
   stroke: hsla(45, 100%, 72%, 0.45);
   stroke-width: 1;
 }

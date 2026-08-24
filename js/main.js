@@ -906,6 +906,7 @@ var goToPage; /* exposed for the command palette below */
       range: li.dataset.range || '',
       months: parseFloat(li.dataset.months) || 0,
       kind:  li.dataset.kind || '',
+      bleed: li.dataset.logoBleed !== undefined,
       awards: (li.dataset.awards || '').split('|').filter(Boolean)
     };
   });
@@ -1028,13 +1029,32 @@ var goToPage; /* exposed for the command palette below */
     if (!c.row.logo) return;
     var bx = x - BADGE / 2;
     var by = c.wickTop - BADGE - 7;
+    /* A logo that is already a solid tile fills the plate instead of sitting
+       on it — no white showing round the edge. It's clipped to the same
+       rounded square and overscanned a touch, which also trims any thin
+       white margin baked into the file. Everything else keeps the plate,
+       with just enough padding to hold the mark off the corners. */
+    var pad = 2.5;
+    var art = c.row.bleed
+      ? '<clipPath id="badgeClip' + i + '">' +
+          '<rect x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) +
+            '" width="' + BADGE + '" height="' + BADGE + '" rx="7"/>' +
+        '</clipPath>' +
+        '<image href="' + c.row.logo + '" clip-path="url(#badgeClip' + i + ')"' +
+          ' x="' + (bx - 1.2).toFixed(1) + '" y="' + (by - 1.2).toFixed(1) +
+          '" width="' + (BADGE + 2.4) + '" height="' + (BADGE + 2.4) +
+          '" preserveAspectRatio="xMidYMid slice"/>'
+      : '<rect class="badge-plate" x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) +
+          '" width="' + BADGE + '" height="' + BADGE + '" rx="7"/>' +
+        '<image href="' + c.row.logo + '" x="' + (bx + pad).toFixed(1) + '" y="' + (by + pad).toFixed(1) +
+          '" width="' + (BADGE - pad * 2) + '" height="' + (BADGE - pad * 2) +
+          '" preserveAspectRatio="xMidYMid meet"/>';
+
     parts.push(
       '<g class="candle-badge" style="animation-delay:' + delay + '">' +
-        '<rect class="badge-plate" x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) +
+        art +
+        '<rect class="badge-edge" x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) +
           '" width="' + BADGE + '" height="' + BADGE + '" rx="7"/>' +
-        '<image href="' + c.row.logo + '" x="' + (bx + 4).toFixed(1) + '" y="' + (by + 4).toFixed(1) +
-          '" width="' + (BADGE - 8) + '" height="' + (BADGE - 8) +
-          '" preserveAspectRatio="xMidYMid meet"/>' +
         (c.row.kind === 'study' ? capMark(bx - 12, by - 12, 14) : '') +
       '</g>'
     );
