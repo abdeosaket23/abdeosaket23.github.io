@@ -1031,18 +1031,19 @@ var goToPage; /* exposed for the command palette below */
     var by = c.wickTop - BADGE - 7;
     /* A logo that is already a solid tile fills the plate instead of sitting
        on it — no white showing round the edge. It's clipped to the same
-       rounded square and overscanned a touch, which also trims any thin
-       white margin baked into the file. Everything else keeps the plate,
-       with just enough padding to hold the mark off the corners. */
-    var pad = 2.5;
+       rounded square, with a hair of overscan so antialiasing can't leave a
+       seam. The files themselves are trimmed square, so nothing is cropped.
+       Everything else keeps the plate, with enough padding to hold the mark
+       off the corners. */
+    var pad = 3.5;
     var art = c.row.bleed
       ? '<clipPath id="badgeClip' + i + '">' +
           '<rect x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) +
             '" width="' + BADGE + '" height="' + BADGE + '" rx="7"/>' +
         '</clipPath>' +
         '<image href="' + c.row.logo + '" clip-path="url(#badgeClip' + i + ')"' +
-          ' x="' + (bx - 1.2).toFixed(1) + '" y="' + (by - 1.2).toFixed(1) +
-          '" width="' + (BADGE + 2.4) + '" height="' + (BADGE + 2.4) +
+          ' x="' + (bx - 0.6).toFixed(1) + '" y="' + (by - 0.6).toFixed(1) +
+          '" width="' + (BADGE + 1.2) + '" height="' + (BADGE + 1.2) +
           '" preserveAspectRatio="xMidYMid slice"/>'
       : '<rect class="badge-plate" x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) +
           '" width="' + BADGE + '" height="' + BADGE + '" rx="7"/>' +
