@@ -617,6 +617,14 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 
 .about-text { color: var(--light-gray); font-size: var(--fs-6); font-weight: var(--fw-300); line-height: 1.6; }
 .about-text p { margin-bottom: 15px; }
+/* The figures are the load-bearing part of that first paragraph — let them
+   read as numbers rather than as bolder body copy. */
+.about-text strong {
+  font-family: var(--ff-mono);
+  font-size: 0.94em;
+  font-weight: var(--fw-500);
+  color: var(--orange-yellow-crayola);
+}
 
 
 /* ---------- Metrics dashboard ---------- */
