@@ -913,6 +913,27 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   margin-top: 3px;
 }
 
+/* Two posts at one employer read better as one entry with the step in it
+   than as two entries with the same logo and the same company line. */
+.role-path {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 7px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  width: max-content;
+  max-width: 100%;
+  font-family: var(--ff-mono);
+  font-size: 10.5px;
+  color: var(--light-gray);
+  background: hsla(0, 0%, 100%, 0.045);
+}
+.role-path i { font-style: normal; color: var(--sec); font-size: 12px; }
+.role-path span { color: var(--light-gray-70); }
+.role-path span::before { content: "· "; }
+
 .role-points { margin-top: 8px; display: grid; gap: 5px; }
 .role-points li {
   position: relative;
