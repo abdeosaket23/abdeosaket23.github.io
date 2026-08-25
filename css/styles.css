@@ -890,7 +890,8 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .role-org {
   font-family: var(--ff-mono);
   font-size: 11px;
-  color: var(--vegas-gold);
+  color: var(--sec);
+  opacity: 0.9;
   margin-top: 3px;
 }
 
@@ -917,7 +918,7 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   font-family: var(--ff-mono);
   font-size: 0.94em;
   font-weight: var(--fw-500);
-  color: var(--orange-yellow-crayola);
+  color: var(--sec);
 }
 
 /* --- education --- */
@@ -940,7 +941,7 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .edu-body { min-width: 0; }
 .edu-title { font-size: 13px; font-weight: var(--fw-600); color: var(--white-2); line-height: 1.35; }
 .edu-org { font-size: 12px; font-weight: var(--fw-300); color: var(--light-gray); margin-top: 2px; }
-.edu-when { font-family: var(--ff-mono); font-size: 10.5px; color: var(--vegas-gold); margin-top: 4px; }
+.edu-when { font-family: var(--ff-mono); font-size: 10.5px; color: var(--sec); opacity: 0.9; margin-top: 4px; }
 
 /* --- achievements --- */
 .award-list { display: grid; gap: 10px; }
