@@ -184,7 +184,7 @@ on($$('[data-copy-email]'), 'click', function (e) {
     var kids = $$(':scope > *', block);
     kids.forEach(function (kid, i) { kid.style.setProperty('--i', i); });
 
-    $$('.service-item, .metric-card, .cert-card, .timeline-item, .skill-tags li', block)
+    $$('.service-item, .metric-card, .role, .cert-list li, .skill-tags li', block)
       .forEach(function (kid, i) { kid.style.setProperty('--i', i); });
   });
 
@@ -302,7 +302,7 @@ on($$('[data-copy-email]'), 'click', function (e) {
   if (reduceMotion) return;
   if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return;
 
-  var cards = $$('.service-item, .metric-card, .cert-card');
+  var cards = $$('.service-item, .metric-card, .role');
   cards.forEach(function (card) { card.classList.add('tilt'); });
 
   var MAX = 6; /* degrees */

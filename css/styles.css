@@ -370,15 +370,15 @@ article.slide-from-left  { animation: slideFromLeft  0.5s var(--ease-out-back) b
 /* Grid children stagger individually */
 [data-reveal] .service-item,
 [data-reveal] .metric-card,
-[data-reveal] .cert-card,
-[data-reveal] .timeline-item {
+[data-reveal] .role,
+[data-reveal] .cert-list li {
   opacity: 0;
   transform: translate3d(0, 24px, 0);
 }
 [data-reveal].in .service-item,
 [data-reveal].in .metric-card,
-[data-reveal].in .cert-card,
-[data-reveal].in .timeline-item {
+[data-reveal].in .role,
+[data-reveal].in .cert-list li {
   opacity: 1;
   transform: none;
   transition: opacity 0.55s ease, transform 0.55s var(--ease-out-back);
@@ -793,37 +793,159 @@ main { margin: 15px 12px 75px; min-width: 259px; }
    RESUME
    ========================================================================== */
 
-.timeline { margin-bottom: 30px; }
-.timeline .title-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
-.timeline-list { font-size: var(--fs-6); margin-left: 45px; }
+/* ---------- Résumé layout ----------
+   Two columns on desktop. Experience needs the width for its bullets;
+   education, achievements and certifications are short lines that were
+   wasting a full column each and turning the panel into a long scroll. */
+.resume-grid { display: grid; gap: 26px; }
+.resume-col { display: grid; gap: 26px; align-content: start; }
+.rsm { min-width: 0; }
 
-.timeline-item { position: relative; }
-.timeline-item:not(:last-child) { margin-bottom: 20px; }
-
-.timeline-item-title { font-size: var(--fs-6); line-height: 1.3; margin-bottom: 7px; text-transform: none; }
-.timeline-list span { color: var(--vegas-gold); font-family: var(--ff-mono); font-size: 12px; font-weight: var(--fw-400); line-height: 1.6; }
-
-.timeline-item::before {
-  content: "";
-  position: absolute;
-  top: -25px; left: -30px;
-  width: 1px; height: calc(100% + 50px);
-  background: var(--jet);
+.rsm-heading {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orange-yellow-crayola);
+  margin-bottom: 14px;
+  padding-left: 10px;
+  border-left: 2px solid hsla(45, 100%, 72%, 0.55);
 }
-.timeline-item::after {
+
+/* --- one job or project --- */
+.role-list { display: grid; gap: 16px; }
+.role {
+  position: relative;
+  padding: 13px 15px;
+  border-radius: 12px;
+  background: var(--border-gradient-onyx);
+  box-shadow: var(--shadow-2);
+  z-index: 1;
+  transition: transform 0.35s var(--ease-out-back);
+}
+.role::before {
+  content: "";
+  position: absolute; inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: -1;
+}
+.role:hover { transform: translateY(-3px); }
+
+.role-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.role-title { font-size: var(--fs-6); font-weight: var(--fw-600); color: var(--white-2); line-height: 1.3; }
+.role-when {
+  flex-shrink: 0;
+  font-family: var(--ff-mono);
+  font-size: 10.5px;
+  color: var(--light-gray-70);
+  white-space: nowrap;
+}
+.role-org {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--vegas-gold);
+  margin-top: 3px;
+}
+
+.role-points { margin-top: 9px; display: grid; gap: 6px; }
+.role-points li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 12.5px;
+  font-weight: var(--fw-300);
+  line-height: 1.55;
+  color: var(--light-gray);
+}
+.role-points li::before {
   content: "";
   position: absolute;
-  top: 5px; left: -33px;
-  height: 6px; width: 6px;
-  background: var(--text-gradient-yellow);
+  left: 2px; top: 8px;
+  width: 4px; height: 4px;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px var(--jet);
-  transition: box-shadow 0.3s ease, transform 0.3s var(--ease-out-back);
+  background: hsla(45, 100%, 72%, 0.7);
 }
-.timeline-item:hover::after { transform: scale(1.5); box-shadow: 0 0 0 4px var(--jet), 0 0 14px hsla(45, 100%, 65%, 0.8); }
+/* The figures are why the bullet is there — set them apart from the prose. */
+.role-points b {
+  font-family: var(--ff-mono);
+  font-size: 0.94em;
+  font-weight: var(--fw-500);
+  color: var(--orange-yellow-crayola);
+}
 
-.timeline-text { color: var(--light-gray); font-weight: var(--fw-300); line-height: 1.6; margin-top: 7px; }
+/* --- education --- */
+.edu-list { display: grid; gap: 12px; }
+.edu { display: flex; gap: 12px; align-items: flex-start; }
 
+.edu-mark {
+  flex-shrink: 0;
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  padding: 4px;
+  border-radius: 10px;
+  background: hsl(0, 0%, 97%);
+  overflow: hidden;
+}
+.edu-mark.bleed { padding: 0; background: none; }
+.edu-mark img { width: 30px; height: 30px; object-fit: contain; }
+.edu-mark.bleed img { width: 38px; height: 38px; object-fit: cover; border-radius: 10px; }
+
+.edu-body { min-width: 0; }
+.edu-title { font-size: 13px; font-weight: var(--fw-600); color: var(--white-2); line-height: 1.35; }
+.edu-org { font-size: 12px; font-weight: var(--fw-300); color: var(--light-gray); margin-top: 2px; }
+.edu-when { font-family: var(--ff-mono); font-size: 10.5px; color: var(--vegas-gold); margin-top: 4px; }
+
+/* --- achievements --- */
+.award-list { display: grid; gap: 8px; }
+.award-list li {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: var(--fw-300);
+  line-height: 1.5;
+  color: var(--light-gray);
+}
+.award-list i {
+  font-style: normal;
+  color: var(--orange-yellow-crayola);
+  text-shadow: 0 0 7px hsla(45, 100%, 62%, 0.7);
+}
+
+/* --- certifications --- */
+.cert-list { display: grid; gap: 7px; }
+.cert-list li {
+  position: relative;
+  padding: 8px 11px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: var(--fw-300);
+  line-height: 1.45;
+  color: var(--light-gray);
+  background: var(--border-gradient-onyx);
+  box-shadow: var(--shadow-2);
+  z-index: 1;
+  transition: color var(--transition-1), transform 0.3s var(--ease-out-back);
+}
+.cert-list li::before {
+  content: "";
+  position: absolute; inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: -1;
+}
+.cert-list li:hover { color: var(--white-2); transform: translateY(-2px); }
+.cert-list b {
+  display: block;
+  font-family: var(--ff-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange-yellow-crayola);
+  margin-bottom: 2px;
+}
 
 /* ---------- Skills ----------
    Grouped tags rather than bars. A bar states a level, and the level was a
@@ -1293,12 +1415,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 
 
-  .timeline-list { margin-left: 65px; }
-  .timeline-item:not(:last-child) { margin-bottom: 30px; }
-  .timeline-item::before { left: -40px; }
-  .timeline-item::after { height: 8px; width: 8px; left: -43px; }
 
-  .certs-list { grid-template-columns: 1fr 1fr; }
 
   .filter-select-box { margin-bottom: 30px; }
 
@@ -1319,7 +1436,6 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .metrics-list { grid-template-columns: repeat(4, 1fr); }
   .service-list { grid-template-columns: 1fr 1fr; gap: 20px 25px; }
-  .timeline-text { max-width: 700px; }
 
   .filter-list { display: flex; justify-content: flex-start; align-items: center; gap: 25px; padding-left: 5px; margin-bottom: 30px; }
   .filter-item button {
@@ -1401,6 +1517,10 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .sidebar, article { width: auto; }
 
+  /* Experience keeps the wider column; the short-line sections share the
+     narrower one, which is what takes the résumé off a long scroll. */
+  .resume-grid { grid-template-columns: 1.12fr 0.88fr; gap: 30px; }
+
   main {
     max-width: 1300px;
     margin-inline: auto;
@@ -1438,7 +1558,6 @@ textarea.form-input::-webkit-resizer { display: none; }
   .separator:last-of-type { margin: 15px 0; opacity: 0; }
   .social-list { justify-content: center; }
 
-  .timeline-text { max-width: 700px; }
 }
 
 
@@ -1454,10 +1573,10 @@ textarea.form-input::-webkit-resizer { display: none; }
   .sidebar, article { width: auto; background: none; border: none; box-shadow: none; padding: 0; backdrop-filter: none; }
   article { display: none !important; }
   article.resume { display: block !important; }
-  .h2, .h3, .h4, .h5, .timeline-item-title { color: #111; }
-  .timeline-text, .about-text, .cert-meta { color: #333; }
-  .timeline-list span { color: #666; }
-  [data-reveal] > *, [data-reveal] .timeline-item, [data-reveal] .cert-card { opacity: 1 !important; transform: none !important; }
+  .h2, .h3, .h4, .h5, .role-title, .edu-title { color: #111; }
+  .role-points li, .about-text, .edu-org { color: #333; }
+  .role-when, .role-org, .edu-when { color: #666; }
+  [data-reveal] > *, [data-reveal] .role, [data-reveal] .cert-list li { opacity: 1 !important; transform: none !important; }
   .info-content .name { -webkit-text-fill-color: #111; color: #111; animation: none; }
   .skill { break-inside: avoid; }
 }
@@ -1475,7 +1594,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
   .ticker-track { animation: none; }
   [data-reveal] > *, [data-reveal] .service-item, [data-reveal] .metric-card,
-  [data-reveal] .cert-card, [data-reveal] .timeline-item { opacity: 1; transform: none; }
+  [data-reveal] .role, [data-reveal] .cert-list li { opacity: 1; transform: none; }
 }
 
 
