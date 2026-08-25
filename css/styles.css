@@ -913,26 +913,42 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   margin-top: 3px;
 }
 
-/* Two posts at one employer read better as one entry with the step in it
-   than as two entries with the same logo and the same company line. */
-.role-path {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 7px;
-  padding: 4px 9px;
-  border-radius: 999px;
-  width: max-content;
-  max-width: 100%;
-  font-family: var(--ff-mono);
-  font-size: 10.5px;
-  color: var(--light-gray);
-  background: hsla(0, 0%, 100%, 0.045);
+/* Two posts at one employer: the company owns the entry and the titles hang
+   off a rail beneath it, so a promotion reads as one tenure with a step in
+   it rather than as two employers that happen to share a logo. */
+.role-steps { margin-top: 11px; display: grid; gap: 14px; }
+.role-steps > li {
+  position: relative;
+  padding-left: 17px;
 }
-.role-path i { font-style: normal; color: var(--sec); font-size: 12px; }
-.role-path span { color: var(--light-gray-70); }
-.role-path span::before { content: "· "; }
+.role-steps > li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 6px; bottom: -14px;
+  width: 1px;
+  background: hsla(0, 0%, 100%, 0.12);
+}
+.role-steps > li:last-child::before { bottom: auto; height: 0; }
+.role-steps > li::after {
+  content: "";
+  position: absolute;
+  left: -2.5px; top: 4px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--sec);
+  box-shadow: 0 0 0 3px var(--eerie-black-2);
+}
+
+.step-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.step-title { font-size: 13px; font-weight: var(--fw-600); color: var(--white-2); line-height: 1.3; }
+.step-when {
+  flex-shrink: 0;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  color: var(--light-gray-70);
+  white-space: nowrap;
+}
+.role-steps .role-points { margin-top: 6px; }
 
 .role-points { margin-top: 8px; display: grid; gap: 5px; }
 .role-points li {
