@@ -797,11 +797,12 @@ main { margin: 15px 12px 75px; min-width: 259px; }
    Two columns on desktop. Experience needs the width for its bullets;
    education, achievements and certifications are short lines that were
    wasting a full column each and turning the panel into a long scroll. */
-.resume-grid { display: grid; gap: 26px; }
-.resume-col { display: grid; gap: 26px; align-content: start; }
+.resume-grid { display: grid; gap: 34px; margin-bottom: 34px; }
+.resume-col { display: grid; gap: 34px; align-content: start; }
 .rsm { min-width: 0; }
 
 .rsm-heading {
+  /* the only outlined thing left in a block is its heading rule */
   font-family: var(--ff-mono);
   font-size: 11px;
   font-weight: 700;
@@ -814,24 +815,21 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 }
 
 /* --- one job or project --- */
-.role-list { display: grid; gap: 16px; }
-.role {
-  position: relative;
-  padding: 13px 15px;
-  border-radius: 12px;
-  background: var(--border-gradient-onyx);
-  box-shadow: var(--shadow-2);
-  z-index: 1;
-  transition: transform 0.35s var(--ease-out-back);
-}
+/* No card around each entry. Seven framed jobs, eleven framed certificates
+   and twenty-one framed tags put forty outlines on one panel, and the
+   frames were doing nothing the spacing couldn't. */
+.role-list { display: grid; gap: 22px; }
+.role { position: relative; padding-left: 14px; }
 .role::before {
   content: "";
-  position: absolute; inset: 1px;
-  background: var(--bg-gradient-jet);
-  border-radius: inherit;
-  z-index: -1;
+  position: absolute;
+  left: 0; top: 4px; bottom: 4px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--jet);
+  transition: background var(--transition-1);
 }
-.role:hover { transform: translateY(-3px); }
+.role:hover::before { background: hsla(45, 100%, 72%, 0.6); }
 
 .role-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .role-title { font-size: var(--fs-6); font-weight: var(--fw-600); color: var(--white-2); line-height: 1.3; }
@@ -849,7 +847,7 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   margin-top: 3px;
 }
 
-.role-points { margin-top: 9px; display: grid; gap: 6px; }
+.role-points { margin-top: 8px; display: grid; gap: 5px; }
 .role-points li {
   position: relative;
   padding-left: 14px;
@@ -875,7 +873,7 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 }
 
 /* --- education --- */
-.edu-list { display: grid; gap: 12px; }
+.edu-list { display: grid; gap: 16px; }
 .edu { display: flex; gap: 12px; align-items: flex-start; }
 
 .edu-mark {
@@ -897,7 +895,7 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .edu-when { font-family: var(--ff-mono); font-size: 10.5px; color: var(--vegas-gold); margin-top: 4px; }
 
 /* --- achievements --- */
-.award-list { display: grid; gap: 8px; }
+.award-list { display: grid; gap: 10px; }
 .award-list li {
   display: grid;
   grid-template-columns: 14px 1fr;
@@ -914,44 +912,30 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 }
 
 /* --- certifications --- */
-.cert-list { display: grid; gap: 7px; }
+.cert-list { display: grid; gap: 9px; }
 .cert-list li {
-  position: relative;
-  padding: 8px 11px;
-  border-radius: 9px;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: var(--fw-300);
   line-height: 1.45;
   color: var(--light-gray);
-  background: var(--border-gradient-onyx);
-  box-shadow: var(--shadow-2);
-  z-index: 1;
-  transition: color var(--transition-1), transform 0.3s var(--ease-out-back);
+  transition: color var(--transition-1);
 }
-.cert-list li::before {
-  content: "";
-  position: absolute; inset: 1px;
-  background: var(--bg-gradient-jet);
-  border-radius: inherit;
-  z-index: -1;
-}
-.cert-list li:hover { color: var(--white-2); transform: translateY(-2px); }
+.cert-list li:hover { color: var(--white-2); }
 .cert-list b {
-  display: block;
   font-family: var(--ff-mono);
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--orange-yellow-crayola);
-  margin-bottom: 2px;
 }
+.cert-list b::after { content: " · "; color: var(--light-gray-70); letter-spacing: 0; }
 
 /* ---------- Skills ----------
    Grouped tags rather than bars. A bar states a level, and the level was a
    number invented for the layout — this says what the work has covered and
    leaves the depth to the rest of the panel. */
-.skill-groups { display: grid; gap: 18px; }
+.skill-groups { display: grid; gap: 22px; }
 
 .skill-group-title {
   font-family: var(--ff-mono);
@@ -970,22 +954,12 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   font-size: 12px;
   font-weight: var(--fw-300);
   color: var(--light-gray);
-  padding: 7px 12px;
-  border-radius: 9px;
-  background: var(--border-gradient-onyx);
-  box-shadow: var(--shadow-2);
-  position: relative;
-  z-index: 1;
-  transition: color var(--transition-1), transform 0.3s var(--ease-out-back);
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--jet);
+  transition: color var(--transition-1), border-color var(--transition-1);
 }
-.skill-tags li::before {
-  content: "";
-  position: absolute; inset: 1px;
-  background: var(--bg-gradient-jet);
-  border-radius: inherit;
-  z-index: -1;
-}
-.skill-tags li:hover { color: var(--white-2); transform: translateY(-2px); }
+.skill-tags li:hover { color: var(--white-2); border-color: hsla(45, 100%, 72%, 0.45); }
 
 
 /* The download sits with the title rather than at the foot of the panel:
@@ -1519,7 +1493,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   /* Experience keeps the wider column; the short-line sections share the
      narrower one, which is what takes the résumé off a long scroll. */
-  .resume-grid { grid-template-columns: 1.12fr 0.88fr; gap: 30px; }
+  .resume-grid { grid-template-columns: 1.12fr 0.88fr; gap: 44px; }
 
   main {
     max-width: 1300px;
