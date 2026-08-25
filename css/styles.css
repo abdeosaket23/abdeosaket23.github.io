@@ -801,18 +801,48 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .resume-col { display: grid; gap: 34px; align-content: start; }
 .rsm { min-width: 0; }
 
+/* With the cards gone, the headings are what structure the panel, so they
+   carry the weight: bigger, wider-tracked, and each one runs a rule out to
+   the edge of its column so the eye can see where a block starts. */
 .rsm-heading {
-  /* the only outlined thing left in a block is its heading rule */
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-family: var(--ff-mono);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--orange-yellow-crayola);
-  margin-bottom: 14px;
-  padding-left: 10px;
-  border-left: 2px solid hsla(45, 100%, 72%, 0.55);
+  text-shadow: 0 0 14px hsla(45, 100%, 62%, 0.35);
+  margin-bottom: 16px;
 }
+.rsm-heading::before {
+  content: "";
+  flex-shrink: 0;
+  width: 3px;
+  height: 15px;
+  border-radius: 2px;
+  background: var(--orange-yellow-crayola);
+  box-shadow: 0 0 10px hsla(45, 100%, 62%, 0.7);
+}
+.rsm-heading::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, hsla(45, 100%, 72%, 0.28), transparent);
+}
+
+/* One block gets to shout. Everything else on this panel is frameless, so
+   a tinted panel round the awards is all it takes. */
+.rsm-lit {
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: hsla(45, 100%, 70%, 0.07);
+  border: 1px solid hsla(45, 100%, 72%, 0.26);
+  box-shadow: 0 0 30px hsla(45, 100%, 60%, 0.07);
+}
+.rsm-lit .rsm-heading { margin-bottom: 14px; }
 
 /* --- one job or project --- */
 /* No card around each entry. Seven framed jobs, eleven framed certificates
@@ -907,9 +937,11 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 }
 .award-list i {
   font-style: normal;
+  font-size: 13px;
   color: var(--orange-yellow-crayola);
-  text-shadow: 0 0 7px hsla(45, 100%, 62%, 0.7);
+  text-shadow: 0 0 9px hsla(45, 100%, 62%, 0.85);
 }
+.award-list li { color: var(--white-2); font-weight: var(--fw-400); }
 
 /* --- certifications --- */
 .cert-list { display: grid; gap: 9px; }
