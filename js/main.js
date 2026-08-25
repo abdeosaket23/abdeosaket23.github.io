@@ -1437,7 +1437,7 @@ var toggleAvatarFace;   /* exposed for the command palette */
   var card = $('[data-av-flip]');
   if (!av || !card) return;
 
-  var CYCLE = 3000;          /* EDIT: ms each side holds during the idle turn */
+  var CYCLE = 5000;          /* EDIT: ms each side holds during the idle turn */
 
   var showingBack = false;   /* which side is up */
   var pinned = false;        /* click locks a side */
