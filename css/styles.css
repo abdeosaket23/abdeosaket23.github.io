@@ -972,6 +972,24 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   transition: color var(--transition-1);
 }
 .cert-list li:hover { color: var(--white-2); }
+
+/* A linked certificate says so: an arrow on the end, and the whole line
+   picks up the section colour on hover. */
+.cert-list a, .award-list a, .edu-title a {
+  color: inherit;
+  transition: color var(--transition-1);
+}
+.cert-list a::after, .award-list a::after {
+  content: " \2197";
+  font-family: var(--ff-mono);
+  font-size: 0.85em;
+  color: var(--sec);
+  opacity: 0.55;
+}
+.cert-list a:hover, .award-list a:hover, .edu-title a:hover { color: var(--sec); }
+.cert-list a:hover::after, .award-list a:hover::after { opacity: 1; }
+.edu-title a { border-bottom: 1px dashed hsla(0, 0%, 100%, 0.22); }
+.edu-title a:hover { border-bottom-color: var(--sec); }
 .cert-list b {
   font-family: var(--ff-mono);
   font-size: 10px;
