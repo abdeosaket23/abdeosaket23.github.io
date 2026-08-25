@@ -807,21 +807,21 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .rsm-heading {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 13px;
   font-family: var(--ff-mono);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--orange-yellow-crayola);
-  text-shadow: 0 0 14px hsla(45, 100%, 62%, 0.35);
-  margin-bottom: 16px;
+  text-shadow: 0 0 16px hsla(45, 100%, 62%, 0.4);
+  margin-bottom: 20px;
 }
 .rsm-heading::before {
   content: "";
   flex-shrink: 0;
   width: 3px;
-  height: 15px;
+  height: 19px;
   border-radius: 2px;
   background: var(--orange-yellow-crayola);
   box-shadow: 0 0 10px hsla(45, 100%, 62%, 0.7);
@@ -835,14 +835,17 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 
 /* One block gets to shout. Everything else on this panel is frameless, so
    a tinted panel round the awards is all it takes. */
+/* A wash rather than a box: the tint fades out to the right and the block
+   keeps its edges, so it lifts off the panel without becoming another
+   frame on a page that just lost all of them. */
 .rsm-lit {
-  padding: 16px 18px;
-  border-radius: 14px;
-  background: hsla(45, 100%, 70%, 0.07);
-  border: 1px solid hsla(45, 100%, 72%, 0.26);
-  box-shadow: 0 0 30px hsla(45, 100%, 60%, 0.07);
+  padding: 4px 16px 14px 0;
+  background: linear-gradient(100deg,
+    hsla(45, 100%, 70%, 0.13) 0%,
+    hsla(45, 100%, 70%, 0.05) 45%,
+    transparent 88%);
+  border-radius: 4px 16px 16px 4px;
 }
-.rsm-lit .rsm-heading { margin-bottom: 14px; }
 
 /* --- one job or project --- */
 /* No card around each entry. Seven framed jobs, eleven framed certificates
