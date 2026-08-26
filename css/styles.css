@@ -1341,27 +1341,8 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   text-transform: uppercase;
   color: var(--gain);
 }
-.open-to-list { margin-top: 11px; display: grid; gap: 6px; }
-.open-to-list li {
-  position: relative;
-  padding-left: 15px;
-  font-size: 12.5px;
-  font-weight: var(--fw-300);
-  line-height: 1.5;
-  color: var(--light-gray);
-}
-.open-to-list li::before {
-  content: "";
-  position: absolute;
-  left: 2px; top: 8px;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: hsla(150, 62%, 52%, 0.75);
-}
 .open-to-foot {
-  margin-top: 12px;
-  padding-top: 11px;
-  border-top: 1px solid hsla(150, 62%, 52%, 0.18);
+  margin-top: 9px;
   font-size: 12px;
   font-weight: var(--fw-300);
   color: var(--light-gray-70);
