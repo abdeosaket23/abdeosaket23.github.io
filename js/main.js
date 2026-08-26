@@ -1197,7 +1197,7 @@ var goToPage; /* exposed for the command palette below */
   var clock = $('[data-clock]');
   if (!clock) return;
 
-  var timeEl  = $('[data-clock-time]');
+  var timeEls = $$('[data-clock-time]');
 
   var fmt = null;
   try {
@@ -1228,10 +1228,8 @@ var goToPage; /* exposed for the command palette below */
       s = String(now.getSeconds()).padStart(2, '0');
     }
 
-    if (timeEl) {
-      timeEl.textContent =
-        String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-    }
+    var text = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    timeEls.forEach(function (el) { el.textContent = text; });
   };
 
   tick();

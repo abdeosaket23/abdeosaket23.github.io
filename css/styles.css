@@ -1269,8 +1269,105 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 /* ==========================================================================
    CONTACT
    ========================================================================== */
-.contact .article-title { margin-bottom: 15px; }
-.contact-form { margin-bottom: 10px; }
+.contact .article-title { margin-bottom: 26px; }
+
+/* A form on its own is a wall of empty boxes. The ways to actually reach
+   him sit beside it, so the panel says something before anyone types. */
+.contact-grid { display: grid; gap: 30px; align-items: start; }
+.contact-side { display: grid; gap: 22px; align-content: start; }
+.contact-side { --sec: hsl(45, 100%, 72%); }
+.contact-form { --sec: hsl(190, 88%, 64%); margin-bottom: 10px; }
+
+.reach-list { display: grid; gap: 10px; }
+.reach-list :is(a, .reach-static) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--jet);
+  color: inherit;
+  transition: border-color var(--transition-1), transform 0.3s var(--ease-out-back);
+}
+.reach-list a:hover { border-color: var(--sec); transform: translateY(-2px); }
+
+.reach-icon {
+  flex-shrink: 0;
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 9px;
+  color: var(--sec);
+  background: hsla(45, 100%, 70%, 0.08);
+  border: 1px solid hsla(45, 100%, 72%, 0.2);
+}
+.reach-icon svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+.reach-body { min-width: 0; display: block; }
+.reach-label {
+  display: block;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--light-gray-70);
+}
+.reach-value {
+  display: block;
+  font-size: 13px;
+  color: var(--white-2);
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+.reach-value [data-clock-time] { display: inline; font-family: var(--ff-mono); font-size: 12px; color: var(--light-gray); }
+
+/* What he's actually looking for, in the section's own wash */
+.open-to {
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(100deg,
+    hsla(150, 62%, 52%, 0.12) 0%,
+    hsla(150, 62%, 52%, 0.04) 50%,
+    transparent 92%);
+  border: 1px solid hsla(150, 62%, 52%, 0.22);
+}
+.open-to-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gain);
+}
+.open-to-list { margin-top: 11px; display: grid; gap: 6px; }
+.open-to-list li {
+  position: relative;
+  padding-left: 15px;
+  font-size: 12.5px;
+  font-weight: var(--fw-300);
+  line-height: 1.5;
+  color: var(--light-gray);
+}
+.open-to-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px; top: 8px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: hsla(150, 62%, 52%, 0.75);
+}
+.open-to-foot {
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid hsla(150, 62%, 52%, 0.18);
+  font-size: 12px;
+  font-weight: var(--fw-300);
+  color: var(--light-gray-70);
+}
+.open-to-foot b { font-family: var(--ff-mono); font-weight: var(--fw-500); color: var(--gain); }
+
 .form-title { margin-bottom: 20px; }
 
 .input-wrapper { display: grid; gap: 25px; margin-bottom: 25px; }
@@ -1637,6 +1734,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   /* Experience keeps the wider column; the short-line sections share the
      narrower one, which is what takes the résumé off a long scroll. */
   .resume-grid { grid-template-columns: 1.12fr 0.88fr; gap: 44px; }
+  .contact-grid { grid-template-columns: 0.85fr 1.15fr; gap: 40px; }
 
   main {
     max-width: 1300px;
