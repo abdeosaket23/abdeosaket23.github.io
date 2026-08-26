@@ -529,6 +529,11 @@ var goToPage; /* exposed for the command palette below */
       detail: { panel: pages[index], name: order[index] }
     }));
 
+    /* The panel is in the URL, so a refresh comes back to it rather than
+       dropping you on About. replaceState rather than push: the tabs aren't
+       history, and stacking them would make Back feel broken. */
+    try { history.replaceState(null, '', '#' + order[index]); } catch (err) { /* file:// */ }
+
     if (!opts || opts.scroll !== false) {
       window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
     }
@@ -544,6 +549,58 @@ var goToPage; /* exposed for the command palette below */
   window.addEventListener('resize', moveIndicator);
   window.addEventListener('load', moveIndicator);
   moveIndicator();
+
+  /* --- Come back to where you were on a refresh ---------------------------
+     The panel comes from the hash; the scroll position is kept per panel in
+     sessionStorage, so it survives a reload but not a new tab. Restoration
+     is manual because the browser's own guess is made against the About
+     panel's height, before we've switched to the one you were on. */
+  var SCROLL_KEY = 'scroll:';
+
+  var rememberScroll = function () {
+    try { sessionStorage.setItem(SCROLL_KEY + order[current], String(window.scrollY)); }
+    catch (err) { /* private mode */ }
+  };
+
+  window.addEventListener('beforeunload', rememberScroll);
+  /* pagehide covers the mobile case, where beforeunload often never fires. */
+  window.addEventListener('pagehide', rememberScroll);
+
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; }
+  catch (err) { /* not supported */ }
+
+  var fromHash = (window.location.hash || '').replace(/^#/, '').toLowerCase();
+  if (order.indexOf(fromHash) > 0) goToPage(fromHash, { scroll: false });
+
+  var restoreScroll = function () {
+    var y = 0;
+    try { y = parseFloat(sessionStorage.getItem(SCROLL_KEY + order[current])) || 0; }
+    catch (err) { y = 0; }
+    if (y <= 0) return;
+
+    /* html carries scroll-behavior: smooth, which would animate the page down
+       from the top on every refresh. Turn it off for the jump and back on
+       after, so you simply arrive where you were. */
+    var root = document.documentElement;
+    var prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, y);
+    root.style.scrollBehavior = prev;
+  };
+
+  /* After load, and again a frame later — images and the career chart settle
+     the page height after first paint, and a scroll set before that clamps. */
+  window.addEventListener('load', function () {
+    restoreScroll();
+    requestAnimationFrame(restoreScroll);
+    setTimeout(restoreScroll, 260);
+  });
+
+  /* Back/forward, or someone editing the hash by hand. */
+  window.addEventListener('hashchange', function () {
+    var name = (window.location.hash || '').replace(/^#/, '').toLowerCase();
+    if (order.indexOf(name) !== -1) goToPage(name, { scroll: false });
+  });
 
   /* --- Swipe left/right to change panel (touch) --- */
   if (content) {
