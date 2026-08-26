@@ -27,7 +27,7 @@
  * "doesn't work".
  */
 
-var SHEET_ID = '';                       // EDIT: spreadsheet ID, or '' for the attached one
+var SHEET_ID = '1SOQZ_Mqg-eRvXg9_aa-HeNSljhzxjwHzEk_GeaLwwdE';   // the sheet rows go to
 var NOTIFY   = 'abdeosaket23@gmail.com'; // EDIT: where the alert goes
 var SHEET    = 'Messages';               // tab name; created if missing
 
