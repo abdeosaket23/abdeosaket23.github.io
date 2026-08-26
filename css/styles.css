@@ -1163,7 +1163,10 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 
 .project-list { display: grid; gap: 30px; }
 
-.project-item { display: none; }
+/* min-width: 0 lets a track shrink below its content. Without it a 1fr
+   column is sized by the longest unwrapped title and the row overflows
+   the panel. */
+.project-item { display: none; min-width: 0; }
 .project-item.active { display: block; animation: popIn 0.45s var(--ease-out-back) both; }
 .project-item.active:nth-child(2) { animation-delay: 0.05s; }
 .project-item.active:nth-child(3) { animation-delay: 0.1s; }
@@ -1182,6 +1185,7 @@ main { margin: 15px 12px 75px; min-width: 259px; }
    to, the card has to say what the project was itself. */
 .project-blurb {
   font-size: 12px;
+  margin-right: 4px;
   font-weight: var(--fw-300);
   line-height: 1.55;
   color: var(--light-gray-70);
@@ -1247,7 +1251,9 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 .project-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-out-back); }
 .project-item > a:hover img { transform: scale(1.09); }
 
-.project-title, .project-category { margin-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Titles wrap rather than ellipsize: these are project names, not file
+   names, and truncating one loses the part that identifies it. */
+.project-title, .project-category, .project-blurb { margin-left: 10px; }
 .project-title {
   color: var(--white-2);
   font-size: var(--fs-5);
