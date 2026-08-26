@@ -246,12 +246,26 @@ Everything decorative is disabled automatically for visitors who have
 
 ## Making the contact form actually send
 
-GitHub Pages serves static files only, so it can't process a form. Two options:
+GitHub Pages serves static files only, so the POST has to go somewhere else.
+The form is wired for **Google Sheets**: every message becomes a row you own,
+and a copy is emailed to you. `contact-form.gs` in this repo is the receiving
+script — its header has the six setup steps. In short:
 
-1. **Formspree (free tier).** Sign up at <https://formspree.io>, create a form,
-   and paste the endpoint into `action=""` on `<form data-form>`.
-2. **Do nothing.** Until that endpoint is set, submitting opens the visitor's
-   email client pre-filled. Set `FALLBACK_EMAIL` in `js/main.js` to your address.
+1. New Google Sheet → Extensions → Apps Script → paste `contact-form.gs`.
+2. Deploy → New deployment → Web app, **Execute as: Me**, **Access: Anyone**.
+3. Paste the `/exec` URL into `action=""` on `<form data-form>` in `index.html`.
+
+The submit handler posts in the background and keeps the visitor on the page.
+Apps Script answers through a redirect that some browsers won't let a page
+read, so a failed read is retried opaquely rather than reported as an error;
+an endpoint that genuinely isn't there still fails and says so.
+
+Until an endpoint is set, submitting falls back to opening the visitor's email
+client pre-filled. `FALLBACK_EMAIL` in `js/main.js` is the address it uses, and
+the one shown if a send fails.
+
+Other services work with the same code — Formspree, Web3Forms, FormSubmit all
+accept a plain POST and their endpoint drops into the same `action=""`.
 
 ---
 

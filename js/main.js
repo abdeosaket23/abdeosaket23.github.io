@@ -473,16 +473,32 @@ on($$('[data-copy-email]'), 'click', function (e) {
     setStatus('Sending…');
     btn.disabled = true;
 
+    var sent = function () {
+      form.reset();
+      btn.disabled = true;
+      setStatus('Thanks — your message is on its way.');
+      toast('Message sent');
+    };
+
+    var failed = function () {
+      setStatus('Something went wrong. Email me at ' + FALLBACK_EMAIL + '.', true);
+      btn.disabled = false;
+    };
+
     fetch(action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
       .then(function (res) {
         if (!res.ok) throw new Error('Request failed');
-        form.reset();
-        setStatus('Thanks — your message is on its way.');
-        toast('Message sent');
+        sent();
       })
       .catch(function () {
-        setStatus('Something went wrong. Email me at ' + FALLBACK_EMAIL + '.', true);
-        btn.disabled = false;
+        /* A Google Apps Script endpoint answers through a redirect, and some
+           browsers won't let us read that response cross-origin — the POST
+           itself still went through. Retry opaquely so a delivered message
+           isn't reported as a failure. A genuinely dead endpoint rejects
+           here too, and is reported. */
+        fetch(action, { method: 'POST', body: data, mode: 'no-cors' })
+          .then(sent)
+          .catch(failed);
       });
   });
 })();
