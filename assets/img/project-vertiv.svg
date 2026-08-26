@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Equity research on Vertiv">
+  <rect width="800" height="600" fill="#17181a"/>
+  <g stroke="#ffffff" stroke-opacity=".06" stroke-width="2">
+    <path d="M80 180h640M80 300h640M80 420h640"/>
+  </g>
+  <g fill="#4ad295">
+    <rect x="150" y="330" width="46" height="100" rx="6"/>
+    <rect x="250" y="286" width="46" height="120" rx="6"/>
+    <rect x="350" y="250" width="46" height="130" rx="6"/>
+    <rect x="450" y="196" width="46" height="150" rx="6"/>
+    <rect x="550" y="150" width="46" height="170" rx="6"/>
+  </g>
+  <g stroke="#4ad295" stroke-width="4" stroke-linecap="round">
+    <path d="M173 300v-40M173 460v-40M273 256v-36M273 436v-36M373 220v-34M373 410v-34M473 166v-32M473 376v-32M573 120v-30M573 350v-30"/>
+  </g>
+  <path d="M150 440 273 396 373 356 473 300 573 232" fill="none" stroke="#ffdb70" stroke-width="5"
+        stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+  <circle cx="573" cy="232" r="11" fill="#ffdb70"/>
+</svg>

@@ -19,7 +19,7 @@
 
   <!-- EDIT: bump ?v= when styles.css or main.js changes, so browsers
        fetch the new file instead of serving a cached one. -->
-  <link rel="stylesheet" href="css/styles.css?v=10" />
+  <link rel="stylesheet" href="css/styles.css?v=11" />
 </head>
 
 <body>
@@ -939,92 +939,56 @@
           <!-- ======================================================
                EDIT: one <li> per project.
                  data-category = filter group
-                 href          = your deck / model / write-up
                  .project-stat = the headline number on the card
+               Add href="..." to <div class="project-card"> as an <a> when
+               there's a deck or write-up to link to.
                ====================================================== -->
-
-          <li class="project-item active" data-filter-item data-category="valuation">
-            <a href="#" target="_blank" rel="noopener">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                </div>
-                <img src="assets/img/project-1.svg" alt="DCF Valuation" loading="lazy" />
-                <figcaption class="project-stat">$1.2B EV</figcaption>
-              </figure>
-              <h3 class="project-title">DCF Valuation — [Company]</h3>
-              <p class="project-category">Valuation</p>
-            </a>
-          </li>
-
-          <li class="project-item active" data-filter-item data-category="m&amp;a">
-            <a href="#" target="_blank" rel="noopener">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                </div>
-                <img src="assets/img/project-2.svg" alt="M&A Case" loading="lazy" />
-                <figcaption class="project-stat">+8% accretive</figcaption>
-              </figure>
-              <h3 class="project-title">Buy-Side M&amp;A Case</h3>
-              <p class="project-category">M&amp;A</p>
-            </a>
-          </li>
-
           <li class="project-item active" data-filter-item data-category="equity research">
-            <a href="#" target="_blank" rel="noopener">
+            <div class="project-card">
               <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                </div>
-                <img src="assets/img/project-3.svg" alt="Equity Research" loading="lazy" />
-                <figcaption class="project-stat">BUY · $84 PT</figcaption>
+                <img src="assets/img/project-vertiv.svg" alt="" loading="lazy" />
+                <figcaption class="project-stat">$2M fund</figcaption>
               </figure>
-              <h3 class="project-title">Equity Research Initiation</h3>
+              <h3 class="project-title">Vertiv Holdings (VRT) — Equity Research</h3>
               <p class="project-category">Equity Research</p>
-            </a>
+              <p class="project-blurb">Statement, industry and valuation work carried into a buy recommendation, pitched to analysts and sector managers of the 360 Huntington Fund.</p>
+            </div>
           </li>
 
-          <li class="project-item active" data-filter-item data-category="strategy">
-            <a href="#" target="_blank" rel="noopener">
+          <li class="project-item active" data-filter-item data-category="risk &amp; treasury">
+            <div class="project-card">
               <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                </div>
-                <img src="assets/img/project-4.svg" alt="Market Entry" loading="lazy" />
-                <figcaption class="project-stat">$40M TAM</figcaption>
+                <img src="assets/img/project-fx.svg" alt="" loading="lazy" />
+                <figcaption class="project-stat">-20% volatility</figcaption>
               </figure>
-              <h3 class="project-title">Market Entry Strategy</h3>
-              <p class="project-category">Strategy</p>
-            </a>
+              <h3 class="project-title">FX Risk Management &amp; Hedging</h3>
+              <p class="project-category">Risk &amp; Treasury</p>
+              <p class="project-blurb">Currency exposures modelled unhedged, forward and option-based; the recommended strategy cut modelled cash-flow volatility while keeping upside.</p>
+            </div>
           </li>
 
-          <li class="project-item active" data-filter-item data-category="valuation">
-            <a href="#" target="_blank" rel="noopener">
+          <li class="project-item active" data-filter-item data-category="automation">
+            <div class="project-card">
               <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                </div>
-                <img src="assets/img/project-5.svg" alt="LBO Model" loading="lazy" />
-                <figcaption class="project-stat">21.6% IRR</figcaption>
+                <img src="assets/img/project-swift.svg" alt="" loading="lazy" />
+                <figcaption class="project-stat">-40% manual effort</figcaption>
               </figure>
-              <h3 class="project-title">LBO Model &amp; Returns Analysis</h3>
-              <p class="project-category">Valuation</p>
-            </a>
+              <h3 class="project-title">Transaction Reporting Automation</h3>
+              <p class="project-category">Automation</p>
+              <p class="project-blurb">An Excel workflow consolidating SWIFT transaction data into standardised reports, with dynamic updates that lifted reporting speed 35%.</p>
+            </div>
           </li>
 
-          <li class="project-item active" data-filter-item data-category="strategy">
-            <a href="#" target="_blank" rel="noopener">
+          <li class="project-item active" data-filter-item data-category="venture">
+            <div class="project-card">
               <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                </div>
-                <img src="assets/img/project-6.svg" alt="Case Competition" loading="lazy" />
-                <figcaption class="project-stat">1st of 42</figcaption>
+                <img src="assets/img/project-munchmolds.svg" alt="" loading="lazy" />
+                <figcaption class="project-stat">25+ trends researched</figcaption>
               </figure>
-              <h3 class="project-title">National Case Competition</h3>
-              <p class="project-category">Strategy</p>
-            </a>
+              <h3 class="project-title">MunchMolds — Edible Cups</h3>
+              <p class="project-category">Venture</p>
+              <p class="project-blurb">Product concept and market research for an edible-cup startup, with sustainable materials sourced across 20+ suppliers.</p>
+            </div>
           </li>
 
         </ul>
@@ -1108,6 +1072,6 @@
 
 <div class="toast" data-toast role="status" aria-live="polite"></div>
 
-<script src="js/main.js?v=10"></script>
+<script src="js/main.js?v=11"></script>
 </body>
 </html>

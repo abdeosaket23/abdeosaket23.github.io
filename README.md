@@ -168,26 +168,33 @@ to be right relative to each other.
 
 ### Adding a project
 
-Copy one `<li class="project-item">` and change four things:
+Copy one `<li class="project-item">` and change what's inside:
 
 ```html
-<li class="project-item active" data-filter-item data-category="web design">
-  <a href="https://link-to-your-case-study" target="_blank" rel="noopener">
+<li class="project-item active" data-filter-item data-category="equity research">
+  <div class="project-card">
     <figure class="project-img">
-      <div class="project-item-icon-box"> …eye icon, leave as-is… </div>
-      <img src="assets/img/project-3.svg" alt="Project name" loading="lazy" />
+      <img src="assets/img/project-vertiv.svg" alt="" loading="lazy" />
+      <figcaption class="project-stat">$2M fund</figcaption>
     </figure>
     <h3 class="project-title">Project name</h3>
-    <p class="project-category">Web Design</p>
-  </a>
+    <p class="project-category">Equity Research</p>
+    <p class="project-blurb">One line on what it was and what came of it.</p>
+  </div>
 </li>
 ```
+
+If there's a deck or write-up to link to, make the `<div class="project-card">`
+an `<a href="..." target="_blank" rel="noopener">` instead — the card picks up
+the hover treatment automatically.
 
 `data-category` drives the filters. The filter row (desktop) and the dropdown
 (mobile) are both generated from whatever categories exist on the cards, so a new
 category creates its own filter button automatically — nothing else to update.
-Keep `class="active"` on new items so they show under "all", and keep the
-`.project-category` text matching `data-category`.
+Both stay hidden until there are five or more projects, since a filter that
+shows one card each is worse than no filter at all. Keep `class="active"` on new
+items so they show under "all", and keep the `.project-category` text matching
+`data-category`.
 
 ### Swapping images
 

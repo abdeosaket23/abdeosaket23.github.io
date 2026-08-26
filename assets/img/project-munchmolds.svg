@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="MunchMolds edible cups">
+  <rect width="800" height="600" fill="#17181a"/>
+  <g fill="none" stroke="#c4a4f5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M310 210h180l-22 210a30 30 0 0 1-30 27h-76a30 30 0 0 1-30-27Z"/>
+    <path d="M318 274h164"/>
+    <path d="M490 250h30a40 40 0 0 1 0 80h-38"/>
+    <path d="M352 168c0-22 18-30 18-48M400 160c0-22 18-30 18-48M448 168c0-22 18-30 18-48"/>
+  </g>
+  <g fill="#c4a4f5" opacity=".55">
+    <circle cx="360" cy="330" r="9"/><circle cx="404" cy="368" r="9"/><circle cx="444" cy="322" r="9"/>
+  </g>
+</svg>

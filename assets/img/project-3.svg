@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Project image placeholder">
-  <rect width="800" height="600" fill="#1c1c1d"/>
-  <g stroke="#C7BA8B" stroke-opacity=".55" stroke-width="4" fill="none" stroke-linecap="round">
-    <rect x="200" y="180" width="400" height="240" rx="18"/>
-    <path d="M200 356l104-84 82 68 112-102 102 118"/>
-  </g>
-  <circle cx="296" cy="248" r="24" fill="#C7BA8B" fill-opacity=".45"/>
-  <text x="400" y="512" font-family="Poppins, Helvetica, sans-serif" font-size="26" fill="#6f6f74" text-anchor="middle">project image 3</text>
-</svg>

@@ -341,6 +341,16 @@ on($$('[data-copy-email]'), 'click', function (e) {
   var items      = $$('[data-filter-item]');
   if (!filterList || !selectList || !items.length) return;
 
+  /* With a handful of projects every filter would show one card, which is
+     worse than no filter. It appears on its own once there are enough. */
+  var MIN_TO_FILTER = 5;
+  if (items.length < MIN_TO_FILTER) {
+    filterList.hidden = true;
+    var box = $('.filter-select-box');
+    if (box) box.hidden = true;
+    return;
+  }
+
   /* Collect each category once, keeping the nicely-cased label from the card's
      .project-category so the filter reads "M&A" rather than "m&a". */
   var categories = [];

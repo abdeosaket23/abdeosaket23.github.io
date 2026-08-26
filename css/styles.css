@@ -1176,7 +1176,17 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   to   { opacity: 1; transform: none; }
 }
 
-.project-item > a { width: 100%; }
+.project-item > :is(a, .project-card) { width: 100%; display: block; }
+
+/* A one-line description under each card: without a link to click through
+   to, the card has to say what the project was itself. */
+.project-blurb {
+  font-size: 12px;
+  font-weight: var(--fw-300);
+  line-height: 1.55;
+  color: var(--light-gray-70);
+  margin-top: 7px;
+}
 
 .project-img {
   position: relative;
@@ -1195,6 +1205,7 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   transition: var(--transition-1);
 }
 .project-item > a:hover .project-img::before { background: linear-gradient(180deg, hsla(0, 0%, 0%, 0.5), hsla(0, 0%, 0%, 0.82)); }
+.project-card:hover .project-img::before { background: linear-gradient(180deg, hsla(0, 0%, 0%, 0.12), hsla(0, 0%, 0%, 0.55)); }
 
 /* Headline number badge on each thumbnail */
 .project-stat {
@@ -1214,7 +1225,8 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   opacity: 0.9;
   transition: var(--transition-1);
 }
-.project-item > a:hover .project-stat { transform: none; opacity: 1; }
+.project-item > a:hover .project-stat,
+.project-card .project-stat { transform: none; opacity: 1; }
 
 .project-item-icon-box {
   --scale: 0.7;
