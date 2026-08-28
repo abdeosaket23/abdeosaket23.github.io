@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="T-Mobile coverage">
+  <rect width="800" height="600" fill="#17181a"/>
+  <g fill="none" stroke="#e0509b" stroke-width="6" stroke-linecap="round">
+    <path d="M330 236a60 60 0 0 1 140 0" opacity=".95"/>
+    <path d="M286 200a112 112 0 0 1 228 0" opacity=".6"/>
+    <path d="M242 164a166 166 0 0 1 316 0" opacity=".32"/>
+  </g>
+  <circle cx="400" cy="268" r="17" fill="#e0509b"/>
+  <path d="M400 285v150" stroke="#e0509b" stroke-width="7" stroke-linecap="round"/>
+  <path d="M336 470h128" stroke="#e0509b" stroke-width="7" stroke-linecap="round"/>
+  <path d="m366 470 34-185 34 185" fill="none" stroke="#e0509b" stroke-width="5" opacity=".45"/>
+</svg>
