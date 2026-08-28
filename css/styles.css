@@ -1746,7 +1746,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   /* The tilted orbit swings ~50px below the photo, which is where the name
      used to start. Open the gap so the chips have somewhere to pass through.
      Desktop only — the chips are hidden below this breakpoint. */
-  .sidebar-info { flex-direction: column; gap: 58px; }
+  .sidebar-info { flex-direction: column; gap: 70px; }
   .avatar-box img { width: 150px; }
   .info-content .name { white-space: nowrap; text-align: center; }
   .info-content .title { margin: auto; }
@@ -2350,8 +2350,8 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 .av-orbit {
   position: absolute;
   inset: 0;
-  --av-orbit-r: 0.86;
-  --av-orbit-tilt: 64deg;
+  --av-orbit-r: 0.80;
+  --av-orbit-tilt: 68deg;
   transform-style: preserve-3d;
   animation: avOrbit 15s linear infinite;
   pointer-events: none;
@@ -2394,9 +2394,9 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
    rotateY first, then rotateX, exactly reversing how they were applied. */
 @keyframes avChipFace {
   from { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a)))
-                    rotateX(calc(-1 * var(--av-orbit-tilt, 64deg))); }
+                    rotateX(calc(-1 * var(--av-orbit-tilt, 68deg))); }
   to   { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a) - 360deg))
-                    rotateX(calc(-1 * var(--av-orbit-tilt, 64deg))); }
+                    rotateX(calc(-1 * var(--av-orbit-tilt, 68deg))); }
 }
 
 /* --- status dot rides the front layer --- */
@@ -2440,7 +2440,7 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 }
 
 @media (min-width: 1250px) {
-  :root { --av-size: 158px; }
+  :root { --av-size: 172px; }
 
   /* Chips need room to orbit, and the sidebar is no longer a collapsing
      panel at this width, so it can stop clipping. */
