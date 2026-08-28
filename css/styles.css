@@ -1743,7 +1743,10 @@ textarea.form-input::-webkit-resizer { display: none; }
     padding-top: 60px;
     z-index: 1;
   }
-  .sidebar-info { flex-direction: column; }
+  /* The tilted orbit swings ~50px below the photo, which is where the name
+     used to start. Open the gap so the chips have somewhere to pass through.
+     Desktop only — the chips are hidden below this breakpoint. */
+  .sidebar-info { flex-direction: column; gap: 58px; }
   .avatar-box img { width: 150px; }
   .info-content .name { white-space: nowrap; text-align: center; }
   .info-content .title { margin: auto; }
@@ -2181,7 +2184,10 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
 }
 
 @media (min-width: 1250px) {
-  .sidebar { padding-top: 50px; }
+  /* Room for the orbit's top chip, which reaches ~40px above the photo.
+     This rule wins over the padding-top in the layout block above — change
+     it here, not there. */
+  .sidebar { padding-top: 82px; }
 }
 
 
@@ -2330,16 +2336,29 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   z-index: 0;
 }
 
-/* --- orbiting credential chips --- */
+/* --- orbiting credential chips ---
+   The ring is tilted off vertical. Spun flat, a chip at the front of the
+   orbit sits at x=0 — dead centre over the face — which is what had them
+   crossing the photo. Tilted, the ring projects as an ellipse whose semi
+   axes (r, r·sin tilt) both clear the photo's half-diagonal, so the chips
+   pass above and below it and never over it.
+
+     --av-orbit-r      radius, as a share of the avatar
+     --av-orbit-tilt   0deg is flat-on (crosses the face); 90deg is a
+                       horizontal hoop. Below ~62deg they start clipping
+                       the corners again. */
 .av-orbit {
   position: absolute;
   inset: 0;
+  --av-orbit-r: 0.86;
+  --av-orbit-tilt: 64deg;
   transform-style: preserve-3d;
   animation: avOrbit 15s linear infinite;
   pointer-events: none;
 }
 @keyframes avOrbit {
-  to { transform: rotateY(360deg); }
+  from { transform: rotateX(var(--av-orbit-tilt)) rotateY(0deg); }
+  to   { transform: rotateX(var(--av-orbit-tilt)) rotateY(360deg); }
 }
 
 .av-chip {
@@ -2349,7 +2368,7 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   width: 0;
   height: 0;
   transform-style: preserve-3d;
-  transform: rotateY(var(--a)) translateZ(calc(var(--av-size) * 0.82));
+  transform: rotateY(var(--a)) translateZ(calc(var(--av-size) * var(--av-orbit-r, 0.9)));
 }
 
 /* The inner span counter-spins so the label always faces the viewer. */
@@ -2370,9 +2389,14 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   box-shadow: 0 4px 14px hsla(0, 0%, 0%, 0.5);
   animation: avChipFace 15s linear infinite;
 }
+/* Undoing the ring's spin was enough when it was flat; now the tilt has to
+   come off too, or the labels lie back with the ring. Order matters —
+   rotateY first, then rotateX, exactly reversing how they were applied. */
 @keyframes avChipFace {
-  from { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a))); }
-  to   { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a) - 360deg)); }
+  from { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a)))
+                    rotateX(calc(-1 * var(--av-orbit-tilt, 64deg))); }
+  to   { transform: translate(-50%, -50%) rotateY(calc(-1 * var(--a) - 360deg))
+                    rotateX(calc(-1 * var(--av-orbit-tilt, 64deg))); }
 }
 
 /* --- status dot rides the front layer --- */
