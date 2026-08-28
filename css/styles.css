@@ -1200,16 +1200,23 @@ main { margin: 15px 12px 75px; min-width: 259px; }
   overflow: hidden;
   margin-bottom: 15px;
 }
+/* The scrim exists to keep the stat badge readable, and the badge sits at
+   the bottom — so it starts at nothing and only darkens the last third.
+   At a flat 25-70% it was dimming artwork that already has its own dark
+   background, which read as the logos being dull. */
 .project-img::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, hsla(0, 0%, 0%, 0.25), hsla(0, 0%, 0%, 0.7));
+  background: linear-gradient(180deg,
+    hsla(0, 0%, 0%, 0) 0%,
+    hsla(0, 0%, 0%, 0) 58%,
+    hsla(0, 0%, 0%, 0.42) 100%);
   z-index: 1;
   transition: var(--transition-1);
 }
 .project-item > a:hover .project-img::before { background: linear-gradient(180deg, hsla(0, 0%, 0%, 0.5), hsla(0, 0%, 0%, 0.82)); }
-.project-card:hover .project-img::before { background: linear-gradient(180deg, hsla(0, 0%, 0%, 0.12), hsla(0, 0%, 0%, 0.55)); }
+.project-card:hover .project-img::before { background: linear-gradient(180deg, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, 0) 52%, hsla(0, 0%, 0%, 0.5) 100%); }
 
 /* Headline number badge on each thumbnail */
 .project-stat {
@@ -1248,7 +1255,13 @@ main { margin: 15px 12px 75px; min-width: 259px; }
 }
 .project-item > a:hover .project-item-icon-box { --scale: 1; opacity: 1; }
 
-.project-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-out-back); }
+.project-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: saturate(1.08) brightness(1.05);
+  transition: transform 0.5s var(--ease-out-back), filter var(--transition-1);
+}
+.project-card:hover .project-img img { filter: saturate(1.14) brightness(1.12); }
 .project-item > a:hover img { transform: scale(1.09); }
 
 /* Titles wrap rather than ellipsize: these are project names, not file
