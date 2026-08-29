@@ -1431,6 +1431,48 @@ textarea.form-input::-webkit-resizer { display: none; }
 .form-btn:disabled:hover::before { background: var(--bg-gradient-jet); }
 .form-btn:disabled::after { display: none; }
 
+/* The submit button is the one thing this panel is asking for, and as a
+   dark card with gold text it read like a second Download PDF. Filled gold
+   with dark type instead — scoped to the contact form so the résumé
+   download keeps the quieter treatment and the two don't compete. */
+.contact-form .form-btn {
+  background: var(--text-gradient-yellow);
+  color: var(--smoky-black);
+  padding: 15px 30px;
+  font-size: var(--fs-5);
+  font-weight: var(--fw-600);
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 26px hsla(45, 100%, 55%, 0.22);
+}
+.contact-form .form-btn::before { display: none; }
+.contact-form .form-btn svg { width: 18px; height: 18px; stroke-width: 2.2; }
+
+.contact-form .form-btn:hover {
+  background: var(--text-gradient-yellow);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px hsla(45, 100%, 55%, 0.4);
+  filter: brightness(1.07);
+}
+.contact-form .form-btn::after {
+  background: linear-gradient(100deg, transparent, hsla(0, 0%, 100%, 0.5), transparent);
+}
+
+/* Disabled has to stay obviously dead, or a gold button that ignores you
+   reads as broken rather than as a form you haven't filled in. */
+.contact-form .form-btn:disabled {
+  background: none;
+  color: var(--light-gray-70);
+  border: 1px solid var(--jet);
+  box-shadow: none;
+  opacity: 1;
+}
+.contact-form .form-btn:disabled:hover {
+  background: none;
+  transform: none;
+  filter: none;
+  box-shadow: none;
+}
+
 .form-status { margin-top: 15px; font-size: var(--fs-7); font-weight: var(--fw-300); color: var(--light-gray-70); min-height: 1.2em; }
 .form-status.error { color: var(--bittersweet-shimmer); }
 
