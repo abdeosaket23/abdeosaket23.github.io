@@ -885,7 +885,7 @@ var goToPage; /* exposed for the command palette below */
 
   /* Wider than it is tall, so the whole panel fits a laptop screen without
      scrolling past the chart to reach the text under it. */
-  var W = 720, H = hasLogos ? 232 : 210;
+  var W = 720, H = hasLogos ? 254 : 210;
   /* Plates ride above each candle's high and stars above the plates, so the
      top padding has to clear whichever of them is in play. */
   var PAD = {
@@ -917,7 +917,7 @@ var goToPage; /* exposed for the command palette below */
      two-month internship draws short and a two-year role draws tall. Steps
      without a data-months fall back to the size of their own move. */
   var BODY_MIN = 13;                  /* viewBox units — the shortest stint */
-  var PER_MONTH = 1.8;                /* units per month */
+  var PER_MONTH = 2.6;                /* units per month */
   var longest = Math.max.apply(null, rows.map(function (r) { return r.months; }));
 
   var bodyHeight = function (c) {
