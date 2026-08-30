@@ -1457,20 +1457,25 @@ textarea.form-input::-webkit-resizer { display: none; }
   background: linear-gradient(100deg, transparent, hsla(0, 0%, 100%, 0.5), transparent);
 }
 
-/* Disabled has to stay obviously dead, or a gold button that ignores you
-   reads as broken rather than as a form you haven't filled in. */
+/* Disabled is the state everyone actually sees — the button only enables
+   once all three fields validate, which is after someone has committed to
+   writing. A ghost outline there just read as a dark shape blending into
+   the panel, so it stays a gold button, only quieter: dimmed and softened
+   rather than hollowed out. */
 .contact-form .form-btn:disabled {
-  background: none;
-  color: var(--light-gray-70);
-  border: 1px solid var(--jet);
-  box-shadow: none;
-  opacity: 1;
+  background: var(--text-gradient-yellow);
+  color: var(--smoky-black);
+  border: none;
+  opacity: 0.62;
+  filter: saturate(0.8);
+  box-shadow: 0 6px 18px hsla(45, 100%, 55%, 0.12);
 }
 .contact-form .form-btn:disabled:hover {
-  background: none;
+  background: var(--text-gradient-yellow);
   transform: none;
-  filter: none;
-  box-shadow: none;
+  opacity: 0.62;
+  filter: saturate(0.8);
+  box-shadow: 0 6px 18px hsla(45, 100%, 55%, 0.12);
 }
 
 .form-status { margin-top: 15px; font-size: var(--fs-7); font-weight: var(--fw-300); color: var(--light-gray-70); min-height: 1.2em; }
