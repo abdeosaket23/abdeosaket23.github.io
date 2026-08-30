@@ -1651,8 +1651,8 @@ textarea.form-input::-webkit-resizer { display: none; }
   .info_more-btn { top: -30px; right: -30px; padding: 10px 15px; }
   .info_more-btn span { display: block; font-size: var(--fs-8); }
   .info_more-btn .ico { display: none; }
-  .separator { margin: 32px 0; }
-  .contacts-list { gap: 20px; }
+  .separator { margin: 22px 0; }
+  .contacts-list { gap: 14px; }
   .contact-info { flex: 1 1 auto; min-width: 0; }
 
   .navbar { border-radius: 20px 20px 0 0; }
@@ -1806,7 +1806,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   /* The tilted orbit swings ~50px below the photo, which is where the name
      used to start. Open the gap so the chips have somewhere to pass through.
      Desktop only — the chips are hidden below this breakpoint. */
-  .sidebar-info { flex-direction: column; gap: 70px; }
+  .sidebar-info { flex-direction: column; gap: 62px; }
   .avatar-box img { width: 150px; }
   .info-content .name { white-space: nowrap; text-align: center; }
   .info-content .title { margin: auto; }
@@ -1814,7 +1814,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   .sidebar-info_more { opacity: 1; visibility: visible; }
   .contacts-list { grid-template-columns: 1fr; }
   .contact-info :is(.contact-link, address) { white-space: normal; }
-  .separator:last-of-type { margin: 15px 0; opacity: 0; }
+  .separator:last-of-type { margin: 6px 0; opacity: 0; }
   .social-list { justify-content: center; }
 
 }
@@ -1925,7 +1925,7 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 12px;
   padding: 8px 12px;
   border: 1px solid var(--jet);
   border-radius: 10px;
@@ -2247,7 +2247,7 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   /* Room for the orbit's top chip, which reaches ~40px above the photo.
      This rule wins over the padding-top in the layout block above — change
      it here, not there. */
-  .sidebar { padding-top: 82px; }
+  .sidebar { padding-top: 72px; }
 }
 
 
