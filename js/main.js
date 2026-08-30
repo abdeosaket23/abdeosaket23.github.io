@@ -732,7 +732,7 @@ var goToPage; /* exposed for the command palette below */
         if (link) window.location.href = link.getAttribute('href');
       } },
     { title: 'Download resume (PDF)',       icon: icon.down,  run: function () {
-        window.open('assets/files/resume.pdf?v=2', '_blank', 'noopener');
+        window.open('assets/files/resume.pdf?v=3', '_blank', 'noopener');
       } },
     { title: 'Open LinkedIn',               icon: icon.link,  run: function () {
         var a = $('.social-list a[href*="linkedin"]');
