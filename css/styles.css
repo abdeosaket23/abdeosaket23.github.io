@@ -1982,7 +1982,6 @@ article:hover .chrome-dots i:nth-child(3) { background: hsl(150, 62%, 52%); }
   letter-spacing: 0.08em;
   color: var(--white-2);
 }
-.career-exch { color: var(--light-gray-70); font-weight: 400; font-size: 12px; }
 .career-name { font-size: 11px; color: var(--light-gray-70); margin-top: 2px; }
 
 .career-quote { text-align: right; flex-shrink: 0; }
