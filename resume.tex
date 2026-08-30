@@ -1,0 +1,292 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{multirow}
+\input{glyphtounicode}
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+% \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+%   \textbf{\href{http://sourabhbajaj.com/}{\Large Sourabh Bajaj}} & Email : \href{mailto:sourabh@sourabhbajaj.com}{sourabh@sourabhbajaj.com}\\
+%   \href{http://sourabhbajaj.com/}{http://www.sourabhbajaj.com} & Mobile : +1-123-456-7890 \\
+% \end{tabular*}
+
+\begin{center}
+    \textbf{\Huge \scshape Saket Abdeo} \\ \vspace{1pt}
+    \small {+1 857-867-9074} $|$ \href{mailto:x@x.com}{\underline{abdeosaket23@gmail.com}} $|$ 
+    \href{https://www.linkedin.com/in/saket-abdeo-ba09a9199/}{\underline{linkedin.com/in/saket}}  $|$ 
+    \small {Boston, USA}
+\end{center}
+
+%-----------OBJECTIVE-----------
+\section{Objective}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+     \resumeItem{MBA/MS in Quantitative Finance candidate at Northeastern University, concentrating in Corporate Finance and Analytics and holding the D’Amore-McKim Achievers Scholarship and Global Learners Award, with 2.5+ years in treasury, trade finance, and international banking. Seeking co-op or internship roles in corporate finance, treasury, equity research, or investment banking.}
+ \end{itemize}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+
+      \resumeSubheading
+          {Northeastern University- D'Amore McKim School of Business}{Boston, USA}
+          {Master of Science in Quantitative Finance(MSQF)/Master of Business Administration(MBA)}{Sep. 2025 -- Present}
+
+    \resumeSubheading
+      {University of Mumbai (9.51/10, 3rd of 250)}{Mumbai, India}
+      {Bachelor of Commerce Honors in Banking and Insurance}{July 2019 -- May 2022}
+
+
+    \resumeSubheading
+      {Export Trade and Training Institute}{Mumbai, India}
+      {Advanced Certification in International Trade and Management}{May 2022 -- Sep. 2022}
+  \resumeSubHeadingListEnd
+
+  %-----------SKILLS-----------
+\section{Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Operations \& Controls:} Transaction Processing, Settlement \& Reconciliation, Exception Management, Process Improvement, Operational Risk, Internal Controls, Data Validation \\ \vspace{2pt}
+     \textbf{Finance \& Transactions:} Trade Finance, Cross-Border Payments, FX Settlements, Accounts Receivable, Working Capital Analysis, Cash Flow Management, International Banking \\ \vspace{2pt}
+     \textbf{Business \& Analytics:} KPI Analysis, Management Reporting, Process Mapping, Workflow Analysis, Cross-Functional Collaboration, Stakeholder Management, Root Cause Analysis \\ \vspace{2pt}
+     \textbf{Systems:} Advanced Excel, VBA/Macros, Bloomberg, SAP, Power BI, Tableau, SQL, Python, Microsoft Office Suite \\
+    }}
+ \end{itemize}
+
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Equity Research Analyst}{May 2026 -- Present}
+      {360 Huntington Fund, Northeastern University}{Boston, USA}
+      \resumeItemListStart
+        \resumeItem{Ran statement, industry, and valuation analysis on Vertiv Holdings (VRT) into a buy recommendation for a \$2M student-managed fund.}
+        \resumeItem{Pitched the thesis to analysts and sector managers in a 20-minute presentation and Q\&A, covering valuation and downside scenarios.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Student Success Assistant}{May 2026 -- Present}
+      {Global Experience Office, Northeastern University}{Boston, USA}
+      \resumeItemListStart
+        \resumeItem{Front-line contact for students across multiple programs, resolving time-sensitive queries with internal teams.}
+        \resumeItem{Manage student records and service workflows, improving response consistency and turnaround.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Trade Finance Officer}{Sep. 2023 -- Aug. 2025}
+      {JSW | India's Largest Steel Manufacturer and Exporter}{Mumbai, India}
+      \resumeItemListStart
+       \resumeItem{Managed daily cash positions with banking and treasury teams to plan forex needs and mitigate currency risk, cutting FX losses 10\%.}
+      \resumeItem{Ran 250+ export invoices and 200+ trade finance transactions monthly with bankers and relationship managers; success rate up 75\%.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Accounting Executive}{Feb. 2023 -- Sep. 2023}
+      {JSW | India's Largest Steel Manufacturer and Exporter}{Mumbai, India}
+      \resumeItemListStart
+        \resumeItem{Recorded collection entries and bank charges accurately across receivables and payments, cutting discrepancies 20\%.}
+         \resumeItem{Reconciled monthly BRS across multiple accounts and 350+ inward remittances, clearing discrepancies within 24 hours.}
+      \resumeItemListEnd
+% -----------Multiple Positions Heading-----------
+%    \resumeSubSubheading
+%     {Software Engineer I}{Oct 2014 - Sep 2016}
+%     \resumeItemListStart
+%        \resumeItem{Apache Beam}
+%          {Apache Beam is a unified model for defining both batch and streaming data-parallel processing pipelines}
+%     \resumeItemListEnd
+%    \resumeSubHeadingListEnd
+%-------------------------------------------
+
+    \resumeSubheading
+      {Logistics Operations Intern}{Nov. 2022 -- Dec. 2022}
+      {Samudra Group of Companies}{Mumbai, India}
+      \resumeItemListStart
+        \resumeItem{Coordinated Clearing House Agents and shipping teams on export logistics, cutting transit time 20\%.}
+        \resumeItem{Processed vessel profile forms and ICEGATE submissions, cutting customs clearance time 30\%.}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {Finance Intern}{Oct. 2021 -- Nov. 2021}
+      {Learnovate Ecommerce}{Mumbai, India}
+      \resumeItemListStart
+        \resumeItem{Built expense structures and sales strategies out of financial studies, lifting revenue 25\%.}
+        \resumeItem{Tracked 25+ industry trends into 10+ strategy changes, lifting profitability 15\%.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{FX Risk Management \& Hedging Strategy} $|$ \emph{Forwards, Swaps \& Options}}{May 2024 -- Jan. 2025}
+          \resumeItemListStart
+            \resumeItem{Modelled currency exposures unhedged, forward, and option-based to quantify rate moves against projected cash flows.}
+            \resumeItem{Weighed cost, protection, and liquidity across alternatives; the chosen strategy cut modelled volatility 20\% and kept upside.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Transaction Reporting Automation} $|$ \emph{SWIFT \& Excel}}{May 2023 -- Jan. 2024}
+          \resumeItemListStart
+            \resumeItem{Built an Excel workflow consolidating SWIFT transaction data into standardised reports, cutting manual effort 40\%.}
+            \resumeItem{Added dynamic data updates and standardised transaction tracking, lifting reporting speed 35\%.}
+
+            \resumeItemListEnd
+      
+      \resumeProjectHeading
+           {\textbf{MunchMolds} $|$ \emph{Edible Cups Startup Idea}}{Oct. 2019 -- Feb. 2020}
+          \resumeItemListStart
+            \resumeItem{Conceived an edible-cup product line aimed at removing single-use packaging, cutting packaging waste 30\%.}
+            \resumeItem{Researched 25+ consumer trends to align the product with demand, and sourced materials across 20+ suppliers.}
+          \resumeItemListEnd
+       
+    \resumeSubHeadingListEnd
+
+%-----------COURSES-----------
+\section{Courses}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     Financial Management, Financial Markets, Investment \& Portfolio Management, Financial \& Cost Accounting, Auditing, Direct Taxation, Business Economics, Business Law, Strategic Management, International Business, International Banking \& Finance, Financial Service Management, Entrepreneurship Management, Customer Relationship Management, Business Communication \\
+    }}
+ \end{itemize}
+
+
+%-----------ACHIEVEMENTS-----------
+\section{Achievements}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \resumeItemListStart
+             \resumeItem{D'Amore-McKim Achievers Scholarship (2026--Present)}
+            \resumeItem{Global Learners Award (2026--Present)}
+            \resumeItem{\textbf{JSW:} Best Newcomer of the Quarter (2023-2024)}
+            \resumeItem{\textbf{JSW:} Change Catalyst (2023-2024)}
+             \resumeItemListEnd
+             }}
+ \end{itemize}
+
+%-----------Certifications-----------
+\section{Certifications}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Bloomberg:} Market Concepts (BMC) $|$ \textbf{E\&Y:} Applied Finance, Treasury \& Analytics $|$ \textbf{Goldman Sachs:} Operations Job Simulation $|$ \textbf{Citi:} APAC Investment Banking Virtual Experience $|$ \textbf{Citi:} Personal Banking Job Simulation $|$ \textbf{Future IM/Pact:} Investment Management Virtual Internship $|$ \textbf{Google:} Foundations of Project Management $|$ \textbf{Zerodha Varsity:} Stock Market Basics $|$ \textbf{Udemy:} Microsoft Excel --- Beginner to Advanced $|$ SQL Essential Training $|$ Certification in Logistics \& Transportation (CLT) $|$ Basics of Logistics, Fleet \& Warehouse Management $|$ \textbf{Udemy:} Shipping \& Logistics $|$ \textbf{Udemy:} Air Export Forwarding $|$ Basics of GST for Businesses $|$ \textbf{Great Learning:} Introduction to Digital Marketing $|$ \textbf{Great Learning:} Marketing --- Strategic Framework \\
+    }}
+ \end{itemize}
+
+
+%-----------EXTRACURRICULAR-----------
+\section{Extracurricular Activities}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     Bhumi NGO: Tree Plantation Campaign $|$ CAC All-Rounder: Basic Adventure Training $|$ Junior Scientist: Catapultikon, VNIT Nagpur \\
+    }}
+ \end{itemize}
+
+
+%-------------------------------------------
+\end{document}
