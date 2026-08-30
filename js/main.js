@@ -878,17 +878,19 @@ var goToPage; /* exposed for the command palette below */
   });
   if (rows.length < 2) return;
 
-  var BADGE = 30;                                   /* logo plate, viewBox units */
+  var BADGE = 26;                                   /* logo plate, viewBox units */
   var STAR  = 4.6;                                  /* award star, outer radius */
   var hasLogos  = rows.some(function (r) { return r.logo; });
   var hasAwards = rows.some(function (r) { return r.awards.length; });
 
-  var W = 720, H = hasLogos ? 285 : 260;
+  /* Wider than it is tall, so the whole panel fits a laptop screen without
+     scrolling past the chart to reach the text under it. */
+  var W = 720, H = hasLogos ? 232 : 210;
   /* Plates ride above each candle's high and stars above the plates, so the
      top padding has to clear whichever of them is in play. */
   var PAD = {
-    t: hasLogos ? BADGE + 18 + (hasAwards ? 16 : 0) : 14,
-    r: 42, b: 26, l: 10
+    t: hasLogos ? BADGE + 15 + (hasAwards ? 14 : 0) : 14,
+    r: 42, b: 22, l: 10
   };
   var plotW = W - PAD.l - PAD.r;
   var plotH = H - PAD.t - PAD.b;
@@ -915,7 +917,7 @@ var goToPage; /* exposed for the command palette below */
      two-month internship draws short and a two-year role draws tall. Steps
      without a data-months fall back to the size of their own move. */
   var BODY_MIN = 13;                  /* viewBox units — the shortest stint */
-  var PER_MONTH = 2.5;                /* units per month */
+  var PER_MONTH = 1.8;                /* units per month */
   var longest = Math.max.apply(null, rows.map(function (r) { return r.months; }));
 
   var bodyHeight = function (c) {
